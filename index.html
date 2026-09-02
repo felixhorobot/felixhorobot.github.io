@@ -33,6 +33,8 @@ a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 img{max-width:100%;display:block}
 
+#content-error{background:#3a1520;color:#ffb4c0;padding:14px 20px;font-family:var(--mono);font-size:14px}
+
 /* ---------- nav ---------- */
 nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
   padding:14px 28px;background:rgba(11,15,20,.78);backdrop-filter:blur(12px);border-bottom:1px solid transparent;
@@ -100,6 +102,7 @@ section{padding:96px 28px}
 .chip{font-family:var(--mono);font-size:12px;color:var(--accent2);border:1px solid rgba(90,184,255,.3);
   padding:4px 10px;border-radius:99px;background:rgba(90,184,255,.06)}
 .case-visual{display:flex;align-items:center;justify-content:center;min-height:260px}
+.case-visual img{border-radius:12px;border:1px solid var(--line)}
 
 /* architecture diagram */
 .arch{width:100%;font-family:var(--mono)}
@@ -135,17 +138,22 @@ section{padding:96px 28px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:48px}
 .card{border:1px solid var(--line);border-radius:14px;background:var(--bg2);padding:26px;display:flex;flex-direction:column;
   transition:transform .25s,border-color .25s,box-shadow .25s}
+#projects .card{background:var(--bg)}
 .card:hover{transform:translateY(-5px);border-color:rgba(88,230,180,.4);box-shadow:0 14px 40px rgba(0,0,0,.35)}
-.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
 .card h3{font-size:19px;font-weight:700}
+.card h3 a{color:inherit}
+.card h3 a:hover{color:var(--accent);text-decoration:none}
 .badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:99px;white-space:nowrap}
 .badge.live{color:var(--accent);border:1px solid rgba(88,230,180,.4);background:rgba(88,230,180,.08)}
 .badge.beta{color:var(--warn);border:1px solid rgba(255,180,84,.4);background:rgba(255,180,84,.08)}
 .card p{color:var(--muted);font-size:14.5px;flex:1}
+.card p b{color:var(--text);font-weight:600}
 .card .tag-note{font-family:var(--mono);font-size:12px;color:var(--accent2);margin-top:14px}
 .card-media{margin:-26px -26px 18px;height:150px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;
   overflow:hidden;position:relative;background:linear-gradient(135deg,#101820,#0d141b)}
 .card-media svg{width:100%;height:100%}
+.card-media img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- skills ---------- */
 .skill-groups{margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
@@ -169,11 +177,15 @@ section{padding:96px 28px}
 /* ---------- contact ---------- */
 .contact{text-align:center;padding-bottom:60px}
 .contact .sec-title{margin-top:10px}
+.contact .sec-intro{margin-left:auto;margin-right:auto}
 .contact-links{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 footer{border-top:1px solid var(--line);padding:26px;text-align:center;color:var(--muted);font-size:13px;font-family:var(--mono)}
 </style>
 </head>
 <body>
+
+<div id="content-error" hidden>content.js has an error and the page cannot load its text.
+Undo your last edit, or ask Claude to fix it.</div>
 
 <nav id="nav">
   <div class="nav-logo">felix<span>@</span>ho<span>:~$</span></div>
@@ -186,467 +198,418 @@ footer{border-top:1px solid var(--line);padding:26px;text-align:center;color:var
   </div>
 </nav>
 
-<!-- ============ HERO ============ -->
 <header class="hero">
   <canvas id="vision-canvas" aria-hidden="true"></canvas>
   <div class="hero-inner">
-    <div class="hero-tag">// AI &amp; Automation Engineer · Australia</div>
-    <h1>I build AI that runs<br>on the <span class="dim">factory floor.</span></h1>
-    <p class="hero-sub">I'm <b>Felix Ho</b>. I take machine learning from first idea to production:
-      <b>computer vision</b> watching live manufacturing lines, <b>LLM tools</b> people use at work,
-      and the <b>industrial control</b> that connects them to real machines.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="#work">See the work</a>
-      <a class="btn btn-ghost" href="https://github.com/felixhorobot">GitHub</a>
-      <a class="btn btn-ghost" href="https://linkedin.com/in/homingho">LinkedIn</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="num" data-count="12">0</div><div class="lbl">camera feeds in production</div></div>
-      <div class="stat"><div class="num"><span data-count="20">0</span>-<span data-count="35">0</span> ms</div><div class="lbl">average inference latency</div></div>
-      <div class="stat"><div class="num"><span data-count="20">0</span> h/day</div><div class="lbl">production coverage</div></div>
-    </div>
+    <div class="hero-tag" id="hero-tag"></div>
+    <h1 id="hero-title"></h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <div class="hero-cta" id="hero-cta"></div>
+    <div class="hero-stats" id="hero-stats"></div>
   </div>
 </header>
 
-<!-- ============ CASE STUDIES ============ -->
 <section id="work">
   <div class="wrap">
-    <div class="reveal">
-      <div class="sec-label">Case studies</div>
-      <h2 class="sec-title">Three problems, end to end</h2>
-      <p class="sec-intro">Real production systems at a heavy timber processing plant in Australia.
-        I designed, built, deployed and still run them.</p>
-    </div>
-
-    <!-- CASE 1 -->
-    <article class="case reveal">
-      <div class="case-head"><span class="case-num">01</span><h3>A vision platform watching 12 live camera feeds</h3></div>
-      <div class="case-body">
-        <div class="case-text">
-          <p>The plant needed automated inspection across its production lines, and nothing off the shelf fitted.
-            I built the platform in <b>Python</b>: up to <b>12 simultaneous camera feeds</b>, each loading its own model,
-            averaging <b>20-35 ms per inference</b> on edge industrial PCs I specified and built myself.</p>
-          <p>The models are <b>YOLO</b> and <b>Detectron2</b>: object detection, instance segmentation,
-            multi-label classification and deep learning OCR. To feed them I wrote a
-            <b>custom annotation app</b> with frame extraction, box, polygon and OCR labelling, and one-click training export.</p>
-          <p>Inference does not stop at a dashboard. Results flow into a <b>Rockwell PLC program I wrote</b>,
-            so a model output can stop a line, raise an alarm or adjust equipment. A <b>Flask</b> web app streams
-            every camera with detection overlays and serves a REST API. Docker containers, automated startup and
-            self-recovery keep it running across two shifts, 20 hours a day, without anyone touching it.</p>
-          <div class="result">Runs unattended in production today, covering two full shifts a day, five days a week.</div>
-          <div class="chips">
-            <span class="chip">Python</span><span class="chip">YOLO</span><span class="chip">Detectron2</span>
-            <span class="chip">Docker</span><span class="chip">Flask</span><span class="chip">Rockwell PLC</span>
-            <span class="chip">Ignition SCADA</span><span class="chip">SQL</span>
-          </div>
-        </div>
-        <div class="case-visual">
-          <svg class="arch" viewBox="0 0 380 300" role="img" aria-label="System architecture diagram">
-            <rect class="box" x="10" y="10" width="105" height="52"/>
-            <text x="62" y="32" text-anchor="middle">12 cameras</text>
-            <text class="sub" x="62" y="48" text-anchor="middle">RTSP / USB3 / PoE</text>
-            <rect class="box" x="140" y="10" width="105" height="52"/>
-            <text x="192" y="32" text-anchor="middle">Edge PCs</text>
-            <text class="sub" x="192" y="48" text-anchor="middle">Docker + GPU</text>
-            <rect class="box" x="270" y="10" width="100" height="52"/>
-            <text x="320" y="32" text-anchor="middle">Models</text>
-            <text class="sub" x="320" y="48" text-anchor="middle">YOLO · Detectron2</text>
-            <rect class="box" x="140" y="120" width="105" height="52"/>
-            <text x="192" y="142" text-anchor="middle">PLC control</text>
-            <text class="sub" x="192" y="158" text-anchor="middle">Rockwell · EtherNet/IP</text>
-            <rect class="box" x="10" y="120" width="105" height="52"/>
-            <text x="62" y="142" text-anchor="middle">Flask app</text>
-            <text class="sub" x="62" y="158" text-anchor="middle">MJPEG + REST</text>
-            <rect class="box" x="270" y="120" width="100" height="52"/>
-            <text x="320" y="142" text-anchor="middle">SCADA</text>
-            <text class="sub" x="320" y="158" text-anchor="middle">Ignition</text>
-            <rect class="box" x="140" y="230" width="105" height="52"/>
-            <text x="192" y="252" text-anchor="middle">SQL + BI</text>
-            <text class="sub" x="192" y="268" text-anchor="middle">history · reports</text>
-            <path class="flow" d="M115 36 L140 36"/>
-            <path class="flow" d="M245 36 L270 36"/>
-            <path class="flow" d="M192 62 L192 120"/>
-            <path class="flow" d="M140 146 L115 146"/>
-            <path class="flow" d="M245 146 L270 146"/>
-            <path class="flow" d="M192 172 L192 230"/>
-            <path class="flow" d="M320 172 L320 200 L245 256"/>
-          </svg>
-        </div>
-      </div>
-    </article>
-
-    <!-- CASE 2 -->
-    <article class="case reveal">
-      <div class="case-head"><span class="case-num">02</span><h3>The GPU that quietly got 6x slower</h3></div>
-      <div class="case-body">
-        <div class="case-text">
-          <p>Two trigger-mode cameras normally answered in 40-80 ms. One day they sat at about <b>135 ms</b>,
-            and the obvious suspect, a newly added feature, turned out to be innocent: it was disabled, and its
-            code was newer than the process that was running. The evidence cleared it.</p>
-          <p>The logs pointed somewhere stranger. An always-on model had been removed as cleanup, and it had been
-            doing two jobs nobody knew about: feeding the health watchdog, and <b>keeping the GPU clocks awake</b>.
-            Without it the GPU dropped to its idle state between triggers: memory clock <b>405 MHz instead of
-            13,801 MHz, a 34x drop</b>, and YOLO inference is memory-bandwidth bound.</p>
-          <p>The fix is a <b>keep-alive inference</b>: a dummy frame through the real model whenever the line goes
-            quiet for a quarter second. Every parameter was chosen by measurement, not guesswork: a small frame
-            only got latency to 111 ms, so the dummy frame is full size; 1 per second was unstable, 4 per second
-            reached 18.9 ms, 10 per second gained nothing more.</p>
-          <div class="result">131.6 ms down to 22.1 ms, and 137.1 down to 19.6. Cost: about 10 W.
-            Faster than the system had ever run, because the keep-alive warms the model that does the real work.</div>
-          <div class="chips">
-            <span class="chip">root cause analysis</span><span class="chip">GPU profiling</span>
-            <span class="chip">YOLO</span><span class="chip">performance</span><span class="chip">production debugging</span>
-          </div>
-        </div>
-        <div class="case-visual">
-          <div class="chart-frame">
-            <div class="chart-title">inference latency, ms</div>
-            <svg viewBox="0 0 340 210" role="img" aria-label="Latency chart: normal 40 to 80 ms, regression to 135 ms, fixed at 20 ms">
-              <defs>
-                <linearGradient id="latgrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#58e6b4"/><stop offset="1" stop-color="#58e6b4" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <line x1="30" y1="20" x2="30" y2="180" stroke="#1f2a36"/>
-              <line x1="30" y1="180" x2="330" y2="180" stroke="#1f2a36"/>
-              <text class="chart-label" x="8" y="35">150</text>
-              <text class="chart-label" x="8" y="105">75</text>
-              <text class="chart-label" x="14" y="182">0</text>
-              <path id="latency-area" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161 L330,180 L30,180 Z"/>
-              <path id="latency-path" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161"/>
-              <text class="chart-label hot" x="150" y="38">regression ~135 ms</text>
-              <text class="chart-label" x="45" y="90">normal 40-80</text>
-              <text class="chart-label good" x="264" y="150">fixed ~20 ms</text>
-              <circle cx="260" cy="160" r="4" fill="#58e6b4"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- CASE 3 -->
-    <article class="case reveal">
-      <div class="case-head"><span class="case-num">03</span><h3>Teaching myself an ABB robot nobody could fix</h3></div>
-      <div class="case-body">
-        <div class="case-text">
-          <p>A robotic stacking line kept failing: dropped picks, stack collisions, unplanned stoppages.
-            The plant had always called the vendor for robot faults, so when I was asked to fix it,
-            <b>nobody could tell me how</b>. I had never programmed an industrial robot.</p>
-          <p>I researched the ABB controller, connected to it over Ethernet, extracted the program and
-            <b>taught myself to read RAPID</b>, ABB's robot language. Inside it I traced three real faults:
-            a positioning error, a height limit, and timing that did not match the new sensor.</p>
-          <p>I reprogrammed the logic and added an <b>ultrasonic feedback sensor</b>, chosen over a laser after
-            testing showed laser misreads darker and wet timber. Ultrasonic responds more slowly, so I allowed
-            for that delay in the robot logic instead of pretending it was not there.</p>
-          <div class="result">Unplanned downtime on that line fell by <b>90%</b>. Robot faults are now fixed in house.</div>
-          <div class="chips">
-            <span class="chip">ABB RAPID</span><span class="chip">self-taught</span><span class="chip">sensors</span>
-            <span class="chip">commissioning</span><span class="chip">reverse engineering</span>
-          </div>
-        </div>
-        <div class="case-visual">
-          <div class="term">
-            <div class="term-bar"><i></i><i></i><i></i></div>
-            <div class="term-body">
-              <div class="cmd">connect abb-controller --ethernet</div>
-              <div class="ok">connected. program extracted.</div>
-              <div class="cmd">learn RAPID</div>
-              <div>reading manuals, tracing MoveL targets...</div>
-              <div class="cmd">diagnose</div>
-              <div class="warn">fault 1: pick position drift</div>
-              <div class="warn">fault 2: height limit on stack N+1</div>
-              <div class="warn">fault 3: sensor response vs motion timing</div>
-              <div class="cmd">reprogram + add ultrasonic feedback</div>
-              <div class="ok">unplanned downtime: -90%</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+    <div class="reveal" id="case-intro"></div>
+    <div id="case-list"></div>
   </div>
 </section>
 
-<!-- ============ PROJECTS ============ -->
 <section id="projects" style="background:var(--bg2)">
   <div class="wrap">
-    <div class="reveal">
-      <div class="sec-label">Projects</div>
-      <h2 class="sec-title">Things I ship</h2>
-      <p class="sec-intro">Personal products and work systems. Real users on every one of them.</p>
-    </div>
-    <div class="grid">
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-media">
-          <svg viewBox="0 0 300 150" aria-hidden="true">
-            <rect x="20" y="18" width="180" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
-            <polygon points="110,45 140,60 110,75 80,60" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-            <polygon points="110,75 140,60 140,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-            <polygon points="110,75 80,60 80,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-            <rect x="212" y="18" width="68" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
-            <rect x="220" y="28" width="52" height="8" rx="2" fill="#1f2a36"/>
-            <rect x="220" y="42" width="52" height="8" rx="2" fill="#1f2a36"/>
-            <rect x="220" y="56" width="40" height="8" rx="2" fill="#58e6b4" opacity=".6"/>
-            <rect x="220" y="76" width="52" height="8" rx="2" fill="#1f2a36"/>
-            <rect x="220" y="90" width="46" height="8" rx="2" fill="#1f2a36"/>
-          </svg>
-        </div>
-        <div class="card-top"><h3>LoreForge</h3><span class="badge beta">BETA · IN USE</span></div>
-        <p>AI game asset tool used by an indie game production team. Integrates the Claude, OpenAI and Gemini APIs
-          through <b style="color:var(--text)">MCP tool calling</b>, so an AI agent can operate the software itself
-          and guide the user through it. The Tripo API generates, rigs and animates 3D assets.
-          Engine export to Unity, Godot and Unreal is on the roadmap.</p>
-        <div class="tag-note">MCP · Claude API · OpenAI · Gemini · Tripo 3D</div>
-      </div>
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-media">
-          <svg viewBox="0 0 300 150" aria-hidden="true">
-            <rect x="115" y="12" width="70" height="136" rx="12" fill="#0a0d12" stroke="#1f2a36"/>
-            <rect x="125" y="30" width="50" height="34" rx="4" fill="#1f2a36"/>
-            <rect x="125" y="72" width="50" height="17" rx="4" fill="#58e6b4" opacity=".5"/>
-            <text x="150" y="112" text-anchor="middle" fill="#58e6b4" font-family="monospace" font-size="11">-52%</text>
-            <path d="M60 75 L108 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <path d="M192 75 L240 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle cx="48" cy="75" r="14" fill="none" stroke="#1f2a36" stroke-width="2"/>
-            <circle cx="252" cy="75" r="8" fill="none" stroke="#58e6b4" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-top"><h3>Slim</h3><span class="badge live">APP STORE</span></div>
-        <p>Native iOS app in Swift: compress photos and videos on device, "your memories, half the size".
-          No uploads, no account, nothing leaves the phone. Keeps capture dates, locations and Live Photo motion,
-          and originals are only removed after the user confirms.</p>
-        <!-- APP-STORE-LINK: replace # with the real store URL -->
-        <div class="tag-note">Swift · AVFoundation · on-device</div>
-      </div>
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-top"><h3>RAG documentation assistant</h3><span class="badge live">IN PRODUCTION</span></div>
-        <p>Staff ask questions over internal technical documentation in plain language. I built the whole pipeline:
-          document ingestion, embeddings with text-embedding-3-small, vector search on Microsoft SQL Server,
-          and response generation through the OpenAI API. In early production use at a manufacturing site.</p>
-        <div class="tag-note">RAG · embeddings · SQL Server · OpenAI API</div>
-      </div>
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-top"><h3>Virtual fencing &amp; path planning</h3></div>
-        <p>Built in Unity and Python for a mining technology company's recruitment process. Outer work fences,
-          inner exclusion zones, and automatic path planning that maximises coverage, simulating several
-          machines working an area at once.</p>
-        <div class="tag-note">Unity · Python · path planning · simulation</div>
-      </div>
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-top"><h3>LLM staff trainer</h3></div>
-        <p>An LLM assistant that delivers internal training to new staff at a restaurant chain.
-          Real new starters were trained with it. Built after assessing where LLMs actually help in the
-          business and where they do not.</p>
-        <div class="tag-note">LLM · prompt design · real users</div>
-      </div>
-
-      <div class="card reveal" style="background:var(--bg)">
-        <div class="card-top"><h3>Custom annotation app</h3></div>
-        <p>The tool behind the vision platform: frame extraction from production video, bounding box, polygon
-          and OCR annotation, and one-click export into training. Purpose-built, so labelling fits the
-          factory's data instead of the other way around.</p>
-        <div class="tag-note">Python · tooling · training pipeline</div>
-      </div>
-
-    </div>
+    <div class="reveal" id="project-intro"></div>
+    <div class="grid" id="project-grid"></div>
   </div>
 </section>
 
-<!-- ============ SKILLS ============ -->
 <section id="skills">
   <div class="wrap">
-    <div class="reveal">
-      <div class="sec-label">Skills</div>
-      <h2 class="sec-title">The stack I actually use</h2>
-      <p class="sec-intro">Everything listed here has shipped in a real system, at work or in a released project.</p>
-    </div>
-    <div class="skill-groups">
-      <div class="skill-group reveal">
-        <h4>Machine learning &amp; vision</h4>
-        <div class="chips">
-          <span class="chip">PyTorch</span><span class="chip">YOLO v8-v11</span><span class="chip">Detectron2</span>
-          <span class="chip">OpenCV</span><span class="chip">ONNX</span><span class="chip">TensorFlow / Keras</span>
-          <span class="chip">scikit-learn</span><span class="chip">MLflow</span><span class="chip">Databricks</span>
-          <span class="chip">Roboflow</span><span class="chip">deep learning OCR</span><span class="chip">instance segmentation</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h4>LLMs &amp; agents</h4>
-        <div class="chips">
-          <span class="chip">Anthropic Claude API</span><span class="chip">OpenAI API</span><span class="chip">Gemini API</span>
-          <span class="chip">MCP tool calling</span><span class="chip">RAG</span><span class="chip">vector search</span>
-          <span class="chip">prompt &amp; context design</span><span class="chip">AI-assisted development</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h4>Software</h4>
-        <div class="chips">
-          <span class="chip">Python</span><span class="chip">Swift</span><span class="chip">TypeScript</span>
-          <span class="chip">Flask</span><span class="chip">REST APIs</span><span class="chip">SQL</span>
-          <span class="chip">Docker</span><span class="chip">Git / GitHub</span><span class="chip">Linux</span>
-          <span class="chip">n8n</span><span class="chip">Power Automate</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h4>Industrial &amp; engineering</h4>
-        <div class="chips">
-          <span class="chip">Rockwell Studio 5000</span><span class="chip">EtherNet/IP</span><span class="chip">Ignition SCADA</span>
-          <span class="chip">ABB RAPID</span><span class="chip">industrial cameras</span><span class="chip">sensors &amp; VFDs</span>
-          <span class="chip">SolidWorks (CSWP)</span><span class="chip">Ansys FEA</span><span class="chip">Power BI</span>
-        </div>
-      </div>
-    </div>
+    <div class="reveal" id="skill-intro"></div>
+    <div class="skill-groups" id="skill-groups"></div>
   </div>
 </section>
 
-<!-- ============ ABOUT ============ -->
 <section id="about" style="background:var(--bg2)">
   <div class="wrap">
-    <div class="reveal">
-      <div class="sec-label">About</div>
-      <h2 class="sec-title">Mechanical engineer, retrained into AI, still on the tools</h2>
-    </div>
+    <div class="reveal" id="about-head"></div>
     <div class="about-grid">
-      <div class="about-text reveal">
-        <p>I started as a <b>mechanical engineer</b> and moved into AI the practical way: a production line needed
-          machine vision, so I learned it, built it and put it into service. Since then my work has been the full
-          span between a model and a machine: training the network, containerising it, wiring the sensor,
-          writing the PLC logic that acts on the result.</p>
-        <p>That background changes how I build software. I ask the questions physical industries ask:
-          what happens when it fails, who fixes it at 5 am, is it safe. My systems ship with monitoring,
-          self-recovery and operator guides, because production does not forgive software that needs babysitting.</p>
-        <p>Away from work I build products: an iOS app on the App Store, an AI game asset tool in beta with a real
-          game team. I use Claude Code, Codex and Gemini in daily development, and I review, test and fix what
-          they generate. Currently completing a <b>Master of IT (Artificial Intelligence)</b> while working full time.</p>
-        <p>Based in Tasmania, Australia. Open to relocating. Fluent in English, Mandarin and Cantonese.</p>
-      </div>
-      <div class="edu reveal">
-        <h4>Education &amp; certifications</h4>
-        <div class="edu-item"><div class="t">Master of IT (Artificial Intelligence)</div><div class="s">QUT · in progress · GPA 6.8 / 7</div></div>
-        <div class="edu-item"><div class="t">BEng (Mechanical) with Honours</div><div class="s">University of Tasmania</div></div>
-        <div class="edu-item"><div class="t">CSWP · SolidWorks Professional</div><div class="s">plus CSWA</div></div>
-        <div class="edu-item"><div class="t">Rockwell ControlLogix Maintenance</div><div class="s">plus Cognex In-Sight training</div></div>
-        <div class="edu-item"><div class="t">Google AI Essentials</div><div class="s">plus Data Analytics &amp; Project Management</div></div>
-      </div>
+      <div class="about-text reveal" id="about-text"></div>
+      <div class="edu reveal" id="about-edu"></div>
     </div>
   </div>
 </section>
 
-<!-- ============ CONTACT ============ -->
 <section id="contact" class="contact">
-  <div class="wrap reveal">
-    <div class="sec-label">Contact</div>
-    <h2 class="sec-title">Building something with AI and real machines?</h2>
-    <p class="sec-intro" style="margin-left:auto;margin-right:auto">I answer email. Tell me what you are building
-      and where it is stuck.</p>
-    <div class="contact-links">
-      <a class="btn btn-primary" href="mailto:homing.felix.ho@gmail.com">homing.felix.ho@gmail.com</a>
-      <a class="btn btn-ghost" href="https://github.com/felixhorobot">GitHub</a>
-      <a class="btn btn-ghost" href="https://linkedin.com/in/homingho">LinkedIn</a>
-    </div>
-  </div>
+  <div class="wrap reveal" id="contact-wrap"></div>
 </section>
 
-<footer>felixhorobot.github.io · built by hand, no framework</footer>
+<footer id="footer-el"></footer>
 
+<!-- ============================================================
+     Built-in visuals. Content.js refers to these by name:
+     "builtin:architecture"  "builtin:latency"  "builtin:terminal"
+     "builtin:loreforge"     "builtin:slim"
+     ============================================================ -->
+<template id="tpl-architecture">
+  <svg class="arch" viewBox="0 0 380 300" role="img" aria-label="System architecture diagram">
+    <rect class="box" x="10" y="10" width="105" height="52"/>
+    <text x="62" y="32" text-anchor="middle">12 cameras</text>
+    <text class="sub" x="62" y="48" text-anchor="middle">RTSP / USB3 / PoE</text>
+    <rect class="box" x="140" y="10" width="105" height="52"/>
+    <text x="192" y="32" text-anchor="middle">Edge PCs</text>
+    <text class="sub" x="192" y="48" text-anchor="middle">Docker + GPU</text>
+    <rect class="box" x="270" y="10" width="100" height="52"/>
+    <text x="320" y="32" text-anchor="middle">Models</text>
+    <text class="sub" x="320" y="48" text-anchor="middle">YOLO · Detectron2</text>
+    <rect class="box" x="140" y="120" width="105" height="52"/>
+    <text x="192" y="142" text-anchor="middle">PLC control</text>
+    <text class="sub" x="192" y="158" text-anchor="middle">Rockwell · EtherNet/IP</text>
+    <rect class="box" x="10" y="120" width="105" height="52"/>
+    <text x="62" y="142" text-anchor="middle">Flask app</text>
+    <text class="sub" x="62" y="158" text-anchor="middle">MJPEG + REST</text>
+    <rect class="box" x="270" y="120" width="100" height="52"/>
+    <text x="320" y="142" text-anchor="middle">SCADA</text>
+    <text class="sub" x="320" y="158" text-anchor="middle">Ignition</text>
+    <rect class="box" x="140" y="230" width="105" height="52"/>
+    <text x="192" y="252" text-anchor="middle">SQL + BI</text>
+    <text class="sub" x="192" y="268" text-anchor="middle">history · reports</text>
+    <path class="flow" d="M115 36 L140 36"/>
+    <path class="flow" d="M245 36 L270 36"/>
+    <path class="flow" d="M192 62 L192 120"/>
+    <path class="flow" d="M140 146 L115 146"/>
+    <path class="flow" d="M245 146 L270 146"/>
+    <path class="flow" d="M192 172 L192 230"/>
+    <path class="flow" d="M320 172 L320 200 L245 256"/>
+  </svg>
+</template>
+
+<template id="tpl-latency">
+  <div class="chart-frame">
+    <div class="chart-title">inference latency, ms</div>
+    <svg viewBox="0 0 340 210" role="img" aria-label="Latency chart: normal 40 to 80 ms, regression to 135 ms, fixed at 20 ms">
+      <defs>
+        <linearGradient id="latgrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#58e6b4"/><stop offset="1" stop-color="#58e6b4" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="30" y1="20" x2="30" y2="180" stroke="#1f2a36"/>
+      <line x1="30" y1="180" x2="330" y2="180" stroke="#1f2a36"/>
+      <text class="chart-label" x="8" y="35">150</text>
+      <text class="chart-label" x="8" y="105">75</text>
+      <text class="chart-label" x="14" y="182">0</text>
+      <path id="latency-area" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161 L330,180 L30,180 Z"/>
+      <path id="latency-path" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161"/>
+      <text class="chart-label hot" x="150" y="38">regression ~135 ms</text>
+      <text class="chart-label" x="45" y="90">normal 40-80</text>
+      <text class="chart-label good" x="264" y="150">fixed ~20 ms</text>
+      <circle cx="260" cy="160" r="4" fill="#58e6b4"/>
+    </svg>
+  </div>
+</template>
+
+<template id="tpl-terminal">
+  <div class="term">
+    <div class="term-bar"><i></i><i></i><i></i></div>
+    <div class="term-body">
+      <div class="cmd">connect abb-controller --ethernet</div>
+      <div class="ok">connected. program extracted.</div>
+      <div class="cmd">learn RAPID</div>
+      <div>reading manuals, tracing MoveL targets...</div>
+      <div class="cmd">diagnose</div>
+      <div class="warn">fault 1: pick position drift</div>
+      <div class="warn">fault 2: height limit on stack N+1</div>
+      <div class="warn">fault 3: sensor response vs motion timing</div>
+      <div class="cmd">reprogram + add ultrasonic feedback</div>
+      <div class="ok">unplanned downtime: -90%</div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-loreforge">
+  <svg viewBox="0 0 300 150" aria-hidden="true">
+    <rect x="20" y="18" width="180" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
+    <polygon points="110,45 140,60 110,75 80,60" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
+    <polygon points="110,75 140,60 140,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
+    <polygon points="110,75 80,60 80,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
+    <rect x="212" y="18" width="68" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
+    <rect x="220" y="28" width="52" height="8" rx="2" fill="#1f2a36"/>
+    <rect x="220" y="42" width="52" height="8" rx="2" fill="#1f2a36"/>
+    <rect x="220" y="56" width="40" height="8" rx="2" fill="#58e6b4" opacity=".6"/>
+    <rect x="220" y="76" width="52" height="8" rx="2" fill="#1f2a36"/>
+    <rect x="220" y="90" width="46" height="8" rx="2" fill="#1f2a36"/>
+  </svg>
+</template>
+
+<template id="tpl-slim">
+  <svg viewBox="0 0 300 150" aria-hidden="true">
+    <rect x="115" y="12" width="70" height="136" rx="12" fill="#0a0d12" stroke="#1f2a36"/>
+    <rect x="125" y="30" width="50" height="34" rx="4" fill="#1f2a36"/>
+    <rect x="125" y="72" width="50" height="17" rx="4" fill="#58e6b4" opacity=".5"/>
+    <text x="150" y="112" text-anchor="middle" fill="#58e6b4" font-family="monospace" font-size="11">-52%</text>
+    <path d="M60 75 L108 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M192 75 L240 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="48" cy="75" r="14" fill="none" stroke="#1f2a36" stroke-width="2"/>
+    <circle cx="252" cy="75" r="8" fill="none" stroke="#58e6b4" stroke-width="2"/>
+  </svg>
+</template>
+
+<script src="content.js"></script>
 <script>
-/* ---------- scroll reveal ---------- */
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-}), { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* ============================================================
+   RENDERER. This turns content.js into the page.
+   You normally never edit below this line.
+   ============================================================ */
+(function () {
+  const S = window.SITE;
+  if (!S) { document.getElementById('content-error').hidden = false; return; }
 
-/* ---------- nav border ---------- */
-const nav = document.getElementById('nav');
-addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), { passive: true });
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  const el = (tag, cls, html) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  };
 
-/* ---------- animated counters ---------- */
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const cio = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
-  cio.unobserve(e.target);
-  const el = e.target, target = +el.dataset.count;
-  if (reduced) { el.textContent = target; return; }
-  const t0 = performance.now(), dur = 1200;
-  (function tick(t) {
-    const p = Math.min((t - t0) / dur, 1);
-    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-    if (p < 1) requestAnimationFrame(tick);
-  })(t0);
-}), { threshold: 0.6 });
-document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
-
-/* ---------- hero vision canvas: detection boxes locking onto drifting targets ---------- */
-const cv = document.getElementById('vision-canvas');
-if (cv && !reduced) {
-  const ctx = cv.getContext('2d');
-  let W, H, targets = [];
-  const LABELS = ['board 0.97', 'pack 0.94', 'board 0.91', 'stack 0.96', 'board 0.89', 'grade_A 0.93'];
-
-  function resize() {
-    W = cv.width = cv.offsetWidth * devicePixelRatio;
-    H = cv.height = cv.offsetHeight * devicePixelRatio;
-  }
-  resize(); addEventListener('resize', resize);
-
-  function spawn() {
-    const w = (60 + Math.random() * 120) * devicePixelRatio;
-    return {
-      x: -w, y: H * (0.15 + Math.random() * 0.7),
-      w, h: (26 + Math.random() * 40) * devicePixelRatio,
-      v: (0.4 + Math.random() * 0.8) * devicePixelRatio,
-      label: LABELS[Math.floor(Math.random() * LABELS.length)],
-      lock: 0
-    };
-  }
-  for (let i = 0; i < 6; i++) { const t = spawn(); t.x = Math.random() * W; targets.push(t); }
-
-  function drawBox(t) {
-    const a = 0.15 + 0.45 * t.lock;
-    ctx.strokeStyle = `rgba(88,230,180,${a})`;
-    ctx.lineWidth = 1.2 * devicePixelRatio;
-    const c = 9 * devicePixelRatio, { x, y, w, h } = t;
-    ctx.beginPath();
-    [[x, y + c, x, y, x + c, y], [x + w - c, y, x + w, y, x + w, y + c],
-     [x + w, y + h - c, x + w, y + h, x + w - c, y + h], [x + c, y + h, x, y + h, x, y + h - c]]
-      .forEach(([a1, b1, a2, b2, a3, b3]) => { ctx.moveTo(a1, b1); ctx.lineTo(a2, b2); ctx.lineTo(a3, b3); });
-    ctx.stroke();
-    if (t.lock > 0.6) {
-      ctx.fillStyle = `rgba(88,230,180,${a})`;
-      ctx.font = `${11 * devicePixelRatio}px 'JetBrains Mono',monospace`;
-      ctx.fillText(t.label, x, y - 6 * devicePixelRatio);
+  /* a visual: "builtin:name" clones a template, anything else is an image path */
+  function visualNode(v) {
+    if (!v) return null;
+    if (v.indexOf('builtin:') === 0) {
+      const t = document.getElementById('tpl-' + v.slice(8));
+      return t ? t.content.cloneNode(true) : null;
     }
+    const img = document.createElement('img');
+    img.src = v; img.alt = '';
+    return img;
   }
 
-  let scan = 0;
-  function frame() {
-    ctx.clearRect(0, 0, W, H);
-    /* faint grid */
-    ctx.strokeStyle = 'rgba(31,42,54,.5)'; ctx.lineWidth = 1;
-    const g = 64 * devicePixelRatio;
-    for (let x = 0; x < W; x += g) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-    for (let y = 0; y < H; y += g) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-    /* scanline */
-    scan = (scan + 1.2 * devicePixelRatio) % (W + 200);
-    const grad = ctx.createLinearGradient(scan - 100, 0, scan, 0);
-    grad.addColorStop(0, 'rgba(88,230,180,0)'); grad.addColorStop(1, 'rgba(88,230,180,.06)');
-    ctx.fillStyle = grad; ctx.fillRect(scan - 100, 0, 100, H);
-    /* targets */
-    targets.forEach((t, i) => {
-      t.x += t.v;
-      t.lock = Math.min(1, t.lock + 0.01);
-      if (t.x > W) targets[i] = spawn();
-      drawBox(t);
-    });
-    if (!document.hidden) requestAnimationFrame(frame);
+  /* ---------- hero ---------- */
+  document.getElementById('hero-tag').textContent = S.hero.tag;
+  document.getElementById('hero-title').innerHTML =
+    esc(S.hero.titleLine1) + '<br><span class="dim">' + esc(S.hero.titleLine2) + '</span>';
+  document.getElementById('hero-sub').innerHTML = md(S.hero.intro);
+
+  const cta = document.getElementById('hero-cta');
+  (S.hero.buttons || []).forEach(b => {
+    const a = el('a', 'btn ' + (b.style === 'primary' ? 'btn-primary' : 'btn-ghost'), esc(b.text));
+    a.href = b.link;
+    cta.appendChild(a);
+  });
+
+  const stats = document.getElementById('hero-stats');
+  (S.hero.stats || []).forEach(st => {
+    const d = el('div', 'stat');
+    const num = el('div', 'num');
+    if (/^\d+$/.test(st.value)) {
+      num.innerHTML = '<span data-count="' + st.value + '">0</span>' + (st.unit ? ' ' + esc(st.unit) : '');
+    } else {
+      num.textContent = st.value + (st.unit ? ' ' + st.unit : '');
+    }
+    d.appendChild(num);
+    d.appendChild(el('div', 'lbl', esc(st.label)));
+    stats.appendChild(d);
+  });
+
+  /* ---------- section intros ---------- */
+  function intro(id, data) {
+    const box = document.getElementById(id);
+    box.appendChild(el('div', 'sec-label', esc(data.label)));
+    box.appendChild(el('h2', 'sec-title', md(data.title)));
+    if (data.text) box.appendChild(el('p', 'sec-intro', md(data.text)));
   }
-  requestAnimationFrame(frame);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(frame); });
-}
+  intro('case-intro', S.caseIntro);
+  intro('project-intro', S.projectIntro);
+  intro('skill-intro', S.skillIntro);
+
+  /* ---------- case studies ---------- */
+  const list = document.getElementById('case-list');
+  (S.caseStudies || []).forEach(c => {
+    const art = el('article', 'case reveal');
+    const head = el('div', 'case-head');
+    head.appendChild(el('span', 'case-num', esc(c.number)));
+    head.appendChild(el('h3', null, esc(c.title)));
+    art.appendChild(head);
+
+    const body = el('div', 'case-body');
+    const text = el('div', 'case-text');
+    (c.paragraphs || []).forEach(p => text.appendChild(el('p', null, md(p))));
+    if (c.result) text.appendChild(el('div', 'result', md(c.result)));
+    if (c.chips && c.chips.length) {
+      const ch = el('div', 'chips');
+      c.chips.forEach(x => ch.appendChild(el('span', 'chip', esc(x))));
+      text.appendChild(ch);
+    }
+    body.appendChild(text);
+
+    const vis = el('div', 'case-visual');
+    const node = visualNode(c.visual);
+    if (node) vis.appendChild(node);
+    body.appendChild(vis);
+
+    art.appendChild(body);
+    list.appendChild(art);
+  });
+
+  /* ---------- projects ---------- */
+  const grid = document.getElementById('project-grid');
+  (S.projects || []).forEach(p => {
+    const card = el('div', 'card reveal');
+    const media = visualNode(p.image);
+    if (media) {
+      const m = el('div', 'card-media');
+      m.appendChild(media);
+      card.appendChild(m);
+    }
+    const top = el('div', 'card-top');
+    const h = el('h3');
+    if (p.link) {
+      const a = el('a', null, esc(p.name));
+      a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
+      h.appendChild(a);
+    } else h.textContent = p.name;
+    top.appendChild(h);
+    if (p.badge) top.appendChild(el('span', 'badge ' + (p.badgeColor === 'orange' ? 'beta' : 'live'), esc(p.badge)));
+    card.appendChild(top);
+    card.appendChild(el('p', null, md(p.text)));
+    if (p.tags) card.appendChild(el('div', 'tag-note', esc(p.tags)));
+    grid.appendChild(card);
+  });
+
+  /* ---------- skills ---------- */
+  const sg = document.getElementById('skill-groups');
+  (S.skills || []).forEach(g => {
+    const box = el('div', 'skill-group reveal');
+    box.appendChild(el('h4', null, esc(g.group)));
+    const ch = el('div', 'chips');
+    (g.items || []).forEach(x => ch.appendChild(el('span', 'chip', esc(x))));
+    box.appendChild(ch);
+    sg.appendChild(box);
+  });
+
+  /* ---------- about ---------- */
+  const ah = document.getElementById('about-head');
+  ah.appendChild(el('div', 'sec-label', esc(S.about.label)));
+  ah.appendChild(el('h2', 'sec-title', md(S.about.title)));
+  const at = document.getElementById('about-text');
+  (S.about.paragraphs || []).forEach(p => at.appendChild(el('p', null, md(p))));
+  const ae = document.getElementById('about-edu');
+  ae.appendChild(el('h4', null, esc(S.about.educationTitle)));
+  (S.about.education || []).forEach(e2 => {
+    const it = el('div', 'edu-item');
+    it.appendChild(el('div', 't', esc(e2.title)));
+    if (e2.sub) it.appendChild(el('div', 's', esc(e2.sub)));
+    ae.appendChild(it);
+  });
+
+  /* ---------- contact + footer ---------- */
+  const cw = document.getElementById('contact-wrap');
+  cw.appendChild(el('div', 'sec-label', esc(S.contact.label)));
+  cw.appendChild(el('h2', 'sec-title', md(S.contact.title)));
+  cw.appendChild(el('p', 'sec-intro', md(S.contact.text)));
+  const cl = el('div', 'contact-links');
+  const mail = el('a', 'btn btn-primary', esc(S.contact.email));
+  mail.href = 'mailto:' + S.contact.email;
+  cl.appendChild(mail);
+  (S.contact.links || []).forEach(l => {
+    const a = el('a', 'btn btn-ghost', esc(l.text));
+    a.href = l.link;
+    cl.appendChild(a);
+  });
+  cw.appendChild(cl);
+  document.getElementById('footer-el').textContent = S.footer || '';
+
+  /* ============================================================
+     Effects: scroll reveal, nav border, counters, hero canvas
+     ============================================================ */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(x => io.observe(x));
+
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), { passive: true });
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    cio.unobserve(e.target);
+    const t2 = e.target, target = +t2.dataset.count;
+    if (reduced) { t2.textContent = target; return; }
+    const t0 = performance.now(), dur = 1200;
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      t2.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }), { threshold: 0.6 });
+  document.querySelectorAll('[data-count]').forEach(x => cio.observe(x));
+
+  const cv = document.getElementById('vision-canvas');
+  if (cv && !reduced) {
+    const ctx = cv.getContext('2d');
+    let W, H, targets = [];
+    const LABELS = ['board 0.97', 'pack 0.94', 'board 0.91', 'stack 0.96', 'board 0.89', 'grade_A 0.93'];
+
+    function resize() {
+      W = cv.width = cv.offsetWidth * devicePixelRatio;
+      H = cv.height = cv.offsetHeight * devicePixelRatio;
+    }
+    resize(); addEventListener('resize', resize);
+
+    function spawn() {
+      const w = (60 + Math.random() * 120) * devicePixelRatio;
+      return {
+        x: -w, y: H * (0.15 + Math.random() * 0.7),
+        w, h: (26 + Math.random() * 40) * devicePixelRatio,
+        v: (0.4 + Math.random() * 0.8) * devicePixelRatio,
+        label: LABELS[Math.floor(Math.random() * LABELS.length)],
+        lock: 0
+      };
+    }
+    for (let i = 0; i < 6; i++) { const t = spawn(); t.x = Math.random() * W; targets.push(t); }
+
+    function drawBox(t) {
+      const a = 0.15 + 0.45 * t.lock;
+      ctx.strokeStyle = 'rgba(88,230,180,' + a + ')';
+      ctx.lineWidth = 1.2 * devicePixelRatio;
+      const c = 9 * devicePixelRatio, x = t.x, y = t.y, w = t.w, h = t.h;
+      ctx.beginPath();
+      [[x, y + c, x, y, x + c, y], [x + w - c, y, x + w, y, x + w, y + c],
+       [x + w, y + h - c, x + w, y + h, x + w - c, y + h], [x + c, y + h, x, y + h, x, y + h - c]]
+        .forEach(seg => { ctx.moveTo(seg[0], seg[1]); ctx.lineTo(seg[2], seg[3]); ctx.lineTo(seg[4], seg[5]); });
+      ctx.stroke();
+      if (t.lock > 0.6) {
+        ctx.fillStyle = 'rgba(88,230,180,' + a + ')';
+        ctx.font = (11 * devicePixelRatio) + "px 'JetBrains Mono',monospace";
+        ctx.fillText(t.label, x, y - 6 * devicePixelRatio);
+      }
+    }
+
+    let scan = 0;
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(31,42,54,.5)'; ctx.lineWidth = 1;
+      const g = 64 * devicePixelRatio;
+      for (let x = 0; x < W; x += g) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += g) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      scan = (scan + 1.2 * devicePixelRatio) % (W + 200);
+      const grad = ctx.createLinearGradient(scan - 100, 0, scan, 0);
+      grad.addColorStop(0, 'rgba(88,230,180,0)'); grad.addColorStop(1, 'rgba(88,230,180,.06)');
+      ctx.fillStyle = grad; ctx.fillRect(scan - 100, 0, 100, H);
+      targets.forEach((t, i) => {
+        t.x += t.v;
+        t.lock = Math.min(1, t.lock + 0.01);
+        if (t.x > W) targets[i] = spawn();
+        drawBox(t);
+      });
+      if (!document.hidden) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(frame); });
+  }
+})();
 </script>
 </body>
 </html>
