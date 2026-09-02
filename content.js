@@ -119,7 +119,7 @@ window.SITE = {
     },
     {
       name: "Slim",
-      link: "",
+      link: "https://apps.apple.com/au/app/slim-photo-video-compress/id6778816811",
       badge: "APP STORE",
       badgeColor: "green",
       image: "builtin:slim",
