@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Felix Ho · Portfolio for Vixia AI</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Felix Ho, portfolio prepared for Vixia AI: production computer vision in manufacturing, OCR at 100% read accuracy, edge deployment, real-time optimisation.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d1117'/><rect x='18' y='18' width='64' height='64' rx='6' fill='none' stroke='%2358e6b4' stroke-width='7'/><circle cx='50' cy='50' r='12' fill='%2358e6b4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f14; --bg2:#10161d; --panel:#141b24; --line:#1f2a36;
+  --text:#dce6f0; --muted:#8b9bab; --accent:#58e6b4; --accent2:#5ab8ff; --warn:#ffb454;
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(88,230,180,.25)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+
+.hero{position:relative;min-height:88svh;display:flex;align-items:center;padding:80px 28px 48px}
+#vision-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.hero-inner{position:relative;max-width:980px;margin:0 auto;width:100%}
+.hero-tag{font-family:var(--mono);font-size:14px;color:var(--accent);margin-bottom:18px;letter-spacing:.04em}
+.hero h1{font-size:clamp(34px,5.6vw,62px);font-weight:800;line-height:1.08;letter-spacing:-.02em}
+.hero h1 .dim{color:var(--muted)}
+.hero-sub{max-width:700px;margin-top:22px;font-size:clamp(16px,2vw,18.5px);color:var(--muted)}
+.hero-sub b{color:var(--text);font-weight:600}
+.hero-stats{margin-top:52px;display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:rgba(16,22,29,.7);backdrop-filter:blur(6px);max-width:860px}
+.stat{flex:1;padding:18px 10px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .num{font-family:var(--mono);font-size:clamp(18px,2.6vw,27px);font-weight:600;color:var(--accent)}
+.stat .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+@media(max-width:640px){.hero-stats{flex-direction:column}.stat{border-right:none;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:none}}
+
+section{padding:76px 28px}
+.wrap{max-width:980px;margin:0 auto}
+.sec-label{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+.sec-title{font-size:clamp(24px,3.6vw,36px);font-weight:800;margin-top:10px;letter-spacing:-.01em}
+.sec-intro{color:var(--muted);max-width:660px;margin-top:14px}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+.case{margin-top:48px;border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
+.case-head{padding:28px 32px 0;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.case-num{font-family:var(--mono);color:var(--accent);font-size:15px}
+.case h3{font-size:clamp(19px,2.4vw,25px);font-weight:700}
+.case-body{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;padding:18px 32px 32px}
+@media(max-width:840px){.case-body{grid-template-columns:1fr}}
+.case-body.single{grid-template-columns:1fr}
+.case-text p{color:var(--muted);font-size:15.5px;margin-bottom:14px}
+.case-text p b{color:var(--text);font-weight:600}
+.case-text ul{margin:0 0 14px 18px;color:var(--muted);font-size:15.5px}
+.case-text li{margin-bottom:8px}
+.case-text li b{color:var(--text);font-weight:600}
+.case-text .result{border-left:3px solid var(--accent);padding:10px 16px;background:rgba(88,230,180,.06);
+  border-radius:0 8px 8px 0;color:var(--text);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--accent2);border:1px solid rgba(90,184,255,.3);
+  padding:4px 10px;border-radius:99px;background:rgba(90,184,255,.06)}
+.case-visual{display:flex;align-items:center;justify-content:center;min-height:240px}
+
+.arch{width:100%;font-family:var(--mono)}
+.arch .box{fill:var(--panel);stroke:var(--line);rx:8}
+.arch text{fill:var(--text);font-size:12px;font-family:var(--mono)}
+.arch .sub{fill:var(--muted);font-size:10px}
+.arch .flow{stroke:var(--accent);stroke-width:1.6;fill:none;stroke-dasharray:6 5;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-11}}
+@media(prefers-reduced-motion:reduce){.arch .flow{animation:none}}
+
+.chart-frame{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.chart-title{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+#latency-path{stroke:var(--accent);stroke-width:2.5;fill:none}
+#latency-area{fill:url(#latgrad);opacity:.25}
+.chart-label{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.chart-label.hot{fill:var(--warn)}
+.chart-label.good{fill:var(--accent)}
+
+.mono-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;margin:6px 0 14px}
+.mono-table td,.mono-table th{border:1px solid var(--line);padding:7px 12px;text-align:left}
+.mono-table th{color:var(--muted);font-weight:400;background:var(--panel)}
+.mono-table td b{color:var(--accent)}
+
+/* checklist answering their Highly Valuable list */
+.checklist{margin-top:44px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.check-row{display:grid;grid-template-columns:230px 1fr;gap:18px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--bg2)}
+.check-row:last-child{border-bottom:none}
+.check-row .k{font-weight:600;font-size:14.5px;display:flex;gap:10px;align-items:baseline}
+.check-row .k .tick{color:var(--accent);font-family:var(--mono)}
+.check-row.open .k .tick{color:var(--warn)}
+.check-row .v{color:var(--muted);font-size:14.5px}
+.check-row .v b{color:var(--text);font-weight:600}
+@media(max-width:700px){.check-row{grid-template-columns:1fr;gap:4px}}
+
+.closing{text-align:center;padding-bottom:70px}
+.closing .sec-intro{margin-left:auto;margin-right:auto}
+.contact-links{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;padding:12px 22px;border-radius:8px;font-size:15px;font-weight:600;
+  border:1px solid var(--line);transition:transform .2s,box-shadow .2s}
+.btn:hover{text-decoration:none;transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:#04140d;border-color:var(--accent)}
+.btn-primary:hover{box-shadow:0 8px 30px rgba(88,230,180,.25)}
+.btn-ghost{color:var(--text)}
+.btn-ghost:hover{border-color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--muted);font-size:13px;font-family:var(--mono)}
+
+@media print{
+  body{background:#fff;color:#111}
+  :root{--bg:#fff;--bg2:#fff;--panel:#f4f6f8;--line:#c9d2da;--text:#111;--muted:#444;--accent:#0a7d5a;--accent2:#155e9e;--warn:#8a5a00}
+  #vision-canvas{display:none}
+  .hero{min-height:auto;padding-top:30px}
+  .reveal{opacity:1;transform:none}
+  .case,.checklist{break-inside:avoid}
+  .btn{border:1px solid #999;color:#111;background:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <canvas id="vision-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="hero-tag">// portfolio · prepared for Vixia AI · Senior Computer Vision Engineer · Sep 2026</div>
+    <h1>I build what Vixia is building:<br><span class="dim">AI cameras watching production lines.</span></h1>
+    <p class="hero-sub">I'm <b>Felix Ho</b>. For about three years I have been the engineer on the factory side of
+      exactly your product: <b>12 AI camera feeds monitoring live manufacturing lines</b>, defect and anomaly
+      detection on a natural material that refuses to be uniform, deployed at the edge, wired into line control.
+      I built it, I run it, and I fix it when it breaks. This page shows the systems and the numbers.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">100%</div><div class="lbl">OCR read accuracy in production</div></div>
+      <div class="stat"><div class="num">99%</div><div class="lbl">tally accuracy, avg 350 packs/shift</div></div>
+      <div class="stat"><div class="num">20-35 ms</div><div class="lbl">average inference, edge hardware</div></div>
+      <div class="stat"><div class="num">12</div><div class="lbl">camera feeds, one platform</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="work" style="padding-top:40px">
+  <div class="wrap">
+
+    <!-- 01 OCR / inspection -->
+    <article class="case reveal">
+      <div class="case-head"><span class="case-num">01</span><h3>Visual inspection with numbers a customer signs off on</h3></div>
+      <div class="case-body">
+        <div class="case-text">
+          <p>Pack outfeed before wrapping: every stacked pack must be counted, its printed markings read, and its
+            timber grade confirmed. It was done by eye. I replaced it with <b>deep learning OCR and tally counting
+            across 3 cameras</b>, including a Cognex In-Sight for the first-layer OCR read.</p>
+          <p>In production it holds <b>100% OCR read accuracy</b> and <b>99% tally counting accuracy</b> over an
+            average <b>350 stacked packs per shift</b>. The machine learning grade confirmation replaced the manual
+            visual check, cut average station time by <b>30 seconds</b>, and reduced customer refund requests.</p>
+          <p>Those numbers are not from a test set. They are measured on the line, across shifts, with the
+            mismatches logged and reviewed. That is the standard I hold vision systems to: the number that matters
+            is the one production sees.</p>
+          <div class="result">Quality inspection your customers would recognise: OCR, counting and grading,
+            running on a live line at 100% / 99%.</div>
+          <div class="chips">
+            <span class="chip">deep learning OCR</span><span class="chip">object counting</span>
+            <span class="chip">classification</span><span class="chip">Cognex In-Sight</span><span class="chip">3 cameras, one system</span>
+          </div>
+        </div>
+        <div class="case-visual">
+          <svg class="arch" viewBox="0 0 380 260" role="img" aria-label="Pack inspection diagram">
+            <rect class="box" x="20" y="88" width="150" height="88"/>
+            <rect x="32" y="100" width="126" height="14" rx="2" fill="#22303f"/>
+            <rect x="32" y="118" width="126" height="14" rx="2" fill="#1b2632"/>
+            <rect x="32" y="136" width="126" height="14" rx="2" fill="#22303f"/>
+            <rect x="32" y="154" width="126" height="14" rx="2" fill="#1b2632"/>
+            <rect x="30" y="97" width="70" height="20" rx="3" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
+            <text class="sub" x="34" y="92" fill="#58e6b4">OCR read</text>
+            <rect class="box" x="230" y="30" width="130" height="46"/>
+            <text x="295" y="49" text-anchor="middle">OCR</text>
+            <text class="sub" x="295" y="64" text-anchor="middle">100% read accuracy</text>
+            <rect class="box" x="230" y="106" width="130" height="46"/>
+            <text x="295" y="125" text-anchor="middle">Tally count</text>
+            <text class="sub" x="295" y="140" text-anchor="middle">99% over 350/shift</text>
+            <rect class="box" x="230" y="182" width="130" height="46"/>
+            <text x="295" y="201" text-anchor="middle">Grade check</text>
+            <text class="sub" x="295" y="216" text-anchor="middle">ML confirmation</text>
+            <path class="flow" d="M170 110 L230 53"/>
+            <path class="flow" d="M170 132 L230 129"/>
+            <path class="flow" d="M170 154 L230 205"/>
+          </svg>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 imperfect data -->
+    <article class="case reveal">
+      <div class="case-head"><span class="case-num">02</span><h3>Real-world imperfect data is my normal data</h3></div>
+      <div class="case-body">
+        <div class="case-text">
+          <p>Timber is a natural resource. No two boards match: grain, knots, colour from pale to nearly black,
+            and surface reflectance that changes completely between wet and dry stock. Lines run at various
+            speeds, up to <b>120 boards per minute</b>.
+            Your ad asks for someone comfortable with imperfect data; this is about three years of it.</p>
+          <p>My edge-case method is systematic, not ad hoc:</p>
+          <ul>
+            <li><b>Mismatch records.</b> Whenever a model output does not match the expected value, I keep the
+              record and use it for review and retraining, especially edge conditions.</li>
+            <li><b>Tracing misses to the dataset.</b> I traced residual counting misses to edge conditions not
+              represented in the training data, then specified the exact data collection needed to close the gap.</li>
+            <li><b>A purpose-built annotation app.</b> Frame extraction from production video, box, polygon and
+              OCR labelling, one-click training export. Labelling fits the factory's data, not the other way around.</li>
+            <li><b>Material-driven sensing choices.</b> When a feedback sensor was needed, testing showed laser
+              misreads darker texture and wet timber, so I chose ultrasonic and allowed for its slower response
+              in the control logic. The material decides, not the datasheet.</li>
+            <li><b>Optics from first principles.</b> Field of view derived from working distance and target size,
+              validated against manufacturer specs, checkerboard calibration, lighting and positioning tuned
+              per install.</li>
+          </ul>
+          <div class="result">Your ad's line "lighting, camera positioning, changing products and manufacturing
+            environments" is a list of problems I have already solved at least once each.</div>
+          <div class="chips">
+            <span class="chip">edge cases</span><span class="chip">data collection</span><span class="chip">labelling tooling</span>
+            <span class="chip">camera calibration</span><span class="chip">lighting</span><span class="chip">natural variation</span>
+          </div>
+        </div>
+        <div class="case-visual">
+          <svg class="arch" viewBox="0 0 380 260" role="img" aria-label="Edge case loop diagram">
+            <rect class="box" x="115" y="14" width="150" height="46"/>
+            <text x="190" y="33" text-anchor="middle">Production inference</text>
+            <text class="sub" x="190" y="48" text-anchor="middle">live line, all shifts</text>
+            <rect class="box" x="115" y="106" width="150" height="46"/>
+            <text x="190" y="125" text-anchor="middle">Mismatch record</text>
+            <text class="sub" x="190" y="140" text-anchor="middle">output != expected, kept</text>
+            <rect class="box" x="115" y="198" width="150" height="46"/>
+            <text x="190" y="217" text-anchor="middle">Targeted collection</text>
+            <text class="sub" x="190" y="232" text-anchor="middle">label, retrain, redeploy</text>
+            <path class="flow" d="M190 60 L190 106"/>
+            <path class="flow" d="M190 152 L190 198"/>
+            <path class="flow" d="M265 221 C330 200 330 60 265 37"/>
+            <text class="sub" x="322" y="134" text-anchor="middle">loop</text>
+          </svg>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 speed -->
+    <article class="case reveal">
+      <div class="case-head"><span class="case-num">03</span><h3>Speed: profiled and measured, never guessed</h3></div>
+      <div class="case-body">
+        <div class="case-text">
+          <p>The platform averages <b>20-35 ms per inference</b> on edge industrial PCs, soft real-time on a
+            general-purpose OS, stated honestly. I built a <b>stage-by-stage timing pipeline</b> that benchmarks
+            everything from image and video preprocessing through inference, so the bottleneck is found by
+            measurement.</p>
+          <p>The investigation that shows how I work: two trigger-mode cameras that normally answered in
+            40-80 ms began sitting at about 135 ms. The obvious suspect, a newly added feature, was cleared by
+            evidence: it was disabled, and its code was newer than the running process. The logs pointed at a
+            removed always-on model that had quietly kept the <b>GPU clocks pinned</b>. Idle, the memory clock
+            fell from 13,801 MHz to 405 MHz, a <b>34x drop</b>, and YOLO inference is memory-bandwidth bound.</p>
+          <p>The fix, a keep-alive inference through the real model, was tuned entirely by measurement:</p>
+          <table class="mono-table">
+            <tr><th>keep-alive rate</th><th>result</th></tr>
+            <tr><td>1 / second</td><td>unstable</td></tr>
+            <tr><td>4 / second</td><td><b>18.9 ms</b></td></tr>
+            <tr><td>10 / second</td><td>no further gain</td></tr>
+          </table>
+          <div class="result">131.6 ms down to 22.1 ms and 137.1 down to 19.6, for about 10 W. Faster than the
+            system had ever run, because the keep-alive warms the model that does the real work.</div>
+          <div class="chips">
+            <span class="chip">real-time optimisation</span><span class="chip">GPU clock behaviour</span>
+            <span class="chip">pipeline benchmarking</span><span class="chip">root cause analysis</span>
+          </div>
+        </div>
+        <div class="case-visual">
+          <div class="chart-frame">
+            <div class="chart-title">inference latency, ms</div>
+            <svg viewBox="0 0 340 210" role="img" aria-label="Latency chart: normal 40 to 80 ms, regression to 135 ms, fixed at 20 ms">
+              <defs>
+                <linearGradient id="latgrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#58e6b4"/><stop offset="1" stop-color="#58e6b4" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line x1="30" y1="20" x2="30" y2="180" stroke="#1f2a36"/>
+              <line x1="30" y1="180" x2="330" y2="180" stroke="#1f2a36"/>
+              <text class="chart-label" x="8" y="35">150</text>
+              <text class="chart-label" x="8" y="105">75</text>
+              <text class="chart-label" x="14" y="182">0</text>
+              <path id="latency-area" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161 L330,180 L30,180 Z"/>
+              <path id="latency-path" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161"/>
+              <text class="chart-label hot" x="150" y="38">regression ~135 ms</text>
+              <text class="chart-label" x="45" y="90">normal 40-80</text>
+              <text class="chart-label good" x="264" y="150">fixed ~20 ms</text>
+              <circle cx="260" cy="160" r="4" fill="#58e6b4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 lifecycle -->
+    <article class="case reveal">
+      <div class="case-head"><span class="case-num">04</span><h3>The full CV/ML lifecycle, owned by one engineer</h3></div>
+      <div class="case-body">
+        <div class="case-text">
+          <p>Your ad describes the whole lifecycle. I run every stage of it myself, in production:</p>
+          <ul>
+            <li><b>Data:</b> collection from production video, the custom annotation app, mismatch-driven
+              dataset growth.</li>
+            <li><b>Models:</b> YOLO v8-v11 and Detectron2 in PyTorch: object detection, instance segmentation,
+              multi-label classification, OCR. ONNX where it fits. TensorFlow/Keras and scikit-learn where
+              they fit better.</li>
+            <li><b>Anomaly detection:</b> skewed-stock and tangle detection on the log infeed catches faults
+              before a blockage; that line is automated so operators only monitor it.</li>
+            <li><b>Deployment:</b> Docker containers on edge industrial PCs I specified and built; automated
+              startup, redundancy backup and self-recovery; covering two shifts, 20 hours a day, 5 days a week.
+              A separate 9-camera deployment on the Daemon AI platform, where I selected the Axis cameras,
+              configured IDIS recording, trained and deployed the models.</li>
+            <li><b>Actuation:</b> I also write the Rockwell PLC programs, so inference output stops a line,
+              raises an alarm or adjusts equipment over EtherNet/IP. The model's answer reaches the machine.</li>
+            <li><b>Visibility:</b> a Flask app streams every feed with detection overlays and serves a REST API;
+              results land in SQL and Power BI through Ignition SCADA.</li>
+          </ul>
+          <div class="result">One person who can take a vision idea from dataset to a machine acting on it,
+            and keep it alive afterwards.</div>
+          <div class="chips">
+            <span class="chip">PyTorch</span><span class="chip">YOLO</span><span class="chip">Detectron2</span>
+            <span class="chip">OpenCV</span><span class="chip">ONNX</span><span class="chip">Docker</span>
+            <span class="chip">edge deployment</span><span class="chip">PLC integration</span>
+          </div>
+        </div>
+        <div class="case-visual">
+          <svg class="arch" viewBox="0 0 380 300" role="img" aria-label="System architecture diagram">
+            <rect class="box" x="10" y="10" width="105" height="52"/>
+            <text x="62" y="32" text-anchor="middle">12 cameras</text>
+            <text class="sub" x="62" y="48" text-anchor="middle">RTSP / USB3 / PoE</text>
+            <rect class="box" x="140" y="10" width="105" height="52"/>
+            <text x="192" y="32" text-anchor="middle">Edge PCs</text>
+            <text class="sub" x="192" y="48" text-anchor="middle">Docker + GPU</text>
+            <rect class="box" x="270" y="10" width="100" height="52"/>
+            <text x="320" y="32" text-anchor="middle">Models</text>
+            <text class="sub" x="320" y="48" text-anchor="middle">YOLO · Detectron2</text>
+            <rect class="box" x="140" y="120" width="105" height="52"/>
+            <text x="192" y="142" text-anchor="middle">PLC control</text>
+            <text class="sub" x="192" y="158" text-anchor="middle">Rockwell · EtherNet/IP</text>
+            <rect class="box" x="10" y="120" width="105" height="52"/>
+            <text x="62" y="142" text-anchor="middle">Flask app</text>
+            <text class="sub" x="62" y="158" text-anchor="middle">MJPEG + REST</text>
+            <rect class="box" x="270" y="120" width="100" height="52"/>
+            <text x="320" y="142" text-anchor="middle">SCADA</text>
+            <text class="sub" x="320" y="158" text-anchor="middle">Ignition</text>
+            <rect class="box" x="140" y="230" width="105" height="52"/>
+            <text x="192" y="252" text-anchor="middle">SQL + BI</text>
+            <text class="sub" x="192" y="268" text-anchor="middle">history · reports</text>
+            <path class="flow" d="M115 36 L140 36"/>
+            <path class="flow" d="M245 36 L270 36"/>
+            <path class="flow" d="M192 62 L192 120"/>
+            <path class="flow" d="M140 146 L115 146"/>
+            <path class="flow" d="M245 146 L270 146"/>
+            <path class="flow" d="M192 172 L192 230"/>
+            <path class="flow" d="M320 172 L320 200 L245 256"/>
+          </svg>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 evaluation -->
+    <article class="case reveal">
+      <div class="case-head"><span class="case-num">05</span><h3>Evaluation discipline: how models earn the right to run</h3></div>
+      <div class="case-body single">
+        <div class="case-text">
+          <p>Nothing I build goes live on a feeling. Acceptance criteria are set by the goal, accuracy or
+            efficiency, before work starts. Pilots run on small datasets first. A test set is kept aside with
+            mAP, precision and recall targets. Then a live trial on the line before sign-off, and an operator
+            feedback loop into retraining after it. Experiments are tracked in <b>MLflow</b>, with
+            <b>Databricks</b> across my model work, including the deployed YOLO models and my entry in the
+            RSNA Knee Abnormality Detection challenge. Monitoring stays on after go-live; the mismatch records
+            from section 02 are the continuous-iteration engine your ad asks about.</p>
+          <div class="chips">
+            <span class="chip">mAP / precision / recall</span><span class="chip">kept-aside test sets</span>
+            <span class="chip">live line trials</span><span class="chip">MLflow</span><span class="chip">Databricks</span>
+            <span class="chip">model monitoring</span><span class="chip">retraining loop</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- checklist -->
+    <div class="reveal" style="margin-top:76px">
+      <div class="sec-label">Your "highly valuable experience" list</div>
+      <h2 class="sec-title">Answered line by line</h2>
+      <p class="sec-intro">Nine ticks and two honest gaps. I would rather you know exactly where I stand.</p>
+    </div>
+    <div class="checklist reveal">
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Manufacturing / industrial automation</div>
+        <div class="v">About three years inside a working plant. Everything on this page runs there.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Robotics / autonomous systems</div>
+        <div class="v">Taught myself ABB RAPID to fix a robotic stacking line nobody in the plant could touch; unplanned downtime fell <b>90%</b>.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Edge AI / embedded ML</div>
+        <div class="v">Docker on industrial edge PCs at the point of capture; USB Edge TPU on Raspberry Pi, used at work.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Real-time computer vision</div>
+        <div class="v">20-35 ms average driving live line control through a PLC. Soft real-time on a general-purpose OS, and I say so.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Visual quality inspection</div>
+        <div class="v">Grade confirmation, OCR verification and counting on 350 packs a shift, at the numbers in section 01.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Defect detection</div>
+        <div class="v">Timber grade and marking checks by trained models; misses traced to the dataset and closed.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Anomaly detection</div>
+        <div class="v">Skewed-stock and tangle detection on the log infeed, catching faults before a blockage.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>Camera and sensor systems</div>
+        <div class="v">Axis, Cognex In-Sight, time of flight depth, Luxonis DepthAI V3, USB3 Vision, PoE+; FOV derived from first principles, checkerboard calibration; ultrasonic, laser, proximity and photoelectric sensors wired and coded.</div></div>
+      <div class="check-row"><div class="k"><span class="tick">[x]</span>MLOps and model monitoring</div>
+        <div class="v">MLflow experiment tracking, Databricks, monitored production platform, mismatch records feeding retraining.</div></div>
+      <div class="check-row open"><div class="k"><span class="tick">[ ]</span>NVIDIA CUDA / Jetson</div>
+        <div class="v">Not yet. My GPU work runs through PyTorch and ONNX on NVIDIA hardware, and section 03 shows I understand the silicon underneath. Jetson from Raspberry Pi plus Edge TPU is a short step.</div></div>
+      <div class="check-row open"><div class="k"><span class="tick">[ ]</span>C++ alongside Python</div>
+        <div class="v">University coursework only. Production software is Python. I read C++ and can follow a codebase.</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- closing -->
+<section class="closing">
+  <div class="wrap reveal">
+    <div class="sec-label">Beyond the day job</div>
+    <h2 class="sec-title">I ship products too</h2>
+    <p class="sec-intro"><a href="https://apps.apple.com/au/app/slim-photo-video-compress/id6778816811">Slim</a>,
+      a native Swift iOS app live on the App Store. LoreForge, an AI game asset tool in beta with a real game team,
+      built on MCP tool calling. A RAG assistant in early production use over industrial documentation.
+      Currently completing a Master of IT (Artificial Intelligence), GPA 6.8/7, while working full time.
+      Full portfolio at <a href="https://felixhorobot.github.io">felixhorobot.github.io</a>.</p>
+    <p class="sec-intro" style="margin-top:18px">I am happy to walk through any system on this page in as much
+      depth as you want, whiteboard or code. Based in Tasmania, Australian permanent resident, full working
+      rights, notice one month.</p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:homing.felix.ho@gmail.com">homing.felix.ho@gmail.com</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/homingho">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/felixhorobot">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>prepared for Vixia AI · September 2026 · felixhorobot.github.io/vixia</footer>
+
+<script>
+(function () {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(x => io.observe(x));
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv = document.getElementById('vision-canvas');
+  if (cv && !reduced) {
+    const ctx = cv.getContext('2d');
+    let W, H, targets = [];
+    const LABELS = ['defect 0.96', 'board 0.97', 'anomaly 0.92', 'pack 0.94', 'grade_A 0.93', 'ocr 0.99'];
+    function resize() {
+      W = cv.width = cv.offsetWidth * devicePixelRatio;
+      H = cv.height = cv.offsetHeight * devicePixelRatio;
+    }
+    resize(); addEventListener('resize', resize);
+    function spawn() {
+      const w = (60 + Math.random() * 120) * devicePixelRatio;
+      return {
+        x: -w, y: H * (0.15 + Math.random() * 0.7),
+        w, h: (26 + Math.random() * 40) * devicePixelRatio,
+        v: (0.4 + Math.random() * 0.8) * devicePixelRatio,
+        label: LABELS[Math.floor(Math.random() * LABELS.length)],
+        lock: 0
+      };
+    }
+    for (let i = 0; i < 6; i++) { const t = spawn(); t.x = Math.random() * W; targets.push(t); }
+    function drawBox(t) {
+      const a = 0.15 + 0.45 * t.lock;
+      ctx.strokeStyle = 'rgba(88,230,180,' + a + ')';
+      ctx.lineWidth = 1.2 * devicePixelRatio;
+      const c = 9 * devicePixelRatio, x = t.x, y = t.y, w = t.w, h = t.h;
+      ctx.beginPath();
+      [[x, y + c, x, y, x + c, y], [x + w - c, y, x + w, y, x + w, y + c],
+       [x + w, y + h - c, x + w, y + h, x + w - c, y + h], [x + c, y + h, x, y + h, x, y + h - c]]
+        .forEach(seg => { ctx.moveTo(seg[0], seg[1]); ctx.lineTo(seg[2], seg[3]); ctx.lineTo(seg[4], seg[5]); });
+      ctx.stroke();
+      if (t.lock > 0.6) {
+        ctx.fillStyle = 'rgba(88,230,180,' + a + ')';
+        ctx.font = (11 * devicePixelRatio) + "px 'JetBrains Mono',monospace";
+        ctx.fillText(t.label, x, y - 6 * devicePixelRatio);
+      }
+    }
+    let scan = 0;
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(31,42,54,.5)'; ctx.lineWidth = 1;
+      const g = 64 * devicePixelRatio;
+      for (let x = 0; x < W; x += g) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += g) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      scan = (scan + 1.2 * devicePixelRatio) % (W + 200);
+      const grad = ctx.createLinearGradient(scan - 100, 0, scan, 0);
+      grad.addColorStop(0, 'rgba(88,230,180,0)'); grad.addColorStop(1, 'rgba(88,230,180,.06)');
+      ctx.fillStyle = grad; ctx.fillRect(scan - 100, 0, 100, H);
+      targets.forEach((t, i) => {
+        t.x += t.v;
+        t.lock = Math.min(1, t.lock + 0.01);
+        if (t.x > W) targets[i] = spawn();
+        drawBox(t);
+      });
+      if (!document.hidden) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(frame); });
+  }
+})();
+</script>
+</body>
+</html>
