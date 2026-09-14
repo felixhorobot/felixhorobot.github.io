@@ -1,615 +1,871 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Felix Ho · AI &amp; Automation Engineer</title>
-<meta name="description" content="Felix Ho builds production machine learning systems: computer vision on the factory floor, LLM tools, and industrial automation. Portfolio and case studies.">
-<meta property="og:title" content="Felix Ho · AI &amp; Automation Engineer">
-<meta property="og:description" content="Production computer vision, LLM systems and industrial automation, from first idea to the factory floor.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d1117'/><rect x='18' y='18' width='64' height='64' rx='6' fill='none' stroke='%2358e6b4' stroke-width='7'/><circle cx='50' cy='50' r='12' fill='%2358e6b4'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0b0f14;
-  --bg2:#10161d;
-  --panel:#141b24;
-  --line:#1f2a36;
-  --text:#dce6f0;
-  --muted:#8b9bab;
-  --accent:#58e6b4;
-  --accent2:#5ab8ff;
-  --warn:#ffb454;
-  --mono:'JetBrains Mono',Consolas,monospace;
-  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
-::selection{background:rgba(88,230,180,.25)}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-img{max-width:100%;display:block}
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="assets/vixia/a5106330.js"></script>
 
-#content-error{background:#3a1520;color:#ffb4c0;padding:14px 20px;font-family:var(--mono);font-size:14px}
-
-/* ---------- nav ---------- */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-  padding:14px 28px;background:rgba(11,15,20,.78);backdrop-filter:blur(12px);border-bottom:1px solid transparent;
-  transition:border-color .3s}
-nav.scrolled{border-bottom-color:var(--line)}
-.nav-logo{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--text)}
-.nav-logo span{color:var(--accent)}
-.nav-links{display:flex;gap:26px;font-size:14px}
-.nav-links a{color:var(--muted);transition:color .2s}
-.nav-links a:hover{color:var(--text);text-decoration:none}
-@media(max-width:640px){.nav-links{display:none}}
-
-/* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:96px 28px 48px}
-#vision-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
-.hero-inner{position:relative;max-width:1060px;margin:0 auto;width:100%}
-.hero-tag{font-family:var(--mono);font-size:14px;color:var(--accent);margin-bottom:18px;letter-spacing:.04em}
-.hero h1{font-size:clamp(38px,6.5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.02em}
-.hero h1 .dim{color:var(--muted)}
-.hero-sub{max-width:640px;margin-top:22px;font-size:clamp(16px,2vw,19px);color:var(--muted)}
-.hero-sub b{color:var(--text);font-weight:600}
-.hero-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:8px;font-size:15px;font-weight:600;
-  transition:transform .2s,box-shadow .2s;border:1px solid var(--line)}
-.btn:hover{text-decoration:none;transform:translateY(-2px)}
-.btn-primary{background:var(--accent);color:#04140d;border-color:var(--accent)}
-.btn-primary:hover{box-shadow:0 8px 30px rgba(88,230,180,.25)}
-.btn-ghost{color:var(--text)}
-.btn-ghost:hover{border-color:var(--muted)}
-.hero-stats{margin-top:64px;display:flex;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;
-  background:rgba(16,22,29,.7);backdrop-filter:blur(6px);max-width:720px}
-.stat{flex:1;padding:20px 12px;text-align:center;border-right:1px solid var(--line)}
-.stat:last-child{border-right:none}
-.stat .num{font-family:var(--mono);font-size:clamp(20px,3vw,30px);font-weight:600;color:var(--accent)}
-.stat .lbl{font-size:12.5px;color:var(--muted);margin-top:4px}
-@media(max-width:560px){.hero-stats{flex-direction:column}.stat{border-right:none;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:none}}
-
-/* ---------- sections ---------- */
-section{padding:96px 28px}
-.wrap{max-width:1060px;margin:0 auto}
-.sec-label{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
-.sec-title{font-size:clamp(26px,4vw,40px);font-weight:800;margin-top:10px;letter-spacing:-.01em}
-.sec-intro{color:var(--muted);max-width:640px;margin-top:14px}
-
-/* reveal animation */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  html{scroll-behavior:auto}
-}
-
-/* ---------- case studies ---------- */
-.case{margin-top:56px;border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
-.case-head{padding:30px 34px 0;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-.case-num{font-family:var(--mono);color:var(--accent);font-size:15px}
-.case h3{font-size:clamp(20px,2.6vw,27px);font-weight:700}
-.case-body{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;padding:20px 34px 34px}
-@media(max-width:840px){.case-body{grid-template-columns:1fr}}
-.case-text p{color:var(--muted);font-size:15.5px;margin-bottom:14px}
-.case-text p b{color:var(--text);font-weight:600}
-.case-text .result{border-left:3px solid var(--accent);padding:10px 16px;background:rgba(88,230,180,.06);
-  border-radius:0 8px 8px 0;color:var(--text);font-size:15px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.chip{font-family:var(--mono);font-size:12px;color:var(--accent2);border:1px solid rgba(90,184,255,.3);
-  padding:4px 10px;border-radius:99px;background:rgba(90,184,255,.06)}
-.case-visual{display:flex;align-items:center;justify-content:center;min-height:260px}
-.case-visual img{border-radius:12px;border:1px solid var(--line)}
-
-/* architecture diagram */
-.arch{width:100%;font-family:var(--mono)}
-.arch .box{fill:var(--panel);stroke:var(--line);rx:8}
-.arch text{fill:var(--text);font-size:12px;font-family:var(--mono)}
-.arch .sub{fill:var(--muted);font-size:10px}
-.arch .flow{stroke:var(--accent);stroke-width:1.6;fill:none;stroke-dasharray:6 5;
-  animation:dash 1.2s linear infinite}
-@keyframes dash{to{stroke-dashoffset:-11}}
-@media(prefers-reduced-motion:reduce){.arch .flow{animation:none}}
-
-/* latency chart */
-.chart-frame{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
-.chart-title{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
-#latency-path{stroke:var(--accent);stroke-width:2.5;fill:none}
-#latency-area{fill:url(#latgrad);opacity:.25}
-.chart-label{font-family:var(--mono);font-size:11px;fill:var(--muted)}
-.chart-label.hot{fill:var(--warn)}
-.chart-label.good{fill:var(--accent)}
-
-/* terminal */
-.term{width:100%;background:#0a0d12;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:13px}
-.term-bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
-.term-bar i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
-.term-bar i:first-child{background:#ff6b6b}.term-bar i:nth-child(2){background:var(--warn)}.term-bar i:nth-child(3){background:var(--accent)}
-.term-body{padding:16px 18px;line-height:1.85;color:var(--muted)}
-.term-body .cmd{color:var(--text)}
-.term-body .cmd::before{content:'> ';color:var(--accent)}
-.term-body .ok{color:var(--accent)}
-.term-body .warn{color:var(--warn)}
-
-/* ---------- projects ---------- */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:48px}
-.card{border:1px solid var(--line);border-radius:14px;background:var(--bg2);padding:26px;display:flex;flex-direction:column;
-  transition:transform .25s,border-color .25s,box-shadow .25s}
-#projects .card{background:var(--bg)}
-.card:hover{transform:translateY(-5px);border-color:rgba(88,230,180,.4);box-shadow:0 14px 40px rgba(0,0,0,.35)}
-.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
-.card h3{font-size:19px;font-weight:700}
-.card h3 a{color:inherit}
-.card h3 a:hover{color:var(--accent);text-decoration:none}
-.badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:99px;white-space:nowrap}
-.badge.live{color:var(--accent);border:1px solid rgba(88,230,180,.4);background:rgba(88,230,180,.08)}
-.badge.beta{color:var(--warn);border:1px solid rgba(255,180,84,.4);background:rgba(255,180,84,.08)}
-.card p{color:var(--muted);font-size:14.5px;flex:1}
-.card p b{color:var(--text);font-weight:600}
-.card .tag-note{font-family:var(--mono);font-size:12px;color:var(--accent2);margin-top:14px}
-.card-media{margin:-26px -26px 18px;height:150px;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;
-  overflow:hidden;position:relative;background:linear-gradient(135deg,#101820,#0d141b)}
-.card-media svg{width:100%;height:100%}
-.card-media img{width:100%;height:100%;object-fit:cover}
-
-/* ---------- skills ---------- */
-.skill-groups{margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
-.skill-group{border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--bg2)}
-.skill-group h4{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.05em;text-transform:uppercase;margin-bottom:14px}
-.skill-group .chips{margin-top:0}
-.skill-group .chip{color:var(--text);border-color:var(--line);background:var(--panel)}
-
-/* ---------- about ---------- */
-.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:44px;margin-top:44px}
-@media(max-width:800px){.about-grid{grid-template-columns:1fr}}
-.about-text p{color:var(--muted);margin-bottom:16px;font-size:16px}
-.about-text p b{color:var(--text);font-weight:600}
-.edu{border:1px solid var(--line);border-radius:14px;background:var(--bg2);padding:26px}
-.edu h4{font-family:var(--mono);font-size:13px;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px}
-.edu-item{padding:12px 0;border-bottom:1px solid var(--line)}
-.edu-item:last-child{border-bottom:none}
-.edu-item .t{font-weight:600;font-size:15px}
-.edu-item .s{color:var(--muted);font-size:13.5px;margin-top:2px}
-
-/* ---------- contact ---------- */
-.contact{text-align:center;padding-bottom:60px}
-.contact .sec-title{margin-top:10px}
-.contact .sec-intro{margin-left:auto;margin-right:auto}
-.contact-links{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-footer{border-top:1px solid var(--line);padding:26px;text-align:center;color:var(--muted);font-size:13px;font-family:var(--mono)}
-</style>
 </head>
 <body>
+<x-dc>
+<helmet>
+<title>Felix Ho · Computer Vision Specialist</title>
+<meta name="description" content="Felix Ho builds production machine learning systems: computer vision on the factory floor, LLM tools, and industrial automation. Portfolio and case studies.">
+<meta property="og:title" content="Felix Ho · Computer Vision Specialist">
+<meta property="og:description" content="Production computer vision, LLM systems and industrial automation, from first idea to the factory floor.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/bb66166b.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/e6f07deb.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/6fdcb9a5.woff2") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/a9844905.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/20b8d253.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/93c9b278.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/0399dd9e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/bb66166b.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/e6f07deb.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/6fdcb9a5.woff2") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/a9844905.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/20b8d253.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/93c9b278.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/0399dd9e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/bb66166b.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/e6f07deb.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/6fdcb9a5.woff2") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/a9844905.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/20b8d253.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/93c9b278.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/vixia/0399dd9e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/bb66166b.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/e6f07deb.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/6fdcb9a5.woff2") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/a9844905.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/20b8d253.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/93c9b278.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/vixia/0399dd9e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/b7ce3a2f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/c016b9e9.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/ef12d492.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/00430e4f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/b5f1f6de.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/vixia/e740c0e7.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/b7ce3a2f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/c016b9e9.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/ef12d492.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/00430e4f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/b5f1f6de.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/vixia/e740c0e7.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+body{margin:0;background:#f6f8fa;color:#111820;font-family:Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0b7f62;text-decoration:none}a:hover{color:#111820}
+strong{color:#111820;font-weight:600}
+p{text-wrap:pretty}
+img{display:block;max-width:100%}
+summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}
+details[open] [data-chev]{transform:rotate(180deg)}
+details[open] [data-more]{animation:drop .45s cubic-bezier(.16,1,.3,1)}
+details[open] [data-lbl-closed]{display:none}details:not([open]) [data-lbl-open]{display:none}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+[data-rail]{scrollbar-width:none}[data-rail]::-webkit-scrollbar{display:none}
+[data-rv]{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+[data-rv].visible{opacity:1;transform:none}
+[data-rail] figure{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s}
+[data-rail] figure:not(.visible){opacity:0;transform:translateX(32px)}
+@keyframes flow{to{stroke-dashoffset:-24}}
+@media (max-width:840px){[data-cols]{grid-template-columns:1fr!important;gap:32px!important}[data-stats]{grid-template-columns:1fr!important}[data-three]{grid-template-columns:1fr!important}}
+@media (max-width:640px){[data-pad]{padding-left:20px!important;padding-right:20px!important}[data-sec]{padding-top:56px!important;padding-bottom:56px!important}[data-check]{grid-template-columns:1fr!important}}
+@media (prefers-reduced-motion:reduce){[data-rv],[data-rail] figure{opacity:1!important;transform:none!important;transition:none}*{animation:none!important}}
+</style>
+</helmet>
 
-<div id="content-error" hidden>content.js has an error and the page cannot load its text.
-Undo your last edit, or ask Claude to fix it.</div>
+<div data-pad="" style="max-width:1080px;margin:0 auto;padding:0 32px">
 
-<nav id="nav">
-  <div class="nav-logo">felix<span>@</span>ho<span>:~$</span></div>
-  <div class="nav-links">
-    <a href="#work">Case studies</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+<!-- HERO -->
+<header data-sec="" style="padding:64px 0 48px">
+  <div data-cols="" style="display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div data-rv="" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">// Felix Ho · Computer Vision Specialist · Tasmania → Sydney</div>
+      <h1 data-rv="" style="margin:0;font-size:clamp(32px,4.2vw,50px);line-height:1.08;font-weight:700;letter-spacing:-.025em;transition-delay:80ms">Computer vision that runs the line,<br><span style="color:#5b6b7c;font-weight:600">not just watches it.</span></h1>
+      <p data-rv="" style="margin:0;font-size:16.5px;line-height:1.6;color:#3d4b59;max-width:500px;transition-delay:160ms">I build and run industrial computer vision inside a heavy fixed plant, on my own platforms, <strong>VisionPLC</strong> and <strong>NeuroCam Trainer</strong>: detection (DET), classification (CLS), oriented boxes (OBB) and segmentation (SEG). Edge deployment from industrial GPU PCs to Raspberry Pi with Coral TPU in C++. Beyond the model, I program the PLC logic and commission the automation, so vision output becomes machine action. I integrate with a customer's existing control and software stack rather than replacing it, which is how one solution generalises across plants.</p>
+      <div data-rv="" style="display:flex;flex-wrap:wrap;gap:10px;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12.5px;transition-delay:240ms">
+        <a href="mailto:homing.felix.ho@gmail.com" style="display:inline-flex;align-items:center;padding:10px 16px;background:#0b7f62;color:#fff;border-radius:6px;font-weight:500" style-hover="background:#0a6b53;color:#fff">homing.felix.ho@gmail.com</a>
+      </div>
+    </div>
+    <div data-rv="" style="border:1px solid #dde3ea;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(17,24,32,.14),0 2px 6px rgba(17,24,32,.06);transition-delay:300ms">
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #e6ebf0;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#5b6b7c">
+        <span style="width:10px;height:10px;border-radius:50%;background:#e0665d"></span><span style="width:10px;height:10px;border-radius:50%;background:#d9a441"></span><span style="width:10px;height:10px;border-radius:50%;background:#5fbf7a"></span>
+        <span style="margin-left:8px">VisionPLC · Titan_Line · live</span><span style="margin-left:auto;color:#0b7f62">INF 37.9 ms · PLC OK</span>
+      </div>
+      <img loading="lazy" decoding="async" src="assets/vixia/e011f9d1.png" alt="Live camera view of a stacked timber pack with HUD: inference 37.9 ms, PLC OK, trigger history and K-code OCR votes" style="width:100%;aspect-ratio:1000/606;object-fit:cover">
+    </div>
   </div>
-</nav>
-
-<header class="hero">
-  <canvas id="vision-canvas" aria-hidden="true"></canvas>
-  <div class="hero-inner">
-    <div class="hero-tag" id="hero-tag"></div>
-    <h1 id="hero-title"></h1>
-    <p class="hero-sub" id="hero-sub"></p>
-    <div class="hero-cta" id="hero-cta"></div>
-    <div class="hero-stats" id="hero-stats"></div>
+  <div data-rv="" data-stats="" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#dde3ea;border:1px solid #dde3ea;border-radius:10px;overflow:hidden;margin-top:48px;transition-delay:450ms">
+    <div style="background:#fff;padding:20px 22px;display:flex;flex-direction:column;gap:6px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:32px;line-height:1;color:#0b7f62">{{ ocr }}%</div><div style="font-size:13px;color:#5b6b7c">OCR read accuracy, in production</div></div>
+    <div style="background:#fff;padding:20px 22px;display:flex;flex-direction:column;gap:6px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:32px;line-height:1;color:#0b7f62">{{ tally }}%</div><div style="font-size:13px;color:#5b6b7c">tally accuracy, 350 packs/shift</div></div>
+    <div style="background:#fff;padding:20px 22px;display:flex;flex-direction:column;gap:6px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:32px;line-height:1;color:#0b7f62">{{ lo }}-{{ hi }} <span style="font-size:18px">ms</span></div><div style="font-size:13px;color:#5b6b7c">average inference, edge GPU</div></div>
+    
   </div>
 </header>
 
-<section id="work">
-  <div class="wrap">
-    <div class="reveal" id="case-intro"></div>
-    <div id="case-list"></div>
-  </div>
-</section>
-
-<section id="projects" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="reveal" id="project-intro"></div>
-    <div class="grid" id="project-grid"></div>
-  </div>
-</section>
-
-<section id="skills">
-  <div class="wrap">
-    <div class="reveal" id="skill-intro"></div>
-    <div class="skill-groups" id="skill-groups"></div>
-  </div>
-</section>
-
-<section id="about" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="reveal" id="about-head"></div>
-    <div class="about-grid">
-      <div class="about-text reveal" id="about-text"></div>
-      <div class="edu reveal" id="about-edu"></div>
+<!-- PRINCIPLES + LIFECYCLE -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+    <div data-rv="" style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">What I bring as a Computer Vision Specialist</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Five things I tell every plant manager before we talk models</h2>
+      <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+        <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600;line-height:1.4">I know what ML can do, and what it cannot. That decides where it goes.</span></summary>
+        <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59"><p style="margin:0"><strong>Example.</strong> A classifier will tell you a board is skewed with 0.94 confidence; it will not tell you why, and it will be wrong on a frame it has never seen. So on the infeed the model raises the flag, the PLC interlocks still own the stop, and every mismatch is logged for retraining. Confidence is a signal to act on, not a guarantee, and the system is designed around that.</p></div>
+      </details>
+      <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+        <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600;line-height:1.4">Machine vision: we set the rules. Machine learning: the model finds rules and patterns humans cannot even notice.</span></summary>
+        <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59"><p style="margin:0"><strong>Example.</strong> With machine vision we tell the system an orange is orange in colour and round in shape, and it checks those two rules. With machine learning we only annotate: this is an orange, this is not. The model works out for itself which combinations of texture, shading, edge and colour separate them, including patterns we never wrote down.</p></div>
+      </details>
+      <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+        <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600;line-height:1.4">Dataset quality matters more than algorithm selection.</span></summary>
+        <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59"><p style="margin:0"><strong>Example.</strong> The residual counting misses on the pack line were not fixed by a bigger model. They were traced to edge conditions missing from the training data, then closed by collecting exactly those frames. Same YOLO, better data, 99% tally.</p></div>
+      </details>
+      <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+        <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600;line-height:1.4">A stable environment gives consistency.</span></summary>
+        <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59"><p style="margin:0"><strong>Example.</strong> Fixed camera position, fixed working distance, controlled lighting and a PLC trigger that fires at the same point every pack. Once the frame is the same every time, the model only has to learn the product, not the plant.</p></div>
+      </details>
+      <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+        <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600;line-height:1.4">The model is only deployed when the PLC acts on it. I do that side too.</span></summary>
+        <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59"><p style="margin:0"><strong>Example.</strong> Most manufacturing runs on PLCs. I write the Rockwell Studio 5000 logic that turns an inference result into a stop, alarm or setpoint, and I fit out the hardware around it: the electrical cabinet, 24 V power supply, MCBs, network switch and PoE for the cameras. For a customer that means one person commissions the camera, the model and the control loop, with no hand-off between vendors.</p></div>
+      </details>
+    </div>
+    <div data-rv="" style="transition-delay:120ms;border:1px solid #dde3ea;border-radius:8px;background:#fff;padding:20px;position:sticky;top:24px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#5b6b7c;margin-bottom:12px">machine learning lifecycle · the loop never closes</div>
+      <svg sc-camel-view-box="0 0 520 400" style="width:100%;height:auto;display:block;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace" role="img" aria-label="Loop: identify customer need, data collection, annotation, algorithm, train, deploy, monitor, fine tune, back to need">
+        <circle cx="260" cy="200" r="130" fill="none" stroke="#0b7f62" stroke-opacity=".5" stroke-width="1.2" stroke-dasharray="6 6" style="animation:flow 1.6s linear infinite"></circle>
+        <g fill="#fff" stroke="#0b7f62" stroke-width="1.5">
+          <circle cx="260" cy="70" r="6" fill="#0b7f62"></circle><circle cx="352" cy="108" r="6"></circle><circle cx="390" cy="200" r="6"></circle><circle cx="352" cy="292" r="6"></circle><circle cx="260" cy="330" r="6"></circle><circle cx="168" cy="292" r="6"></circle><circle cx="130" cy="200" r="6"></circle><circle cx="168" cy="108" r="6" fill="#c26a00" stroke="#c26a00"></circle>
+        </g>
+        <g font-size="11.5" fill="#1c2733">
+          <text x="260" y="40" text-anchor="middle" font-weight="600">1 · identify customer need</text><text x="260" y="54" text-anchor="middle" fill="#5b6b7c" font-size="10">acceptance criteria first</text>
+          <text x="366" y="100">2 · data collection</text><text x="366" y="114" fill="#5b6b7c" font-size="10">from the real line</text>
+          <text x="404" y="196">3 · annotation</text><text x="404" y="210" fill="#5b6b7c" font-size="10">NeuroCam tool</text>
+          <text x="366" y="292">4 · algorithm</text><text x="366" y="306" fill="#5b6b7c" font-size="10">detect · classify · OCR</text>
+          <text x="260" y="356" text-anchor="middle">5 · train</text><text x="260" y="370" text-anchor="middle" fill="#5b6b7c" font-size="10">kept-aside test set</text>
+          <text x="154" y="292" text-anchor="end">6 · deploy</text><text x="154" y="306" text-anchor="end" fill="#5b6b7c" font-size="10">edge · PLC tag</text>
+          <text x="116" y="196" text-anchor="end">7 · monitor</text><text x="116" y="210" text-anchor="end" fill="#5b6b7c" font-size="10">read rate · latency</text>
+          <text x="154" y="100" text-anchor="end" fill="#c26a00">8 · fine tune</text><text x="154" y="114" text-anchor="end" fill="#5b6b7c" font-size="10">mismatch records</text>
+        </g>
+        <g text-anchor="middle" fill="#5b6b7c" font-size="10.5"><text x="260" y="196">data quality</text><text x="260" y="211">over algorithm</text></g>
+      </svg>
     </div>
   </div>
 </section>
 
-<section id="contact" class="contact">
-  <div class="wrap reveal" id="contact-wrap"></div>
-</section>
-
-<footer id="footer-el"></footer>
-
-<!-- ============================================================
-     Built-in visuals. Content.js refers to these by name:
-     "builtin:architecture"  "builtin:latency"  "builtin:terminal"
-     "builtin:loreforge"     "builtin:slim"
-     ============================================================ -->
-<template id="tpl-architecture">
-  <svg class="arch" viewBox="0 0 380 300" role="img" aria-label="System architecture diagram">
-    <rect class="box" x="10" y="10" width="105" height="52"/>
-    <text x="62" y="32" text-anchor="middle">12 cameras</text>
-    <text class="sub" x="62" y="48" text-anchor="middle">RTSP / USB3 / PoE</text>
-    <rect class="box" x="140" y="10" width="105" height="52"/>
-    <text x="192" y="32" text-anchor="middle">Edge PCs</text>
-    <text class="sub" x="192" y="48" text-anchor="middle">Docker + GPU</text>
-    <rect class="box" x="270" y="10" width="100" height="52"/>
-    <text x="320" y="32" text-anchor="middle">Models</text>
-    <text class="sub" x="320" y="48" text-anchor="middle">YOLO · Detectron2</text>
-    <rect class="box" x="140" y="120" width="105" height="52"/>
-    <text x="192" y="142" text-anchor="middle">PLC control</text>
-    <text class="sub" x="192" y="158" text-anchor="middle">Rockwell · EtherNet/IP</text>
-    <rect class="box" x="10" y="120" width="105" height="52"/>
-    <text x="62" y="142" text-anchor="middle">Flask app</text>
-    <text class="sub" x="62" y="158" text-anchor="middle">MJPEG + REST</text>
-    <rect class="box" x="270" y="120" width="100" height="52"/>
-    <text x="320" y="142" text-anchor="middle">SCADA</text>
-    <text class="sub" x="320" y="158" text-anchor="middle">Ignition</text>
-    <rect class="box" x="140" y="230" width="105" height="52"/>
-    <text x="192" y="252" text-anchor="middle">SQL + BI</text>
-    <text class="sub" x="192" y="268" text-anchor="middle">history · reports</text>
-    <path class="flow" d="M115 36 L140 36"/>
-    <path class="flow" d="M245 36 L270 36"/>
-    <path class="flow" d="M192 62 L192 120"/>
-    <path class="flow" d="M140 146 L115 146"/>
-    <path class="flow" d="M245 146 L270 146"/>
-    <path class="flow" d="M192 172 L192 230"/>
-    <path class="flow" d="M320 172 L320 200 L245 256"/>
-  </svg>
-</template>
-
-<template id="tpl-latency">
-  <div class="chart-frame">
-    <div class="chart-title">inference latency, ms</div>
-    <svg viewBox="0 0 340 210" role="img" aria-label="Latency chart: normal 40 to 80 ms, regression to 135 ms, fixed at 20 ms">
-      <defs>
-        <linearGradient id="latgrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#58e6b4"/><stop offset="1" stop-color="#58e6b4" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <line x1="30" y1="20" x2="30" y2="180" stroke="#1f2a36"/>
-      <line x1="30" y1="180" x2="330" y2="180" stroke="#1f2a36"/>
-      <text class="chart-label" x="8" y="35">150</text>
-      <text class="chart-label" x="8" y="105">75</text>
-      <text class="chart-label" x="14" y="182">0</text>
-      <path id="latency-area" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161 L330,180 L30,180 Z"/>
-      <path id="latency-path" d="M30,125 L80,105 L110,120 L140,50 L200,45 L230,48 L260,160 L330,161"/>
-      <text class="chart-label hot" x="150" y="38">regression ~135 ms</text>
-      <text class="chart-label" x="45" y="90">normal 40-80</text>
-      <text class="chart-label good" x="248" y="150">fixed ~20 ms</text>
-      <circle cx="260" cy="160" r="4" fill="#58e6b4"/>
+<!-- PROJECT 1: VisionPLC -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">01 · VisionPLC Orchestrator · in production</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Count every board, read every stamp, tell the PLC</h2>
+    </div>
+    <p style="margin:0;font-size:15.5px;line-height:1.65;color:#3d4b59">My Windows platform bridging YOLO inference and Rockwell PLCs. One PLC trigger: capture, detect and count board ends, crop each one, OCR the K-code, confirm the tally against Ignition, write the result to a PLC tag. <strong>37-57 ms</strong> counting only, about <strong>250 ms</strong> with full OCR on a 70-board pack. <strong>100% OCR, 99% tally</strong> on 350 packs a shift.</p>
+  </div>
+  <div data-rv="" style="margin-top:28px;border:1px solid #dde3ea;border-radius:8px;background:#fff;padding:16px 20px;max-width:640px">
+    <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#5b6b7c;margin-bottom:8px">trigger pipeline · one camera · counting 37-57 ms · OCR post-process ~250 ms</div>
+    <svg sc-camel-view-box="0 0 600 250" style="width:100%;height:auto;display:block;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace" role="img" aria-label="Pipeline: PLC trigger, capture frame, count boards, crop and OCR, tally confirmed against Ignition, written to PLC">
+      <g fill="none" stroke="#0b7f62" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="6 6" style="animation:flow 1.6s linear infinite">
+        <path d="M120 70 H160"></path><path d="M280 70 H320"></path><path d="M440 70 H480"></path>
+        <path d="M540 92 V128 H300 V160"></path><path d="M240 182 V212 H300 V160"></path>
+      </g>
+      <g fill="#f6f8fa" stroke="#c9d2dc" stroke-width="1">
+        <rect x="16" y="48" width="104" height="44" rx="4"></rect><rect x="160" y="48" width="120" height="44" rx="4"></rect><rect x="320" y="48" width="120" height="44" rx="4"></rect><rect x="480" y="48" width="104" height="44" rx="4"></rect>
+        <rect x="16" y="160" width="224" height="44" rx="4"></rect><rect x="300" y="160" width="284" height="80" rx="4" stroke="#0b7f62" stroke-opacity=".6"></rect>
+      </g>
+      <g font-size="11.5" fill="#1c2733" text-anchor="middle">
+        <text x="68" y="66">PLC trigger</text><text x="68" y="82" fill="#5b6b7c" font-size="10">rising edge</text>
+        <text x="220" y="66">capture frame</text><text x="220" y="82" fill="#5b6b7c" font-size="10">RTSP · crop region</text>
+        <text x="380" y="66">count boards</text><text x="380" y="82" fill="#5b6b7c" font-size="10">YOLO · ROI · 37-57 ms</text>
+        <text x="532" y="66">crop + OCR</text><text x="532" y="82" fill="#5b6b7c" font-size="10">per board · ~250 ms</text>
+        <text x="128" y="178">expected count</text><text x="128" y="194" fill="#5b6b7c" font-size="10">Ignition SCADA</text>
+        <text x="442" y="182" fill="#5b6b7c" font-size="10.5">confirmed · written to PLC tag</text>
+        <text x="380" y="216" fill="#0b7f62" font-size="15">100% OCR</text><text x="500" y="216" fill="#0b7f62" font-size="15">99% tally</text>
+      </g>
     </svg>
   </div>
-</template>
 
-<template id="tpl-terminal">
-  <div class="term">
-    <div class="term-bar"><i></i><i></i><i></i></div>
-    <div class="term-body">
-      <div class="cmd">connect abb-controller --ethernet</div>
-      <div class="ok">connected. program extracted.</div>
-      <div class="cmd">learn RAPID</div>
-      <div>reading manuals, tracing MoveL targets...</div>
-      <div class="cmd">diagnose</div>
-      <div class="warn">fault 1: pick position drift</div>
-      <div class="warn">fault 2: height limit on stack N+1</div>
-      <div class="warn">fault 3: sensor response vs motion timing</div>
-      <div class="cmd">reprogram + add ultrasonic feedback</div>
-      <div class="ok">unplanned downtime: -90%</div>
+  <div style="position:relative;margin-top:32px">
+    <div data-rail="" ref="{{ rail1 }}" style="display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 8px">
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/eea4e265.png" alt="VisionPLC monitor tab: two live lines with detection boxes, PLC connected" style="width:100%;aspect-ratio:16/9;object-fit:cover"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Monitor tab: two lines live, PLC heartbeat top right.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#1a2230;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/e6739082.png" alt="Ignition operator panel: expected 18, detected 18, Tally Match" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Operator HMI in Ignition: expected count beside detected count, green means confirmed.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/9f459297.png" alt="Full-frame detection: 77 board ends boxed with confidences" style="width:100%;aspect-ratio:16/9;object-fit:cover"></div><figcaption style="font-size:12.5px;color:#5b6b7c">77 board ends, every one boxed; the OCR crop comes from each box.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#0c0c0c;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/89d9b134.png" alt="Terminal log: 70 detections, K-code K7ZZ, 252 ms end to end" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">One trigger in the log: 70 boards counted, then the OCR post-process: stamp, orientation, split, classify. 252 ms for the OCR stage.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#0d1520;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/c2045c36.png" alt="Web dashboard: camera cards with ROI, K-code reads and trigger thumbnails" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Web dashboard: MJPEG streams, trigger history, three login tiers.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#1a2230;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/adee7617.png" alt="Data monitoring: shift history, packs per hour, K-code read rate, p50 and p95 latency, uptime" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Data monitoring per shift: read rate, p50/p95 latency, camera and PLC uptime.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/77c14ce8.png" alt="Camera editor: source, GPU, crop region, trigger tag" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Camera editor: edits apply live to one camera; other models keep running.</figcaption></figure>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11.5px;color:#5b6b7c">{{ pos1 }} / 7 · scroll or drag</div>
+      <div style="display:flex;gap:8px">
+        <button sc-camel-on-click="{{ prev1 }}" aria-label="Previous" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">←</button>
+        <button sc-camel-on-click="{{ next1 }}" aria-label="Next" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">→</button>
+      </div>
     </div>
   </div>
-</template>
 
-<template id="tpl-loreforge">
-  <svg viewBox="0 0 300 150" aria-hidden="true">
-    <rect x="20" y="18" width="180" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
-    <polygon points="110,45 140,60 110,75 80,60" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-    <polygon points="110,75 140,60 140,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-    <polygon points="110,75 80,60 80,92 110,107" fill="none" stroke="#58e6b4" stroke-width="1.5"/>
-    <rect x="212" y="18" width="68" height="114" rx="6" fill="#0a0d12" stroke="#1f2a36"/>
-    <rect x="220" y="28" width="52" height="8" rx="2" fill="#1f2a36"/>
-    <rect x="220" y="42" width="52" height="8" rx="2" fill="#1f2a36"/>
-    <rect x="220" y="56" width="40" height="8" rx="2" fill="#58e6b4" opacity=".6"/>
-    <rect x="220" y="76" width="52" height="8" rx="2" fill="#1f2a36"/>
-    <rect x="220" y="90" width="46" height="8" rx="2" fill="#1f2a36"/>
-  </svg>
-</template>
+  <details style="margin-top:24px;border:1px solid #dde3ea;border-radius:8px;background:#fff">
+    <summary style="display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:14px;font-weight:600;color:#111820"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62">▾</span><span data-lbl-closed="">How it is built</span><span data-lbl-open="">How it is built</span><span style="margin-left:auto;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#5b6b7c;font-weight:400">Python · PySide6 · YOLO v8-v11 · TensorRT/ONNX · pycomm3 · Flask · SQLite</span></summary>
+    <div data-more="" style="padding:4px 18px 18px 40px">
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:14.5px;line-height:1.6;color:#3d4b59">
+        <li><strong>Isolation.</strong> Capture per camera on QThreads; YOLO in its own process so CUDA never shares the GUI. Frames cross via SharedMemory, zero copy.</li>
+        <li><strong>Trigger.</strong> Polls a PLC tag, fires on rising edge, cooldown, N-of-M temporal gating, then writes count, boolean or threshold to the output tag.</li>
+        <li><strong>OCR chain.</strong> Stamp detection, orientation, projection-valley character split, per-character YOLO classify, vote across boards for the winner.</li>
+        <li><strong>Resilience.</strong> RTSP reconnect, offline watchdog, SHA256 model validation, atomic config saves, GPU keep-alive, auto-start as a scheduled task. Two shifts, 20 h/day, 5 days.</li>
+        <li><strong>Visibility.</strong> Trigger frames archived with 1 GB volume management, SQLite metrics, shift statistics, Flask dashboard with Normal, Permanent and Admin logins scoped per camera.</li>
+      </ul>
+    </div>
+  </details>
+  <details style="margin-top:12px;border:1px solid #dde3ea;border-radius:8px;background:#fff">
+    <summary style="display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:14px;font-weight:600;color:#111820"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62">▾</span><span>How the K-code OCR got to 100%: three pivots</span><span style="margin-left:auto;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#5b6b7c;font-weight:400">80% → 97% → 100%</span></summary>
+    <div data-more="" style="padding:4px 18px 18px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px" data-three="">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.55;color:#3d4b59">
+        <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#0b7f62">1 · whole code → single characters</div>
+        <p style="margin:0"><strong>Problem.</strong> EasyOCR and PaddleOCR read the code as one word; any unseen combination failed, about 80% and falling.</p>
+        <p style="margin:0"><strong>Fix.</strong> Read one character at a time on a custom set of 2,000+ single characters.</p>
+        <p style="margin:0"><strong>Result.</strong> 97% per character; new combinations no longer matter.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.55;color:#3d4b59">
+        <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#0b7f62">2 · reuse the tally crops</div>
+        <p style="margin:0"><strong>Idea.</strong> The counting model already boxes every board face; slice those boxes to find the stamp.</p>
+        <p style="margin:0"><strong>Result.</strong> Finds the code every time, but a single board reads at only about 50%. Not enough alone.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.55;color:#3d4b59">
+        <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#0b7f62">3 · the K anchor</div>
+        <p style="margin:0"><strong>Problem.</strong> Boards are often upside down; a flipped 2 reads as a 5, so voting across boards failed and orientation models overfit (64%).</p>
+        <p style="margin:0"><strong>Fix.</strong> Every code starts with K. Train K in all four rotations and use it to right the board before reading.</p>
+        <p style="margin:0"><strong>Result.</strong> Orientation 100%; voting across 70 righted boards gives the 100% pack read.</p>
+      </div>
+    </div>
+  </details>
+</section>
 
-<template id="tpl-slim">
-  <svg viewBox="0 0 300 150" aria-hidden="true">
-    <rect x="115" y="12" width="70" height="136" rx="12" fill="#0a0d12" stroke="#1f2a36"/>
-    <rect x="125" y="30" width="50" height="34" rx="4" fill="#1f2a36"/>
-    <rect x="125" y="72" width="50" height="17" rx="4" fill="#58e6b4" opacity=".5"/>
-    <text x="150" y="112" text-anchor="middle" fill="#58e6b4" font-family="monospace" font-size="11">-52%</text>
-    <path d="M60 75 L108 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <path d="M192 75 L240 75" stroke="#58e6b4" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <circle cx="48" cy="75" r="14" fill="none" stroke="#1f2a36" stroke-width="2"/>
-    <circle cx="252" cy="75" r="8" fill="none" stroke="#58e6b4" stroke-width="2"/>
-  </svg>
-</template>
+<!-- PROJECT 2: NeuroCam -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">02 · NeuroCam Trainer · data to deployed model</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">The tool that builds the models VisionPLC runs</h2>
+    </div>
+    <p style="margin:0;font-size:15.5px;line-height:1.65;color:#3d4b59">A PyQt6 IDE for the whole loop: capture from RTSP, auto-label with the current model, split, train YOLOv8/11 for detect, classify, OBB, segment and pose with live graphs, benchmark p50/p95/p99, export to ONNX or TensorRT. Augmentation is set per task in the training config (flip, HSV, scale, mosaic), with synthetic OCR-A fill for rare characters. Plus a full K-code OCR pipeline: stamp annotation, character split, per-character classify export. Trained models drop straight into VisionPLC.</p>
+  </div>
+  <div style="position:relative;margin-top:32px">
+    <div data-rail="" ref="{{ rail2 }}" style="display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 8px">
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#2b3240;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/d50da96f.png" alt="Char Split tab: K-stamp crop with split lines, character slices, count grid" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Char Split: 140,260 annotated stamps; auto-split, drag to correct, count grid shows what needs data.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#2b3240;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/81dc7605.png" alt="Dataset tab: 575 raw trigger captures with auto-label and split controls" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Dataset: 575 raw frames straight from VisionPLC triggers. Auto-label, review, split 80/10/10.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#2b3240;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/5405fce1.png" alt="Train tab: task selector, GPU, epochs, live accuracy graphs" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Train: one form for five YOLO tasks, Auto-Configure, live task-aware graphs.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/4bdb88ae.png" alt="Training results, 300 epochs: mAP50 0.99, mAP50-95 0.93" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">A board-detection run, 300 epochs: mAP50 0.99, mAP50-95 0.93 on the kept-aside set.</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#2b3240;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/d19a9b0a.png" alt="Benchmark tab: compare four models, p50 p95 p99 latency, FPS, VRAM" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Benchmark: four checkpoints or formats side by side before anything goes to the line.</figcaption></figure>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11.5px;color:#5b6b7c">{{ pos2 }} / 5 · scroll or drag</div>
+      <div style="display:flex;gap:8px">
+        <button sc-camel-on-click="{{ prev2 }}" aria-label="Previous" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">←</button>
+        <button sc-camel-on-click="{{ next2 }}" aria-label="Next" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">→</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script src="content.js"></script>
-<script>
-/* ============================================================
-   RENDERER. This turns content.js into the page.
-   You normally never edit below this line.
-   ============================================================ */
-(function () {
-  const S = window.SITE;
-  if (!S) { document.getElementById('content-error').hidden = false; return; }
+<!-- PROJECT 3: Daemon AI infeed -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">03 · Daemon AI platform · 9 cameras · anomaly detection</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Skew, tangle and auto-feed on the log infeed</h2>
+    </div>
+    <p style="margin:0;font-size:15.5px;line-height:1.65;color:#3d4b59">Classification models on the infeed chains at up to 120 boards a minute. <strong>Skew</strong> or <strong>Tangle</strong> stops the drive chain through the Rockwell PLC before a blockage; <strong>Normal</strong> lets it run. On the log deck a log-gap class runs the chain and a pocket-fill count drives auto feeding. Before any of it, the work was reading the existing Studio 5000 program: the tags, the drive references and the interlocks already in place, then deciding where an ML output can safely enter that logic. Cameras selected and installed, models trained, control logic written by me. Operators only monitor.</p>
+  </div>
+  <div data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;align-items:start">
+    <figure data-rv="" style="margin:0;display:flex;flex-direction:column;gap:10px">
+      <div ref="{{ cmp }}" data-nozoom="" style="position:relative;border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#1a2230;box-shadow:0 12px 30px rgba(17,24,32,.08);aspect-ratio:2/1;cursor:ew-resize;user-select:none;touch-action:none">
+        <img loading="lazy" decoding="async" src="assets/vixia/e136459b.png" alt="Infeed chain with boards square; overlay Normal 0.94" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" draggable="false">
+        <div style="position:absolute;inset:0;width:{{ cmpW }}%;overflow:hidden;border-right:2px solid #fff"><img loading="lazy" decoding="async" src="assets/vixia/b2ce9ebd.png" alt="Infeed chain with one board diagonal; overlay Skew 1.00" style="position:absolute;top:0;left:0;height:100%;width:{{ cmpImgW }}px;max-width:none;object-fit:cover" draggable="false"></div>
+        <div style="position:absolute;top:50%;left:{{ cmpW }}%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-size:13px;color:#111820;pointer-events:none">◂▸</div>
+        <span style="position:absolute;top:10px;left:10px;padding:3px 8px;border-radius:4px;background:rgba(194,106,0,.9);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;pointer-events:none">Skew 1.00 · stop</span>
+        <span style="position:absolute;top:10px;right:10px;padding:3px 8px;border-radius:4px;background:rgba(11,127,98,.9);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;pointer-events:none">Normal 0.94 · run</span>
+      </div>
+      <figcaption style="font-size:12.5px;color:#5b6b7c">Drag the divider: left, a board across the chains, Skew 1.00, stop signal to the PLC. Right, boards square, Normal 0.94, drive keeps running.</figcaption>
+    </figure>
+    <figure data-rv="" style="margin:0;display:flex;flex-direction:column;gap:10px;transition-delay:100ms"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#1a2230;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/a53c2b37.png" alt="Log deck: LogGap run 1.00, PocketFill 35, Deck2 Start, Auto Mode 1" style="width:100%;aspect-ratio:2/1;object-fit:cover"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Log deck auto feed: log-gap class runs the chain, pocket fill counted, Deck 2 starts itself. Every overlay value is a live PLC tag.</figcaption></figure>
+  </div>
+</section>
 
-  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
-  const el = (tag, cls, html) => {
-    const e = document.createElement(tag);
-    if (cls) e.className = cls;
-    if (html != null) e.innerHTML = html;
-    return e;
-  };
+<!-- ARCHITECTURE -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+    <div data-rv="" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">System architecture · one platform</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">From camera to PLC to database, owned end to end</h2>
+      <p style="margin:0;font-size:15.5px;line-height:1.65;color:#3d4b59">Cameras feed edge PCs running the models in Docker on GPU. Results go three ways at once: the Flask app for people, the Rockwell PLC for the machine, and Ignition SCADA into SQL and Power BI for the business. Every box is specified, built and maintained by me.</p>
+    </div>
+    <div data-rv="" style="transition-delay:120ms;border:1px solid #dde3ea;border-radius:8px;background:#fff;padding:20px">
+      <svg sc-camel-view-box="0 0 560 330" style="width:100%;height:auto;display:block;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace" role="img" aria-label="Architecture: cameras to edge PCs with Docker and GPU to models; Flask app, PLC control and Ignition SCADA; down to SQL and BI">
+        <g fill="none" stroke="#0b7f62" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="6 6" style="animation:flow 1.6s linear infinite">
+          <path d="M140 52 H210"></path><path d="M350 52 H400"></path>
+          <path d="M280 74 V150"></path><path d="M240 74 L110 150"></path>
+          <path d="M210 172 H140"></path><path d="M350 172 H400"></path>
+          <path d="M470 194 V270"></path>
+        </g>
+        <g fill="#f6f8fa" stroke="#c9d2dc" stroke-width="1">
+          <rect x="20" y="30" width="120" height="44" rx="4"></rect><rect x="210" y="30" width="140" height="44" rx="4" stroke="#0b7f62" stroke-opacity=".6"></rect><rect x="400" y="30" width="140" height="44" rx="4"></rect>
+          <rect x="20" y="150" width="120" height="44" rx="4"></rect><rect x="210" y="150" width="140" height="44" rx="4" stroke="#c26a00" stroke-opacity=".6"></rect><rect x="400" y="150" width="140" height="44" rx="4"></rect>
+          <rect x="400" y="270" width="140" height="44" rx="4"></rect>
+        </g>
+        <g font-size="11.5" fill="#1c2733" text-anchor="middle">
+          <text x="80" y="49">Cameras</text><text x="80" y="64" fill="#5b6b7c" font-size="10">Axis · Cognex · USB3</text>
+          <text x="280" y="49">Edge PCs</text><text x="280" y="64" fill="#5b6b7c" font-size="10">Docker + GPU</text>
+          <text x="470" y="49">Models</text><text x="470" y="64" fill="#5b6b7c" font-size="10">YOLO · Detectron2</text>
+          <text x="80" y="169">Flask app</text><text x="80" y="184" fill="#5b6b7c" font-size="10">streams + REST API</text>
+          <text x="280" y="169">PLC control</text><text x="280" y="184" fill="#5b6b7c" font-size="10">Rockwell · EtherNet/IP</text>
+          <text x="470" y="169">SCADA</text><text x="470" y="184" fill="#5b6b7c" font-size="10">Ignition</text>
+          <text x="470" y="289">SQL + BI</text><text x="470" y="304" fill="#5b6b7c" font-size="10">Power BI</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
 
-  /* a visual: "builtin:name" clones a template, anything else is an image path */
-  function visualNode(v) {
-    if (!v) return null;
-    if (v.indexOf('builtin:') === 0) {
-      const t = document.getElementById('tpl-' + v.slice(8));
-      return t ? t.content.cloneNode(true) : null;
-    }
-    const img = document.createElement('img');
-    img.src = v; img.alt = '';
-    return img;
+<!-- HOW I WORK -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" style="display:flex;flex-direction:column;gap:12px;max-width:720px;margin-bottom:28px">
+    <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">How I work</div>
+    <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Three habits, expand any of them</h2>
+  </div>
+  <div data-rv="" style="display:flex;flex-direction:column;gap:12px">
+    <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+      <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600">Imperfect data is my normal data</span><span style="font-size:14px;color:#5b6b7c;margin-left:auto;text-align:right">grain, knots, wet vs dry, pale to black</span></summary>
+      <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0"><strong>Mismatch records.</strong> Every output that disagrees with the expected value is kept for review and retraining. Residual counting misses were traced this way to edge conditions absent from training data, then closed with targeted collection.</p>
+        <p style="margin:0"><strong>Material decides the sensor.</strong> Laser misread dark and wet timber, so a feedback sensor became ultrasonic, with its slower response handled in the PLC logic.</p>
+        <p style="margin:0"><strong>Optics from first principles.</strong> FOV from working distance and target size, checked against manufacturer specs, checkerboard calibration, lighting and position tuned per install.</p>
+      </div>
+    </details>
+    <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+      <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600">Root cause, found by measurement</span><span style="font-size:14px;color:#5b6b7c;margin-left:auto;text-align:right">135 ms → 20 ms, traced to the GPU clocks</span></summary>
+      <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0">A stage-by-stage timing pipeline benchmarks preprocessing through inference, so the bottleneck is found by measurement. When two trigger cameras drifted from 40-80 ms to about 135 ms, the obvious suspect was cleared by evidence. The logs pointed at a removed always-on model that had kept the <strong>GPU memory clock pinned</strong>; idle it fell from 13,801 MHz to 405 MHz, a 34x drop, and YOLO is memory-bandwidth bound.</p>
+        <p style="margin:0">Fix: a keep-alive inference through the real model, tuned by measurement. 1/s unstable, 4/s gave <strong>18.9 ms</strong>, 10/s no further gain. 131.6 ms down to 22.1, for about 10 W.</p>
+      </div>
+    </details>
+    <details style="border:1px solid #dde3ea;border-radius:8px;background:#fff">
+      <summary style="display:flex;align-items:baseline;gap:14px;padding:16px 18px"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62;font-size:14px">▾</span><span style="font-size:16px;font-weight:600">Models earn the right to run</span><span style="font-size:14px;color:#5b6b7c;margin-left:auto;text-align:right">acceptance criteria → test set → live trial</span></summary>
+      <div data-more="" style="padding:0 18px 18px 44px;font-size:14.5px;line-height:1.65;color:#3d4b59">
+        <p style="margin:0">Acceptance criteria are set by the goal before work starts. Pilots run on small datasets; a test set is kept aside with mAP, precision and recall targets; then a live trial on the line before sign-off and an operator feedback loop into retraining. Monitoring stays on after go-live: the Data Monitoring dashboard above and the mismatch records are the continuous-iteration engine.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">Experience, line by line</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Eleven areas, all hands-on</h2>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#3d4b59">Toolset: Python, PyTorch, YOLO v8-v11, Detectron2, OpenCV, ONNX, TensorRT, Docker, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID. Master of IT (AI) in progress, GPA 6.8/7.</p>
+    </div>
+    <div data-check="" style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px;line-height:1.5">
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Manufacturing / industrial automation</strong> · three years inside a plant</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Robotics</strong> · ABB RAPID fix, downtime down 90%</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Edge AI</strong> · industrial GPU PCs; Raspberry Pi + Coral TPU in C++, transferable to Jetson</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Real-time CV</strong> · 20-35 ms driving PLC control</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Visual inspection</strong> · OCR + count, 350 packs/shift</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Defect detection</strong> · marking and count checks</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Anomaly detection</strong> · skew and tangle on the infeed</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Cameras and sensors</strong> · Axis, Cognex, ToF, USB3 Vision</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>MLOps and monitoring</strong> · benchmark, metrics, retrain loop</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>PLC and controls</strong> · Rockwell Studio 5000, EtherNet/IP, Ignition SCADA</span></div>
+      <div style="display:flex;gap:10px;align-items:baseline"><span style="color:#0b7f62;font-family:'JetBrains Mono',monospace">✓</span><span><strong>Electrical fit-out</strong> · cabinet, 24 V supply, MCBs, PoE switch, cable runs</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 4: RSNA -->
+<section data-sec="" style="padding:64px 0;border-top:1px solid #dde3ea">
+  <div data-rv="" data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#0b7f62">04 · Kaggle · RSNA 2026 Knee Abnormality Detection · research</div>
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Reading knees without labels</h2>
+    </div>
+    <p style="margin:0;font-size:15.5px;line-height:1.65;color:#3d4b59">Predict 12 knee abnormalities from MRI when only <strong>58 of 4,407 studies</strong> carry human labels. An LLM reads every radiology report (9+ languages) into a 6-state judgment with calibrated probability and quoted evidence; a second LLM pass averaged in lifts the label ceiling to 0.906. DINOv2 ViT-S over 32 slices in 3 planes, 5-fold ensemble: <strong>AUC 0.903</strong>, above its own teacher's noise. The 58 gold studies are a thermometer, never fuel.</p>
+  </div>
+  <div data-rv="" data-stats="" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#dde3ea;border:1px solid #dde3ea;border-radius:10px;overflow:hidden;margin-top:28px">
+    <div style="background:#fff;padding:16px 20px;display:flex;flex-direction:column;gap:4px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:26px;line-height:1;color:#0b7f62">0.903</div><div style="font-size:12.5px;color:#5b6b7c">AUC, 5-model ensemble on gold-58</div></div>
+    <div style="background:#fff;padding:16px 20px;display:flex;flex-direction:column;gap:4px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:26px;line-height:1;color:#0b7f62">0.906</div><div style="font-size:12.5px;color:#5b6b7c">label ceiling, two-LLM combination</div></div>
+    <div style="background:#fff;padding:16px 20px;display:flex;flex-direction:column;gap:4px"><div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:26px;line-height:1;color:#0b7f62">819k</div><div style="font-size:12.5px;color:#5b6b7c">DICOMs, custom decoder 6x faster</div></div>
+  </div>
+  <div style="position:relative;margin-top:28px">
+    <div data-rail="" ref="{{ rail3 }}" style="display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 8px">
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#000;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/fc97f2d2.png" alt="Sagittal PD knee MRI with meniscus, cruciates, effusion and recess annotated" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">The anatomy of one sagittal slice: regions behind the meniscal_tear, acl/pcl_injury and joint_effusion labels. Ptrump16 · CC BY-SA 4.0</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#000;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/16baaa31.png" alt="Sagittal PD knee MRI, synovial proliferation with nodules and fluid annotated" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">Positive extraction: synovitis → MODERATE (p=0.84), joint_effusion → MILD. State, calibrated probability, quoted evidence. Barros de Lima et al. · CC BY 4.0</figcaption></figure>
+      <figure style="margin:0;flex:0 0 min(78%,720px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px"><div style="border:1px solid #dde3ea;border-radius:8px;overflow:hidden;background:#000;box-shadow:0 12px 30px rgba(17,24,32,.08)"><img loading="lazy" decoding="async" src="assets/vixia/131c4b02.png" alt="Sagittal T1 knee MRI, a pseudotear annotated as not a tear" style="width:100%;aspect-ratio:16/9;object-fit:contain"></div><figcaption style="font-size:12.5px;color:#5b6b7c">The deliberate negative: a ligament mimicking a tear → EXPLICIT_NEGATIVE (p=0.08). Confident negatives are protected from pseudo-labelling. Hellerhoff · CC BY-SA 3.0</figcaption></figure>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <div style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11.5px;color:#5b6b7c">{{ pos3 }} / 3 · illustrative annotations on openly licensed images; competition data is under research licence</div>
+      <div style="display:flex;gap:8px">
+        <button sc-camel-on-click="{{ prev3 }}" aria-label="Previous" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">←</button>
+        <button sc-camel-on-click="{{ next3 }}" aria-label="Next" style="width:36px;height:36px;border-radius:50%;border:1px solid #c9d2dc;background:#fff;color:#111820;font-size:16px;cursor:pointer" style-hover="border-color:#0b7f62">→</button>
+      </div>
+    </div>
+  </div>
+  <details style="margin-top:24px;border:1px solid #dde3ea;border-radius:8px;background:#fff">
+    <summary style="display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:14px;font-weight:600;color:#111820"><span data-chev="" style="display:inline-block;transition:transform .3s;color:#0b7f62">▾</span><span>How the score moved, and what was rejected</span><span style="margin-left:auto;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#5b6b7c;font-weight:400">PyTorch · timm/DINOv2 · pydicom · LLM extraction · RTX 4090</span></summary>
+    <div data-more="" style="padding:4px 18px 18px 40px;display:flex;flex-direction:column;gap:12px;font-size:14.5px;line-height:1.6;color:#3d4b59">
+      <p style="margin:0;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12.5px;color:#111820">0.620 naive fine-tune → 0.799 frozen warm-up → 0.857 full labels, 392px → 0.866 multi-plane → 0.881 EMA + aug → 0.890 two-LLM labels → 0.903 ensemble</p>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
+        <li><strong>Leak-proof CV.</strong> Folds grouped by scanner fingerprint and report hash, so models learn pathology, not hospital style.</li>
+        <li><strong>Decision ledger.</strong> Every change A/B measured before adoption; cheap extraction modes, pseudo-labels round 1 and longer training were all measured and rejected.</li>
+        <li><strong>External data.</strong> Host-approved fastMRI+ validated cross-domain first: coronal scans transfer bone and effusion (AUC ~0.80) but not sagittal diagnoses, so used for pretraining only.</li>
+        <li><strong>Pipeline.</strong> Custom DICOM decoder, bit-identical and 6x faster; all 24,371 series cached in physical mm-space, full rebuild about 19 minutes.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- CLOSE -->
+<section data-sec="" data-rv="" style="padding:64px 0 32px;border-top:1px solid #dde3ea">
+  <div data-cols="" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.02em">Happy to walk through any of it, whiteboard or code.</h2>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#3d4b59">Also ship on the side: <a href="https://apps.apple.com/au/app/slim-photo-video-compress/id6778816811">Slim</a> (Swift, App Store), LoreForge (AI game-asset tool, MCP), a RAG assistant over industrial docs.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:13px;justify-content:flex-end">
+      <a href="mailto:homing.felix.ho@gmail.com" style="display:inline-flex;align-items:center;padding:12px 18px;background:#0b7f62;color:#fff;border-radius:6px;font-weight:500" style-hover="background:#0a6b53;color:#fff">homing.felix.ho@gmail.com</a>
+      
+    </div>
+  </div>
+</section>
+<sc-if value="{{ zoomOpen }}" hint-placeholder-val="{{ false }}">
+  <div sc-camel-on-click="{{ closeZoom }}" role="dialog" aria-label="Enlarged image, click to close" style="position:fixed;inset:0;z-index:50;background:rgba(17,24,32,.9);display:flex;align-items:center;justify-content:center;padding:32px;cursor:zoom-out;animation:drop .25s ease">
+    <img loading="lazy" decoding="async" src="{{ zoomSrc }}" alt="{{ zoomAlt }}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.5)">
+    <div style="position:absolute;bottom:20px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#c9d2dc">{{ zoomAlt }} · click or Esc to close</div>
+  </div>
+</sc-if>
+<footer style="padding:20px 0 40px;border-top:1px solid #dde3ea;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11.5px;color:#5b6b7c">Felix Ho · September 2026</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;countUp&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero stats&quot;}}">
+class Component extends DCLogic {
+  state = { ocr: 100, tally: 99, lo: 20, hi: 35, ch: 12, pos1: 1, pos2: 1, pos3: 1, cmpW: 50, cmpImgW: 800 };
+  rail1 = React.createRef(); rail2 = React.createRef(); rail3 = React.createRef(); cmp = React.createRef();
+  step(ref, dir, key) {
+    const r = ref.current; if (!r) return;
+    const w = r.firstElementChild ? r.firstElementChild.getBoundingClientRect().width + 16 : r.clientWidth * 0.8;
+    r.scrollBy({ left: dir * w, behavior: 'smooth' });
   }
-
-  /* ---------- hero ---------- */
-  document.getElementById('hero-tag').textContent = S.hero.tag;
-  document.getElementById('hero-title').innerHTML =
-    esc(S.hero.titleLine1) + '<br><span class="dim">' + esc(S.hero.titleLine2) + '</span>';
-  document.getElementById('hero-sub').innerHTML = md(S.hero.intro);
-
-  const cta = document.getElementById('hero-cta');
-  (S.hero.buttons || []).forEach(b => {
-    const a = el('a', 'btn ' + (b.style === 'primary' ? 'btn-primary' : 'btn-ghost'), esc(b.text));
-    a.href = b.link;
-    cta.appendChild(a);
-  });
-
-  const stats = document.getElementById('hero-stats');
-  (S.hero.stats || []).forEach(st => {
-    const d = el('div', 'stat');
-    const num = el('div', 'num');
-    if (/^\d+$/.test(st.value)) {
-      num.innerHTML = '<span data-count="' + st.value + '">0</span>' + (st.unit ? ' ' + esc(st.unit) : '');
-    } else {
-      num.textContent = st.value + (st.unit ? ' ' + st.unit : '');
-    }
-    d.appendChild(num);
-    d.appendChild(el('div', 'lbl', esc(st.label)));
-    stats.appendChild(d);
-  });
-
-  /* ---------- section intros ---------- */
-  function intro(id, data) {
-    const box = document.getElementById(id);
-    box.appendChild(el('div', 'sec-label', esc(data.label)));
-    box.appendChild(el('h2', 'sec-title', md(data.title)));
-    if (data.text) box.appendChild(el('p', 'sec-intro', md(data.text)));
+  renderVals() {
+    const s = this.state;
+    return { ...s, rail1: this.rail1, rail2: this.rail2,
+      prev1: () => this.step(this.rail1, -1), next1: () => this.step(this.rail1, 1),
+      prev2: () => this.step(this.rail2, -1), next2: () => this.step(this.rail2, 1),
+      rail3: this.rail3, prev3: () => this.step(this.rail3, -1), next3: () => this.step(this.rail3, 1),
+      cmp: this.cmp, cmpW: s.cmpW, cmpImgW: s.cmpImgW,
+      zoomOpen: !!s.zoom, zoomSrc: s.zoom ? s.zoom.src : '', zoomAlt: s.zoom ? s.zoom.alt : '', closeZoom: () => this.setState({ zoom: null }) };
   }
-  intro('case-intro', S.caseIntro);
-  intro('project-intro', S.projectIntro);
-  intro('skill-intro', S.skillIntro);
-
-  /* ---------- case studies ---------- */
-  const list = document.getElementById('case-list');
-  (S.caseStudies || []).forEach(c => {
-    const art = el('article', 'case reveal');
-    const head = el('div', 'case-head');
-    head.appendChild(el('span', 'case-num', esc(c.number)));
-    head.appendChild(el('h3', null, esc(c.title)));
-    art.appendChild(head);
-
-    const body = el('div', 'case-body');
-    const text = el('div', 'case-text');
-    (c.paragraphs || []).forEach(p => text.appendChild(el('p', null, md(p))));
-    if (c.result) text.appendChild(el('div', 'result', md(c.result)));
-    if (c.chips && c.chips.length) {
-      const ch = el('div', 'chips');
-      c.chips.forEach(x => ch.appendChild(el('span', 'chip', esc(x))));
-      text.appendChild(ch);
-    }
-    body.appendChild(text);
-
-    const vis = el('div', 'case-visual');
-    const node = visualNode(c.visual);
-    if (node) vis.appendChild(node);
-    body.appendChild(vis);
-
-    art.appendChild(body);
-    list.appendChild(art);
-  });
-
-  /* ---------- projects ---------- */
-  const grid = document.getElementById('project-grid');
-  (S.projects || []).forEach(p => {
-    const card = el('div', 'card reveal');
-    const media = visualNode(p.image);
-    if (media) {
-      const m = el('div', 'card-media');
-      m.appendChild(media);
-      card.appendChild(m);
-    }
-    const top = el('div', 'card-top');
-    const h = el('h3');
-    if (p.link) {
-      const a = el('a', null, esc(p.name));
-      a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
-      h.appendChild(a);
-    } else h.textContent = p.name;
-    top.appendChild(h);
-    if (p.badge) top.appendChild(el('span', 'badge ' + (p.badgeColor === 'orange' ? 'beta' : 'live'), esc(p.badge)));
-    card.appendChild(top);
-    card.appendChild(el('p', null, md(p.text)));
-    if (p.tags) card.appendChild(el('div', 'tag-note', esc(p.tags)));
-    grid.appendChild(card);
-  });
-
-  /* ---------- skills ---------- */
-  const sg = document.getElementById('skill-groups');
-  (S.skills || []).forEach(g => {
-    const box = el('div', 'skill-group reveal');
-    box.appendChild(el('h4', null, esc(g.group)));
-    const ch = el('div', 'chips');
-    (g.items || []).forEach(x => ch.appendChild(el('span', 'chip', esc(x))));
-    box.appendChild(ch);
-    sg.appendChild(box);
-  });
-
-  /* ---------- about ---------- */
-  const ah = document.getElementById('about-head');
-  ah.appendChild(el('div', 'sec-label', esc(S.about.label)));
-  ah.appendChild(el('h2', 'sec-title', md(S.about.title)));
-  const at = document.getElementById('about-text');
-  (S.about.paragraphs || []).forEach(p => at.appendChild(el('p', null, md(p))));
-  const ae = document.getElementById('about-edu');
-  ae.appendChild(el('h4', null, esc(S.about.educationTitle)));
-  (S.about.education || []).forEach(e2 => {
-    const it = el('div', 'edu-item');
-    it.appendChild(el('div', 't', esc(e2.title)));
-    if (e2.sub) it.appendChild(el('div', 's', esc(e2.sub)));
-    ae.appendChild(it);
-  });
-
-  /* ---------- contact + footer ---------- */
-  const cw = document.getElementById('contact-wrap');
-  cw.appendChild(el('div', 'sec-label', esc(S.contact.label)));
-  cw.appendChild(el('h2', 'sec-title', md(S.contact.title)));
-  cw.appendChild(el('p', 'sec-intro', md(S.contact.text)));
-  const cl = el('div', 'contact-links');
-  const mail = el('a', 'btn btn-primary', esc(S.contact.email));
-  mail.href = 'mailto:' + S.contact.email;
-  cl.appendChild(mail);
-  (S.contact.links || []).forEach(l => {
-    const a = el('a', 'btn btn-ghost', esc(l.text));
-    a.href = l.link;
-    cl.appendChild(a);
-  });
-  cw.appendChild(cl);
-  document.getElementById('footer-el').textContent = S.footer || '';
-
-  /* ============================================================
-     Effects: scroll reveal, nav border, counters, hero canvas
-     ============================================================ */
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-  }), { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(x => io.observe(x));
-
-  const nav = document.getElementById('nav');
-  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), { passive: true });
-
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const cio = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    cio.unobserve(e.target);
-    const t2 = e.target, target = +t2.dataset.count;
-    if (reduced) { t2.textContent = target; return; }
-    const t0 = performance.now(), dur = 1200;
-    (function tick(t) {
-      const p = Math.min((t - t0) / dur, 1);
-      t2.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-    })(t0);
-  }), { threshold: 0.6 });
-  document.querySelectorAll('[data-count]').forEach(x => cio.observe(x));
-
-  const cv = document.getElementById('vision-canvas');
-  if (cv && !reduced) {
-    const ctx = cv.getContext('2d');
-    let W, H, targets = [];
-    const LABELS = ['board 0.97', 'pack 0.94', 'board 0.91', 'stack 0.96', 'board 0.89', 'grade_A 0.93'];
-
-    function resize() {
-      W = cv.width = cv.offsetWidth * devicePixelRatio;
-      H = cv.height = cv.offsetHeight * devicePixelRatio;
-    }
-    resize(); addEventListener('resize', resize);
-
-    function spawn() {
-      const w = (60 + Math.random() * 120) * devicePixelRatio;
-      return {
-        x: -w, y: H * (0.15 + Math.random() * 0.7),
-        w, h: (26 + Math.random() * 40) * devicePixelRatio,
-        v: (0.4 + Math.random() * 0.8) * devicePixelRatio,
-        label: LABELS[Math.floor(Math.random() * LABELS.length)],
-        lock: 0
-      };
-    }
-    for (let i = 0; i < 6; i++) { const t = spawn(); t.x = Math.random() * W; targets.push(t); }
-
-    function drawBox(t) {
-      const a = 0.15 + 0.45 * t.lock;
-      ctx.strokeStyle = 'rgba(88,230,180,' + a + ')';
-      ctx.lineWidth = 1.2 * devicePixelRatio;
-      const c = 9 * devicePixelRatio, x = t.x, y = t.y, w = t.w, h = t.h;
-      ctx.beginPath();
-      [[x, y + c, x, y, x + c, y], [x + w - c, y, x + w, y, x + w, y + c],
-       [x + w, y + h - c, x + w, y + h, x + w - c, y + h], [x + c, y + h, x, y + h, x, y + h - c]]
-        .forEach(seg => { ctx.moveTo(seg[0], seg[1]); ctx.lineTo(seg[2], seg[3]); ctx.lineTo(seg[4], seg[5]); });
-      ctx.stroke();
-      if (t.lock > 0.6) {
-        ctx.fillStyle = 'rgba(88,230,180,' + a + ')';
-        ctx.font = (11 * devicePixelRatio) + "px 'JetBrains Mono',monospace";
-        ctx.fillText(t.label, x, y - 6 * devicePixelRatio);
-      }
-    }
-
-    let scan = 0;
-    function frame() {
-      ctx.clearRect(0, 0, W, H);
-      ctx.strokeStyle = 'rgba(31,42,54,.5)'; ctx.lineWidth = 1;
-      const g = 64 * devicePixelRatio;
-      for (let x = 0; x < W; x += g) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-      for (let y = 0; y < H; y += g) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-      scan = (scan + 1.2 * devicePixelRatio) % (W + 200);
-      const grad = ctx.createLinearGradient(scan - 100, 0, scan, 0);
-      grad.addColorStop(0, 'rgba(88,230,180,0)'); grad.addColorStop(1, 'rgba(88,230,180,.06)');
-      ctx.fillStyle = grad; ctx.fillRect(scan - 100, 0, 100, H);
-      targets.forEach((t, i) => {
-        t.x += t.v;
-        t.lock = Math.min(1, t.lock + 0.01);
-        if (t.x > W) targets[i] = spawn();
-        drawBox(t);
+  componentDidMount() {
+    this.rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.seen = new WeakSet();
+    const wire = () => {
+      document.querySelectorAll('[data-rv],[data-rail] figure').forEach(el => {
+        if (!el.classList.contains('visible')) { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0 && r.left < innerWidth) el.classList.add('visible'); }
       });
-      if (!document.hidden) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(frame); });
+      [[this.rail1, 'pos1'], [this.rail2, 'pos2'], [this.rail3, 'pos3']].forEach(([ref, key]) => {
+        const r = ref.current; if (!r || this.seen.has(r)) return; this.seen.add(r);
+        r.addEventListener('scroll', () => {
+          const w = r.firstElementChild.getBoundingClientRect().width + 16;
+          const p = Math.min(r.children.length, Math.round(r.scrollLeft / w) + 1);
+          if (p !== this.state[key]) this.setState({ [key]: p });
+          wire();
+        }, { passive: true });
+        let wt = 0, target = null, raf = 0;
+        const glide = () => {
+          const d = target - r.scrollLeft;
+          if (Math.abs(d) < 0.5) { r.scrollLeft = target; raf = 0; return; }
+          r.scrollLeft += d * 0.12; raf = requestAnimationFrame(glide);
+        };
+        r.addEventListener('wheel', e => {
+          if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+          e.preventDefault(); // rail owns the wheel while hovered, even at the ends
+          if (target === null) target = r.scrollLeft;
+          target = Math.max(0, Math.min(r.scrollWidth - r.clientWidth, target + e.deltaY * 1.2));
+          r.style.scrollSnapType = 'none'; r.style.scrollBehavior = 'auto';
+          if (!raf) raf = requestAnimationFrame(glide);
+          clearTimeout(wt); wt = setTimeout(() => {
+            cancelAnimationFrame(raf); raf = 0; target = null;
+            const w = r.firstElementChild.getBoundingClientRect().width + 16;
+            const left = Math.min(r.scrollWidth - r.clientWidth, Math.round(r.scrollLeft / w) * w);
+            r.style.scrollBehavior = 'smooth'; r.scrollTo({ left });
+            setTimeout(() => { r.style.scrollSnapType = ''; r.style.scrollBehavior = ''; }, 450);
+          }, 400);
+        }, { passive: false });
+        r.style.cursor = 'grab';
+        // drag to scroll
+        let x0 = 0, s0 = 0, down = false;
+        r.addEventListener('pointerdown', e => { down = true; x0 = e.clientX; s0 = r.scrollLeft; r.style.scrollSnapType = 'none'; });
+        addEventListener('pointermove', e => { if (down) r.scrollLeft = s0 - (e.clientX - x0); });
+        addEventListener('pointerup', () => { if (down) { down = false; r.style.scrollSnapType = ''; } });
+      });
+      document.querySelectorAll('figure img, header img').forEach(im => {
+        if (this.seen.has(im) || im.closest('[data-nozoom]') || im.closest('[role="dialog"]')) return;
+        this.seen.add(im); im.style.cursor = 'zoom-in';
+        im.addEventListener('click', () => this.setState({ zoom: { src: im.currentSrc || im.src, alt: im.alt } }));
+      });
+      const c = this.cmp.current;
+      if (c && !this.seen.has(c)) {
+        this.seen.add(c);
+        const size = () => { if (c.clientWidth !== this.state.cmpImgW) this.setState({ cmpImgW: c.clientWidth }); };
+        size(); new ResizeObserver(size).observe(c);
+        let dragging = false;
+        const at = e => { const b = c.getBoundingClientRect(); this.setState({ cmpW: Math.max(2, Math.min(98, (e.clientX - b.left) / b.width * 100)) }); };
+        c.addEventListener('pointerdown', e => { dragging = true; c.setPointerCapture(e.pointerId); at(e); });
+        c.addEventListener('pointermove', e => { if (dragging) at(e); });
+        c.addEventListener('pointerup', () => dragging = false); c.addEventListener('pointercancel', () => dragging = false);
+      }
+      if (!this.started) { this.started = true; if (!this.rm && (this.props.countUp ?? true)) this.countUp(); }
+    };
+    wire();
+    this.mo = new MutationObserver(wire); this.mo.observe(document.body, { childList: true, subtree: true });
+    this.poll = setInterval(wire, 400);
+    addEventListener('scroll', wire, { passive: true });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && this.state.zoom) this.setState({ zoom: null }); });
   }
-})();
+  componentWillUnmount() { this.mo && this.mo.disconnect(); clearInterval(this.poll); }
+  countUp() {
+    const t0 = performance.now(), D = 1100, ease = x => 1 - Math.pow(1 - x, 3);
+    const tick = t => {
+      const p = ease(Math.min(1, (t - t0) / D));
+      this.setState({ ocr: Math.round(100 * p), tally: Math.round(99 * p), lo: Math.round(20 * p), hi: Math.round(35 * p), ch: Math.round(12 * p) });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    setTimeout(() => requestAnimationFrame(tick), 400);
+  }
+}
 </script>
-</body>
-</html>
+
+
+</body></html>
