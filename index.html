@@ -886,6 +886,8 @@ class Component extends DCLogic {
       if (!this.started) { this.started = true; if (!this.rm && (this.props.countUp ?? true)) this.countUp(); }
     };
     wire();
+    // the runtime mounts after the browser's initial hash scroll, so redo it once the content exists
+    try { const el = location.hash && document.querySelector(location.hash); if (el) setTimeout(() => el.scrollIntoView(), 50); } catch (e) {}
     this.mo = new MutationObserver(wire); this.mo.observe(document.body, { childList: true, subtree: true });
     this.poll = setInterval(wire, 400);
     addEventListener('scroll', wire, { passive: true });
