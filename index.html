@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#turning">Motion planning</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -79,6 +79,28 @@
       <div role="listitem"><strong>20–35 <small>ms</small></strong><span>average inference, edge GPU</span></div>
       <div role="listitem"><strong>135 → 20 <small>ms</small></strong><span>GPU regression, traced and fixed</span></div>
     </div>
+
+    <section id="turning" class="section shell case turning-top" aria-labelledby="turning-heading">
+      <div class="case-head">
+        <div><p class="project-kicker"><span>NEW</span> MOTION PLANNING / TURNING OPTIMISATION</p><h3 id="turning-heading">A tighter 180° U-turn.<br> <span>Entry-to-exit gap down 25%.</span></h3><div class="tags"><span>Motion planning</span><span>Path planning</span><span>Navigation</span><span>Terrain planning</span><span>Vehicle simulation</span></div></div>
+        <p>A direct 180° U-turn, tracked at the rear-axle centre. Steering only is the baseline. Two strategies are tested against it: a 2 m swing left before the right turn, and braking the right-side wheels up to 8% at full lock. Then both together. Each run logs speed, steer angle, curvature radius and swept width.</p>
+      </div>
+      <div class="metric-row" role="list">
+        <div role="listitem"><strong>16.8 → 12.6 m</strong><span>Entry-to-exit track gap, baseline → combined</span></div>
+        <div role="listitem"><strong>8.4 → 6.3 m</strong><span>Effective turning radius</span></div>
+        <div role="listitem"><strong>25.3 → 23.5 m</strong><span>Total swept width</span></div>
+      </div>
+      <div class="turn-grid">
+        <figure class="turn-view turn-view--baseline"><video src="assets/turn/turn180-baseline.mp4" poster="assets/turn/turn180-baseline.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline, steering only"></video><figcaption><b>BASELINE · STEERING ONLY</b>Gap 16.8 m · swept width 25.3 m</figcaption></figure>
+        <figure class="turn-view turn-view--swing"><video src="assets/turn/turn180-left-swing.mp4" poster="assets/turn/turn180-left-swing.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 1, left swing first"></video><figcaption><b>1 · LEFT SWING (2 M)</b>Gap 14.7 m · swept width 25.4 m</figcaption></figure>
+        <figure class="turn-view turn-view--brake"><video src="assets/turn/turn180-right-brake.mp4" poster="assets/turn/turn180-right-brake.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 2, right-side brake"></video><figcaption><b>2 · RIGHT-SIDE BRAKE (8%)</b>Gap 14.7 m · swept width 23.3 m</figcaption></figure>
+        <figure class="turn-view turn-view--combined"><video src="assets/turn/turn180-combined.mp4" poster="assets/turn/turn180-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solutions 1 and 2 combined"></video><figcaption><b>1 + 2 COMBINED</b>Gap 12.6 m · swept width 23.5 m</figcaption></figure>
+      </div>
+      <div class="turn-final">
+        <figure class="turn-view"><a href="assets/turn/turn180-both.png" data-lightbox data-title="180° turn / all four tracks" data-caption="Rear-axle-centre tracks after the 180° turn, all four strategies overlaid, with curvature radius, gap, effective radius and swept width."><img src="assets/turn/turn180-both.png" width="1280" height="760" loading="lazy" decoding="async" alt="Overlay of four rear-axle tracks after a 180-degree turn with a results table: baseline gap 16.8 m, left swing 14.7 m, right brake 14.7 m, combined 12.6 m"></a><figcaption><b>ALL FOUR TRACKS, OVERLAID</b>Gap = distance between entry and exit tracks. Effective radius = gap / 2.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/turn/turn180-baseline-then-combined.mp4" poster="assets/turn/turn180-baseline-then-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline run, then the combined strategy on the same ground"></video><figcaption><b>BASELINE, THEN 1 + 2 COMBINED</b>Same ground, one after the other: the combined turn finishes 4.3 m tighter.</figcaption></figure>
+      </div>
+    </section>
 
     <section id="work" class="section shell" aria-labelledby="work-heading">
       <div class="section-heading"><div><p class="eyebrow">01 / SELECTED SYSTEMS</p><h2 id="work-heading">Built for the real world.</h2></div><p>Not just a model or a dashboard.<br> The complete path from measurement to operator insight.</p></div>
@@ -189,7 +211,7 @@
     </section>
 
     <section id="case-studies" class="section shell case-section" aria-labelledby="case-heading">
-      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt, a research build, CAD and turning optimisation.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt, a research build and CAD.</p></div>
 
       <article id="neurocam" class="case" aria-labelledby="neurocam-heading">
         <div class="case-head">
@@ -287,28 +309,6 @@
         <div class="cad-grid">
           <figure class="cad-view"><video src="assets/cad/trolley-view1.mp4" poster="assets/cad/trolley-view1.jpg" width="640" height="956" autoplay muted loop playsinline preload="metadata" aria-label="Scissor-lift bin trolley, view 1"></video><figcaption><b>VIEW 1</b></figcaption></figure>
           <figure class="cad-view"><video src="assets/cad/trolley-view2.mp4" poster="assets/cad/trolley-view2.jpg" width="640" height="944" autoplay muted loop playsinline preload="metadata" aria-label="Scissor-lift bin trolley, view 2, opposite angle"></video><figcaption><b>VIEW 2 · OPPOSITE ANGLE</b></figcaption></figure>
-        </div>
-      </article>
-
-      <article id="turning" class="case" aria-labelledby="turning-heading">
-        <div class="case-head">
-          <div><p class="project-kicker"><span>09</span> MOTION PLANNING / TURNING OPTIMISATION</p><h3 id="turning-heading">A tighter 180° U-turn.<br> <span>Entry-to-exit gap down 25%.</span></h3><div class="tags"><span>Motion planning</span><span>Path planning</span><span>Navigation</span><span>Terrain planning</span><span>Vehicle simulation</span></div></div>
-          <p>A direct 180° U-turn, tracked at the rear-axle centre. Steering only is the baseline. Two strategies are tested against it: a 2 m swing left before the right turn, and braking the right-side wheels up to 8% at full lock. Then both together. Each run logs speed, steer angle, curvature radius and swept width.</p>
-        </div>
-        <div class="metric-row" role="list">
-          <div role="listitem"><strong>16.8 → 12.6 m</strong><span>Entry-to-exit track gap, baseline → combined</span></div>
-          <div role="listitem"><strong>8.4 → 6.3 m</strong><span>Effective turning radius</span></div>
-          <div role="listitem"><strong>25.3 → 23.5 m</strong><span>Total swept width</span></div>
-        </div>
-        <div class="turn-grid">
-          <figure class="turn-view turn-view--baseline"><video src="assets/turn/turn180-baseline.mp4" poster="assets/turn/turn180-baseline.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline, steering only"></video><figcaption><b>BASELINE · STEERING ONLY</b>Gap 16.8 m · swept width 25.3 m</figcaption></figure>
-          <figure class="turn-view turn-view--swing"><video src="assets/turn/turn180-left-swing.mp4" poster="assets/turn/turn180-left-swing.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 1, left swing first"></video><figcaption><b>1 · LEFT SWING (2 M)</b>Gap 14.7 m · swept width 25.4 m</figcaption></figure>
-          <figure class="turn-view turn-view--brake"><video src="assets/turn/turn180-right-brake.mp4" poster="assets/turn/turn180-right-brake.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 2, right-side brake"></video><figcaption><b>2 · RIGHT-SIDE BRAKE (8%)</b>Gap 14.7 m · swept width 23.3 m</figcaption></figure>
-          <figure class="turn-view turn-view--combined"><video src="assets/turn/turn180-combined.mp4" poster="assets/turn/turn180-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solutions 1 and 2 combined"></video><figcaption><b>1 + 2 COMBINED</b>Gap 12.6 m · swept width 23.5 m</figcaption></figure>
-        </div>
-        <div class="turn-final">
-          <figure class="turn-view"><a href="assets/turn/turn180-both.png" data-lightbox data-title="180° turn / all four tracks" data-caption="Rear-axle-centre tracks after the 180° turn, all four strategies overlaid, with curvature radius, gap, effective radius and swept width."><img src="assets/turn/turn180-both.png" width="1280" height="760" loading="lazy" decoding="async" alt="Overlay of four rear-axle tracks after a 180-degree turn with a results table: baseline gap 16.8 m, left swing 14.7 m, right brake 14.7 m, combined 12.6 m"></a><figcaption><b>ALL FOUR TRACKS, OVERLAID</b>Gap = distance between entry and exit tracks. Effective radius = gap / 2.</figcaption></figure>
-          <figure class="turn-view"><video src="assets/turn/turn180-baseline-then-combined.mp4" poster="assets/turn/turn180-baseline-then-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline run, then the combined strategy on the same ground"></video><figcaption><b>BASELINE, THEN 1 + 2 COMBINED</b>Same ground, one after the other: the combined turn finishes 4.3 m tighter.</figcaption></figure>
         </div>
       </article>
 
