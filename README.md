@@ -8,7 +8,10 @@ Your site: **https://felixhorobot.github.io**
 |---|---|---|
 | `content.js` | Not used by the current page (kept as a backup of the old site). | No. |
 | `assets/` | Your pictures (screenshots, photos). | Yes, drop images in here. |
-| `index.html` | The whole page: design, animations and text, all in one file (the design built for Vixia, now the default). | No. Ask Claude for text or design changes. |
+| `index.html` | The whole portfolio: featured systems, case studies, approach, about and contact. | No. Ask Claude for text or design changes. |
+| `portfolio.css` / `portfolio.js` | Design and behaviour (image zoom, project filters, laser readings). | No. |
+| `portfolio-data.js` | The "wider work" project cards and laser sample readings. | Yes, to add a project card. |
+| `engineering.html` | Redirect only. The old engineering portfolio was merged into `index.html` (Nov 2026); old links land on the case studies. | No. |
 | `publish.cmd` | Double-click to put your edits online. | No. |
 | `README.md` | This manual. | No. |
 
@@ -19,8 +22,8 @@ What you see is exactly what the internet will see.
 
 ## Change any text
 
-`index.html` is now one self-contained file (design and text together), not
-driven by `content.js` any more. Ask Claude to make text or content changes
+Text lives in `index.html`; project cards live in `portfolio-data.js`.
+`content.js` is no longer used. Ask Claude to make text or content changes
 and publish them, the same way it built this page.
 
 ## Publish (put it online)
@@ -46,6 +49,7 @@ and follow the browser prompt. After that, publish.cmd works forever.
 
 - No phone number, no street address. Email and LinkedIn only.
 - Employer is never named. It stays "a heavy timber processing plant in Australia".
-- Exception, decided 14 Sep 2026: this page is the Vixia case-study design,
-  and it does state real numbers (100% OCR, 99% tally, exact latencies).
-  Felix chose to publish it as the public default page as-is.
+- Exception, decided 14 Sep 2026: the case studies state real numbers
+  (100% OCR, 99% tally, exact latencies). Felix chose to publish them.
+- One site, one design: everything lives at https://felixhorobot.github.io.
+  Do not add a second page with a different design; add a section to index.html.

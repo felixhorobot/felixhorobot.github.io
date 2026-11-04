@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -73,13 +73,19 @@
       </div>
     </section>
     <div class="discipline-strip"><div class="shell"><span>COMPUTER VISION</span><i aria-hidden="true">＋</i><span>LASER MEASUREMENT</span><i aria-hidden="true">＋</i><span>EDGE AI</span><i aria-hidden="true">＋</i><span>PLC & SCADA</span><i aria-hidden="true">＋</i><span>PRODUCTION SOFTWARE</span></div></div>
+    <div class="proof-strip shell" role="list" aria-label="Production results">
+      <div role="listitem"><strong>100%</strong><span>K-code OCR pack read, in production</span></div>
+      <div role="listitem"><strong>99%</strong><span>tally accuracy, 350 packs a shift</span></div>
+      <div role="listitem"><strong>20–35 <small>ms</small></strong><span>average inference, edge GPU</span></div>
+      <div role="listitem"><strong>135 → 20 <small>ms</small></strong><span>GPU regression, traced and fixed</span></div>
+    </div>
 
     <section id="work" class="section shell" aria-labelledby="work-heading">
       <div class="section-heading"><div><p class="eyebrow">01 / SELECTED SYSTEMS</p><h2 id="work-heading">Built for the real world.</h2></div><p>Not just a model or a dashboard.<br> The complete path from measurement to operator insight.</p></div>
       <article id="machine-vision" class="feature feature-platform" aria-labelledby="machine-vision-heading">
         <div class="platform-intro">
           <div class="feature-copy"><p class="project-kicker"><span>01</span> VISIONPLC / MACHINE VISION &amp; CONTROL</p><h3 id="machine-vision-heading">From camera input<br> <span>to machine action.</span></h3><p>My original machine-vision platform. VisionPLC brings camera feeds, model inference and PLC integration into one production system — not just a reporting dashboard.</p><div class="tags"><span>Python</span><span>YOLO</span><span>Edge GPU</span><span>Rockwell PLC</span></div></div>
-          <div class="platform-context"><p>I build the full path: capture and prepare images, deploy a model for each inspection task, show its output to operators and connect the result to the existing controls.</p><ul class="feature-points"><li>Multi-camera capture with detection overlays</li><li>Detection, classification, oriented boxes and segmentation</li><li>PLC triggers and result-tag integration</li><li>Camera health, mismatch records and recovery</li></ul><a class="text-link" href="engineering.html">Read the original engineering portfolio <span aria-hidden="true">↗</span></a></div>
+          <div class="platform-context"><p>I build the full path: capture and prepare images, deploy a model for each inspection task, show its output to operators and connect the result to the existing controls.</p><ul class="feature-points"><li>Multi-camera capture with detection overlays</li><li>Detection, classification, oriented boxes and segmentation</li><li>PLC triggers and result-tag integration</li><li>Camera health, mismatch records and recovery</li></ul><a class="text-link" href="#visionplc-detail">See how it is built <span aria-hidden="true">↓</span></a></div>
         </div>
         <figure class="platform-monitor" data-original-frame>
           <div class="platform-toolbar"><div><span class="platform-kicker"><i class="legend-dot cyan" aria-hidden="true"></i> VISIONPLC / ORIGINAL MONITOR</span><strong>Camera feeds. Model outputs. Operator context.</strong></div><a class="platform-expand" href="assets/vixia/eea4e265.png" data-lightbox data-title="VisionPLC / original multi-camera monitor" data-caption="Original multi-camera monitor screenshot from Felix’s portfolio. The full screenshot is retained; use Fit or pixel zoom to inspect the interface. Captured interface, not a live feed.">Expand &amp; zoom <span aria-hidden="true">↗</span></a></div>
@@ -90,7 +96,43 @@
           <figcaption><span><strong>The original system, in full view.</strong> No crop, reconstruction or dashboard substituted for the camera interface.</span><span>Original portfolio capture · not a live feed</span></figcaption>
         </figure>
         <div class="platform-workflow" aria-label="Machine-vision platform workflow"><span><b>01 / CAPTURE</b>Camera &amp; PLC trigger</span><i aria-hidden="true">→</i><span><b>02 / INFER</b>Task-specific model</span><i aria-hidden="true">→</i><span><b>03 / REVIEW</b>Overlay &amp; mismatch record</span><i aria-hidden="true">→</i><span><b>04 / INTEGRATE</b>PLC tags &amp; operator HMI</span></div>
-        <div class="platform-companion"><span><strong>NeuroCam Trainer</strong> is the companion tool for capture, labelling, training, benchmarking and model export.</span><a class="text-link" href="#projects">Explore the wider toolkit <span aria-hidden="true">↓</span></a></div>
+        <div class="platform-companion"><span><strong>NeuroCam Trainer</strong> is the companion tool for capture, labelling, training, benchmarking and model export.</span><a class="text-link" href="#neurocam">See NeuroCam Trainer <span aria-hidden="true">↓</span></a></div>
+        <div id="visionplc-detail" class="case-detail">
+          <div class="case-lead">
+            <div><p class="eyebrow">IN PRODUCTION / VISIONPLC ORCHESTRATOR</p><h4>Count every board, read every stamp, tell the PLC.</h4></div>
+            <p>A Windows platform bridging YOLO inference and Rockwell PLCs. One PLC trigger: capture, detect and count board ends, crop each one, OCR the K-code, confirm the tally against Ignition, write the result to a PLC tag. <strong>37–57 ms</strong> counting only, about <strong>250 ms</strong> with full OCR on a 70-board pack. <strong>100% OCR, 99% tally</strong> on 350 packs a shift.</p>
+          </div>
+          <ol class="pipeline" aria-label="Trigger pipeline for one camera">
+            <li><b>PLC trigger</b>Rising edge</li>
+            <li><b>Capture frame</b>RTSP · crop region</li>
+            <li><b>Count boards</b>YOLO · ROI · 37–57 ms</li>
+            <li><b>Crop + OCR</b>Per board · ~250 ms</li>
+            <li><b>Check the tally</b>Expected count from Ignition SCADA</li>
+            <li class="is-result"><b>Confirmed</b>Written to PLC tag</li>
+          </ol>
+          <div class="shot-grid shot-grid--2">
+            <figure class="shot"><a href="assets/vixia/9f459297.png" data-lightbox data-title="VisionPLC / full-frame detection" data-caption="77 board ends, every one boxed; the OCR crop comes from each box."><img src="assets/vixia/9f459297.png" width="1214" height="740" loading="lazy" decoding="async" alt="Full-frame detection: 77 board ends boxed with confidences"></a><figcaption>77 board ends, every one boxed. The OCR crop comes from each box.</figcaption></figure>
+            <figure class="shot"><a href="assets/vixia/c2045c36.png" data-lightbox data-title="VisionPLC / web dashboard" data-caption="Web dashboard: MJPEG streams, trigger history, three login tiers."><img src="assets/vixia/c2045c36.png" width="1888" height="1639" loading="lazy" decoding="async" alt="Web dashboard: camera cards with ROI, K-code reads and trigger thumbnails"></a><figcaption>Web dashboard: MJPEG streams, trigger history, three login tiers.</figcaption></figure>
+            <figure class="shot"><a href="assets/vixia/adee7617.png" data-lightbox data-title="VisionPLC / data monitoring" data-caption="Data monitoring per shift: read rate, p50/p95 latency, camera and PLC uptime."><img src="assets/vixia/adee7617.png" width="1607" height="1237" loading="lazy" decoding="async" alt="Data monitoring: shift history, packs per hour, K-code read rate, p50 and p95 latency, uptime"></a><figcaption>Data monitoring per shift: read rate, p50/p95 latency, camera and PLC uptime.</figcaption></figure>
+            <figure class="shot"><a href="assets/vixia/77c14ce8.png" data-lightbox data-title="VisionPLC / camera editor" data-caption="Camera editor: edits apply live to one camera; other models keep running."><img src="assets/vixia/77c14ce8.png" width="1280" height="860" loading="lazy" decoding="async" alt="Camera editor: source, GPU, crop region, trigger tag"></a><figcaption>Camera editor: edits apply live to one camera while other models keep running.</figcaption></figure>
+            <figure class="shot shot--wide"><a href="assets/vixia/e6739082.png" data-lightbox data-title="Ignition / operator HMI" data-caption="Operator HMI in Ignition: expected count beside detected count, green means confirmed."><img src="assets/vixia/e6739082.png" width="2732" height="681" loading="lazy" decoding="async" alt="Ignition operator panel: expected 18, detected 18, Tally Match"></a><figcaption>Operator HMI in Ignition: expected count beside detected count. Green means confirmed.</figcaption></figure>
+            <figure class="shot shot--wide"><a href="assets/vixia/89d9b134.png" data-lightbox data-title="VisionPLC / one trigger in the log" data-caption="70 boards counted, then the OCR post-process: stamp, orientation, split, classify. 252 ms for the OCR stage."><img src="assets/vixia/89d9b134.png" width="1096" height="136" loading="lazy" decoding="async" alt="Terminal log: 70 detections, K-code K7ZZ, 252 ms end to end"></a><figcaption>One trigger in the log: 70 boards counted, then the OCR post-process (stamp, orientation, split, classify). 252 ms for the OCR stage.</figcaption></figure>
+          </div>
+          <details class="case-more">
+            <summary>How it is built <span aria-hidden="true">＋</span></summary>
+            <div class="case-more-body">
+              <div class="tags"><span>Python</span><span>PySide6</span><span>YOLO v8–v11</span><span>TensorRT / ONNX</span><span>pycomm3</span><span>Flask</span><span>SQLite</span><span>Docker</span><span>GitHub CI/CD</span></div>
+              <dl class="spec-list">
+                <div><dt>Isolation</dt><dd>Capture per camera on QThreads; YOLO in its own process so CUDA never shares the GUI. Frames cross via SharedMemory, zero copy.</dd></div>
+                <div><dt>Trigger</dt><dd>Polls a PLC tag, fires on rising edge, cooldown, N-of-M temporal gating, then writes count, boolean or threshold to the output tag.</dd></div>
+                <div><dt>OCR chain</dt><dd>Stamp detection, orientation, projection-valley character split, per-character YOLO classify, vote across boards for the winner.</dd></div>
+                <div><dt>Resilience</dt><dd>RTSP reconnect, offline watchdog, SHA256 model validation, atomic config saves, GPU keep-alive, auto-start as a scheduled task. Two shifts, 20 h a day, 5 days a week.</dd></div>
+                <div><dt>Visibility</dt><dd>Trigger frames archived with 1 GB volume management, SQLite metrics, shift statistics, Flask dashboard with Normal, Permanent and Admin logins scoped per camera.</dd></div>
+                <div><dt>Engineering practice</dt><dd>CI/CD on GitHub runs automated tests and security checks, including secret scanning, on every submission. Live model swap per camera with a kept backup. The whole stack ships as one docker-compose package with ordered startup: supervisor and web interface first, then the runtime. The supervisor restarts a frozen feed or process and shows alarms on the dashboard.</dd></div>
+              </dl>
+            </div>
+          </details>
+        </div>
       </article>
 
       <article id="laser" class="feature feature-laser" aria-labelledby="laser-heading">
@@ -132,25 +174,185 @@
       </div>
 
       <article id="vision" class="feature feature-vision" aria-labelledby="vision-heading">
-        <div class="feature-copy"><p class="project-kicker"><span>03</span> TIMBER COUNTING &amp; END-FACE OCR</p><h3 id="vision-heading">Count the timber.<br> Read the code.<br> <span>Close the loop.</span></h3><p>VisionPLC detects timber end faces, counts the boards and reads their stamped K-codes. Production monitoring brings counts, OCR results and system health into one view.</p><ul class="feature-points"><li>Board-end detection and timber counting</li><li>End-face OCR with pack-level code voting</li><li>Per-camera and per-shift production metrics</li><li>Read rates, inference latency and camera / PLC uptime</li></ul><div class="tags"><span>YOLO</span><span>OCR</span><span>Python</span><span>PLC integration</span></div><a class="text-link" href="engineering.html">Read the engineering case studies <span aria-hidden="true">↗</span></a></div>
+        <div class="feature-copy"><p class="project-kicker"><span>03</span> TIMBER COUNTING &amp; END-FACE OCR</p><h3 id="vision-heading">Count the timber.<br> Read the code.<br> <span>Close the loop.</span></h3><p>VisionPLC detects timber end faces, counts the boards and reads their stamped K-codes. Production monitoring brings counts, OCR results and system health into one view.</p><ul class="feature-points"><li>Board-end detection and timber counting</li><li>End-face OCR with pack-level code voting</li><li>Per-camera and per-shift production metrics</li><li>Read rates, inference latency and camera / PLC uptime</li></ul><div class="tags"><span>YOLO</span><span>OCR</span><span>Python</span><span>PLC integration</span></div><a class="text-link" href="#ocr-pivots">How the OCR reached 100% <span aria-hidden="true">↓</span></a></div>
         <div class="feature-media vision-media"><div class="panel-top"><span><i class="legend-dot cyan"></i> VISIONPLC / DATA MONITORING</span><span class="sample-badge">SCREENSHOT</span></div><a class="zoom-image" href="timber-ocr.png" data-lightbox data-title="VisionPLC / data monitoring" data-caption="VisionPLC production-monitoring screenshot. These are captured figures, not current readings or a general OCR accuracy guarantee."><img src="timber-ocr.png" width="1615" height="1372" loading="lazy" decoding="async" alt="Expand VisionPLC monitoring screenshot: camera cards, packs per hour, K-code read rate, inference latency, uptime and shift breakdown."><span class="zoom-label">Expand dashboard <span aria-hidden="true">↗</span></span></a><p class="media-note">Production-interface screenshot. Counts and read rates belong to the captured period, not a live feed.</p></div>
       </article>
       <div class="process-strip" aria-label="Timber vision workflow"><span><b>01</b> Capture end faces</span><i aria-hidden="true">→</i><span><b>02</b> Detect & count</span><i aria-hidden="true">→</i><span><b>03</b> Read & vote</span><i aria-hidden="true">→</i><span><b>04</b> Report to PLC / HMI</span></div>
+      <details id="ocr-pivots" class="case-more case-more--standalone">
+        <summary>How the K-code OCR got to 100%: three pivots <em>80% → 97% → 100%</em> <span aria-hidden="true">＋</span></summary>
+        <div class="case-more-body pivot-grid">
+          <div><b>01 / Whole code → single characters</b><p><strong>Problem.</strong> EasyOCR and PaddleOCR read the code as one word; any unseen combination failed, about 80% and falling.</p><p><strong>Fix.</strong> Read one character at a time on a custom set of 2,000+ single characters.</p><p><strong>Result.</strong> 97% per character; new combinations no longer matter.</p></div>
+          <div><b>02 / Reuse the tally crops</b><p><strong>Idea.</strong> The counting model already boxes every board face; slice those boxes to find the stamp.</p><p><strong>Result.</strong> Finds the code every time, but a single board reads at only about 50%. Not enough alone.</p></div>
+          <div><b>03 / The K anchor</b><p><strong>Problem.</strong> Boards are often upside down; a flipped 2 reads as a 5, so voting across boards failed and orientation models overfit (64%).</p><p><strong>Fix.</strong> Every code starts with K. Train K in all four rotations and use it to right the board before reading.</p><p><strong>Result.</strong> Orientation 100%; voting across 70 righted boards gives the 100% pack read.</p></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="case-studies" class="section shell case-section" aria-labelledby="case-heading">
+      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt and a research build.</p></div>
+
+      <article id="neurocam" class="case" aria-labelledby="neurocam-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>04</span> NEUROCAM TRAINER / DATA TO DEPLOYED MODEL</p><h3 id="neurocam-heading">The tool that builds<br> <span>the models VisionPLC runs.</span></h3><div class="tags"><span>PyQt6</span><span>YOLOv8 / v11</span><span>ONNX / TensorRT</span><span>OCR pipeline</span></div></div>
+          <p>A PyQt6 IDE for the whole loop: capture from RTSP, auto-label with the current model, split, train YOLOv8/11 for detect, classify, OBB, segment and pose with live graphs, benchmark p50/p95/p99, export to ONNX or TensorRT. Augmentation is set per task in the training config (flip, HSV, scale, mosaic), with synthetic OCR-A fill for rare characters. Plus a full K-code OCR pipeline: stamp annotation, character split, per-character classify export. Trained models drop straight into VisionPLC.</p>
+        </div>
+        <div class="shot-grid shot-grid--2">
+          <figure class="shot"><a href="assets/vixia/d50da96f.png" data-lightbox data-title="NeuroCam Trainer / Char Split" data-caption="Char Split: 140,260 annotated stamps; auto-split, drag to correct, count grid shows what needs data."><img src="assets/vixia/d50da96f.png" width="1910" height="1016" loading="lazy" decoding="async" alt="Char Split tab: K-stamp crop with split lines, character slices, count grid"></a><figcaption>Char Split: 140,260 annotated stamps. Auto-split, drag to correct; the count grid shows what needs data.</figcaption></figure>
+          <figure class="shot"><a href="assets/vixia/81dc7605.png" data-lightbox data-title="NeuroCam Trainer / Dataset" data-caption="Dataset: 575 raw frames straight from VisionPLC triggers. Auto-label, review, split 80/10/10."><img src="assets/vixia/81dc7605.png" width="1300" height="875" loading="lazy" decoding="async" alt="Dataset tab: 575 raw trigger captures with auto-label and split controls"></a><figcaption>Dataset: 575 raw frames from VisionPLC triggers. Auto-label, review, split 80/10/10.</figcaption></figure>
+        </div>
+        <div class="shot-grid shot-grid--3 shot-grid--after">
+          <figure class="shot"><a href="assets/vixia/5405fce1.png" data-lightbox data-title="NeuroCam Trainer / Train" data-caption="Train: one form for five YOLO tasks, Auto-Configure, live task-aware graphs."><img src="assets/vixia/5405fce1.png" width="1191" height="874" loading="lazy" decoding="async" alt="Train tab: task selector, GPU, epochs, live accuracy graphs"></a><figcaption>Train: one form for five YOLO tasks, Auto-Configure, live task-aware graphs.</figcaption></figure>
+          <figure class="shot"><a href="assets/vixia/4bdb88ae.png" data-lightbox data-title="NeuroCam Trainer / training results" data-caption="A board-detection run, 300 epochs: mAP50 0.99, mAP50-95 0.93 on the kept-aside set."><img src="assets/vixia/4bdb88ae.png" width="2400" height="1200" loading="lazy" decoding="async" alt="Training results, 300 epochs: mAP50 0.99, mAP50-95 0.93"></a><figcaption>Board detection, 300 epochs: mAP50 0.99, mAP50-95 0.93 on the kept-aside set.</figcaption></figure>
+          <figure class="shot"><a href="assets/vixia/d19a9b0a.png" data-lightbox data-title="NeuroCam Trainer / Benchmark" data-caption="Benchmark: four checkpoints or formats side by side before anything goes to the line."><img src="assets/vixia/d19a9b0a.png" width="1290" height="879" loading="lazy" decoding="async" alt="Benchmark tab: compare four models, p50 p95 p99 latency, FPS, VRAM"></a><figcaption>Benchmark: four checkpoints or formats side by side before anything goes to the line.</figcaption></figure>
+        </div>
+      </article>
+
+      <article id="infeed" class="case" aria-labelledby="infeed-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>05</span> DAEMON AI PLATFORM / 9 CAMERAS / ANOMALY DETECTION</p><h3 id="infeed-heading">Skew, tangle and auto-feed<br> <span>on the log infeed.</span></h3><div class="tags"><span>Classification</span><span>Rockwell Studio 5000</span><span>Edge GPU</span></div></div>
+          <p>Classification models on the infeed chains at up to 120 boards a minute. Skew or Tangle stops the drive chain through the Rockwell PLC before a blockage; Normal lets it run. On the log deck a log-gap class runs the chain and a pocket-fill count drives auto feeding. Before any of it, the work was reading the existing Studio 5000 program: the tags, the drive references and the interlocks already in place, then deciding where an ML output can safely enter that logic. Cameras selected and installed, models trained, control logic written by me. Operators only monitor.</p>
+        </div>
+        <div class="compare">
+          <figure class="compare-item compare-item--stop"><a href="assets/vixia/b2ce9ebd.png" data-lightbox data-title="Infeed / Skew 1.00 · stop" data-caption="A board across the chains: Skew 1.00, stop signal to the PLC."><img src="assets/vixia/b2ce9ebd.png" width="1012" height="505" loading="lazy" decoding="async" alt="Infeed chain with one board diagonal; overlay Skew 1.00"></a><figcaption><b>SKEW 1.00 · STOP</b>A board across the chains. Stop signal to the PLC.</figcaption></figure>
+          <figure class="compare-item compare-item--run"><a href="assets/vixia/e136459b.png" data-lightbox data-title="Infeed / Normal 0.94 · run" data-caption="Boards square: Normal 0.94, the drive keeps running."><img src="assets/vixia/e136459b.png" width="1029" height="493" loading="lazy" decoding="async" alt="Infeed chain with boards square; overlay Normal 0.94"></a><figcaption><b>NORMAL 0.94 · RUN</b>Boards square. The drive keeps running.</figcaption></figure>
+          <figure class="compare-item compare-item--wide"><a href="assets/vixia/a53c2b37.png" data-lightbox data-title="Log deck / auto feed" data-caption="Log deck auto feed: log-gap class runs the chain, pocket fill counted, Deck 2 starts itself. Every overlay value is a live PLC tag."><img src="assets/vixia/a53c2b37.png" width="969" height="455" loading="lazy" decoding="async" alt="Log deck: LogGap run 1.00, PocketFill 35, Deck2 Start, Auto Mode 1"></a><figcaption><b>LOG DECK · AUTO FEED</b>The log-gap class runs the chain, pocket fill is counted and Deck 2 starts itself. Every overlay value is a live PLC tag.</figcaption></figure>
+        </div>
+      </article>
+
+      <article id="gpu" class="case" aria-labelledby="gpu-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>06</span> ROOT CAUSE ACROSS THE STACK</p><h3 id="gpu-heading">135 ms to 20 ms.<br> <span>Traced to the GPU memory clock.</span></h3><div class="tags"><span>Profiling</span><span>Log analysis</span><span>GPU power states</span></div></div>
+          <p>Production, August 2026. Two trigger-mode cameras in VisionPLC went from their usual 40–80 ms to 128–137 ms per inference. The platform average of 20–35 ms is a different measure; these two cameras only run when the PLC trigger fires.</p>
+        </div>
+        <ol class="step-cards">
+          <li><b>01 / Clear the obvious suspect</b><p>The newest change was a blur-detection feature, so it was blamed first. Two facts cleared it: the feature was switched off, and its code was newer than the process that was running slow, so that process had never loaded it.</p><p class="pull">A suspect is cleared by evidence, not by opinion.</p></li>
+          <li><b>02 / Read the logs, then the hardware</b><p>The logs showed an always-on model had been removed some time before. It had been doing two quiet jobs: feeding the health watchdog (without it the process was force-restarted every minute) and keeping the GPU busy.</p><p>Idle, the GPU dropped to power state P8 and its memory clock fell from <strong>13,801 MHz to 405 MHz</strong>, a 34× drop. YOLO inference is memory-bandwidth bound, so every trigger paid the wake-up cost.</p></li>
+          <li><b>03 / Fix by measurement</b><p>A keep-alive dummy inference inside the existing 100 ms poll loop, only when idle for more than 0.25 s. Real frames suppress it and its results are never forwarded, which keeps the watchdog honest. The dummy frame must be full size: a 160 px frame only got to 111 ms.</p></li>
+        </ol>
+        <div class="gpu-result">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Keep-alive rate against inference time">
+            <table class="data-table">
+              <thead><tr><th scope="col">Keep-alive rate</th><th scope="col">Inference</th><th scope="col">Note</th></tr></thead>
+              <tbody>
+                <tr><td>None</td><td>131.6 and 137.1 ms</td><td>The regression, one value per camera</td></tr>
+                <tr><td>1 / s</td><td>Unstable</td><td></td></tr>
+                <tr class="is-chosen"><td>4 / s</td><td>18.9 ms</td><td>Chosen</td></tr>
+                <tr><td>10 / s</td><td>No better</td><td>No gain over 4 / s</td></tr>
+                <tr><td>4 / s, 160 px frame</td><td>111 ms</td><td>The dummy frame must be full size</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Result:</strong> 131.6 → 22.1 ms and 137.1 → 19.6 ms, for about 10 W and 6% GPU. Faster than the system had ever run, because the keep-alive warms the real counting model, which the old always-on model never did.</p>
+        </div>
+      </article>
+
+      <article id="rsna" class="case" aria-labelledby="rsna-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>07</span> KAGGLE / RSNA 2026 KNEE ABNORMALITY DETECTION / RESEARCH</p><h3 id="rsna-heading">Reading knees<br> <span>without labels.</span></h3><div class="tags"><span>PyTorch</span><span>timm / DINOv2</span><span>pydicom</span><span>LLM extraction</span><span>RTX 4090</span></div></div>
+          <p>Predict 12 knee abnormalities from MRI when only 58 of 4,407 studies carry human labels. An LLM reads every radiology report (9+ languages) into a 6-state judgment with calibrated probability and quoted evidence; a second LLM pass averaged in lifts the label ceiling to 0.906. DINOv2 ViT-S over 32 slices in 3 planes, 5-fold ensemble: <strong>AUC 0.903</strong>, above its own teacher’s noise. The 58 gold studies are a thermometer, never fuel.</p>
+        </div>
+        <div class="metric-row" role="list">
+          <div role="listitem"><strong>0.903</strong><span>AUC, 5-model ensemble on gold-58</span></div>
+          <div role="listitem"><strong>0.906</strong><span>Label ceiling, two-LLM combination</span></div>
+          <div role="listitem"><strong>819k</strong><span>DICOMs, custom decoder 6× faster</span></div>
+        </div>
+        <div class="shot-grid shot-grid--3 shot-grid--square">
+          <figure class="shot"><a href="assets/vixia/fc97f2d2.png" data-lightbox data-title="Knee MRI / anatomy" data-caption="The anatomy of one sagittal slice: regions behind the meniscal_tear, acl/pcl_injury and joint_effusion labels. Image: Ptrump16, CC BY-SA 4.0."><img src="assets/vixia/fc97f2d2.png" width="902" height="895" loading="lazy" decoding="async" alt="Sagittal PD knee MRI with meniscus, cruciates, effusion and recess annotated"></a><figcaption>The anatomy of one sagittal slice: regions behind the meniscal_tear, acl/pcl_injury and joint_effusion labels. <small>Ptrump16 · CC BY-SA 4.0</small></figcaption></figure>
+          <figure class="shot"><a href="assets/vixia/16baaa31.png" data-lightbox data-title="Knee MRI / positive extraction" data-caption="Positive extraction: synovitis → MODERATE (p=0.84), joint_effusion → MILD. Image: Barros de Lima et al., CC BY 4.0."><img src="assets/vixia/16baaa31.png" width="1205" height="1229" loading="lazy" decoding="async" alt="Sagittal PD knee MRI, synovial proliferation with nodules and fluid annotated"></a><figcaption>Positive extraction: synovitis → MODERATE (p=0.84), joint_effusion → MILD. State, calibrated probability, quoted evidence. <small>Barros de Lima et al. · CC BY 4.0</small></figcaption></figure>
+          <figure class="shot"><a href="assets/vixia/131c4b02.png" data-lightbox data-title="Knee MRI / deliberate negative" data-caption="A ligament mimicking a tear → EXPLICIT_NEGATIVE (p=0.08). Image: Hellerhoff, CC BY-SA 3.0."><img src="assets/vixia/131c4b02.png" width="1110" height="1106" loading="lazy" decoding="async" alt="Sagittal T1 knee MRI, a pseudotear annotated as not a tear"></a><figcaption>The deliberate negative: a ligament mimicking a tear → EXPLICIT_NEGATIVE (p=0.08). Confident negatives are protected from pseudo-labelling. <small>Hellerhoff · CC BY-SA 3.0</small></figcaption></figure>
+        </div>
+        <p class="media-note">Illustrative annotations on openly licensed images. Competition data is under research licence and is not shown.</p>
+        <details class="case-more">
+          <summary>How the score moved, and what was rejected <span aria-hidden="true">＋</span></summary>
+          <div class="case-more-body">
+            <ol class="score-path" aria-label="AUC progression">
+              <li><b>0.620</b>Naive fine-tune</li><li><b>0.799</b>Frozen warm-up</li><li><b>0.857</b>Full labels, 392 px</li><li><b>0.866</b>Multi-plane</li><li><b>0.881</b>EMA + augmentation</li><li><b>0.890</b>Two-LLM labels</li><li class="is-result"><b>0.903</b>Ensemble</li>
+            </ol>
+            <dl class="spec-list">
+              <div><dt>3D volumes</dt><dd>Each study is a stack of MRI slices in three planes; the model reads 32 slices across the 3 planes from series cached in physical mm-space. This is classification on volumes, not 3D segmentation.</dd></div>
+              <div><dt>Leak-proof CV</dt><dd>Folds grouped by scanner fingerprint and report hash, so models learn pathology, not hospital style.</dd></div>
+              <div><dt>Decision ledger</dt><dd>Every change A/B measured before adoption; cheap extraction modes, pseudo-labels round 1 and longer training were all measured and rejected.</dd></div>
+              <div><dt>External data</dt><dd>Host-approved fastMRI+ validated cross-domain first: coronal scans transfer bone and effusion (AUC ~0.80) but not sagittal diagnoses, so used for pretraining only.</dd></div>
+              <div><dt>Pipeline</dt><dd>Custom DICOM decoder, bit-identical and 6× faster; all 24,371 series cached in physical mm-space, full rebuild about 19 minutes.</dd></div>
+            </dl>
+          </div>
+        </details>
+      </article>
+
+      <div id="architecture" class="architecture" aria-labelledby="architecture-heading">
+        <div class="arch-copy"><p class="eyebrow">SYSTEM ARCHITECTURE / ONE PLATFORM</p><h4 id="architecture-heading">From camera to PLC to database, owned end to end.</h4><p>Cameras feed edge PCs running the models in Docker on GPU. Results go three ways at once: the Flask app for people, the Rockwell PLC for the machine, and Ignition SCADA into SQL and Power BI for the business. Every box is specified, built and maintained by me.</p></div>
+        <div class="arch-flow" role="list">
+          <div class="arch-col" role="listitem"><span><b>Cameras</b>Axis · Cognex · USB3</span></div>
+          <i aria-hidden="true">→</i>
+          <div class="arch-col" role="listitem"><span><b>Edge PCs</b>Docker + GPU</span><span><b>Models</b>YOLO · Detectron2</span></div>
+          <i aria-hidden="true">→</i>
+          <div class="arch-col" role="listitem"><span><b>Flask app</b>Streams + REST API · for people</span><span><b>PLC control</b>Rockwell · EtherNet/IP · for the machine</span><span><b>SCADA → SQL + BI</b>Ignition · Power BI · for the business</span></div>
+        </div>
+      </div>
     </section>
 
     <section id="projects" class="project-section section" aria-labelledby="projects-heading"><div class="shell">
-      <div class="section-heading"><div><p class="eyebrow">02 / THE WIDER WORK</p><h2 id="projects-heading">A growing collection.</h2></div><p>Industrial tools, engineering investigations<br> and products beyond the factory.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">03 / THE WIDER WORK</p><h2 id="projects-heading">A growing collection.</h2></div><p>Industrial tools, engineering investigations<br> and products beyond the factory.</p></div>
       <div class="project-toolbar"><div id="project-filters" class="filters" role="group" aria-label="Filter projects"></div><span id="project-count" class="project-count" role="status" aria-live="polite"></span></div>
       <div id="project-grid" class="project-grid"></div>
-      <noscript><p>Browse NeuroCam Trainer, GPU performance, robotics and more in the <a href="engineering.html">complete engineering portfolio</a>.</p></noscript>
-      <div class="archive-link"><span>Looking for the deeper technical detail?</span><a class="text-link" href="engineering.html">Open the full engineering portfolio <span aria-hidden="true">↗</span></a></div>
+      <noscript><p>Projects include NeuroCam Trainer, the GPU slowdown investigation, robotic stacking recovery, LoreForge, Slim and LLM tools. See the <a href="#case-studies">case studies</a> above.</p></noscript>
+      <div class="archive-link"><span>Looking for the deeper technical detail?</span><a class="text-link" href="#case-studies">Read the case studies <span aria-hidden="true">↑</span></a></div>
     </div></section>
 
-    <section id="approach" class="section shell approach" aria-labelledby="approach-heading"><div class="approach-intro"><p class="eyebrow">03 / HOW I BUILD</p><h2 id="approach-heading">The model is<br> only one part<br> of the system.</h2><p>Good production software has to work with the material, the machines and the people on the line. That’s where my mechanical engineering background meets machine learning.</p><a class="text-link" href="engineering.html">More about the engineering <span aria-hidden="true">↗</span></a></div><div class="approach-steps"><div><span>01</span><div><h3>Start at the sensor.</h3><p>Understand the material, lighting, working distance and trigger timing before choosing a model.</p></div></div><div><span>02</span><div><h3>Build the complete loop.</h3><p>Capture, label, train and deploy. Connect results to existing PLC, SCADA and operator workflows.</p></div></div><div><span>03</span><div><h3>Design for the bad day.</h3><p>Handle invalid reads, offline cameras and unexpected inputs. Keep control interlocks separate from model confidence.</p></div></div><div><span>04</span><div><h3>Keep learning from production.</h3><p>Log mismatches, measure latency and use real failure cases to improve the next iteration.</p></div></div></div></section>
+    <section id="approach" class="section approach-section" aria-labelledby="approach-heading"><div class="shell approach"><div class="approach-intro"><p class="eyebrow">04 / HOW I BUILD</p><h2 id="approach-heading">The model is<br> only one part<br> of the system.</h2><p>Good production software has to work with the material, the machines and the people on the line. That’s where my mechanical engineering background meets machine learning.</p><a class="text-link" href="#principles">Five things I tell every plant manager <span aria-hidden="true">↓</span></a></div><div class="approach-steps"><div><span>01</span><div><h3>Start at the sensor.</h3><p>Understand the material, lighting, working distance and trigger timing before choosing a model.</p></div></div><div><span>02</span><div><h3>Build the complete loop.</h3><p>Capture, label, train and deploy. Connect results to existing PLC, SCADA and operator workflows.</p></div></div><div><span>03</span><div><h3>Design for the bad day.</h3><p>Handle invalid reads, offline cameras and unexpected inputs. Keep control interlocks separate from model confidence.</p></div></div><div><span>04</span><div><h3>Keep learning from production.</h3><p>Log mismatches, measure latency and use real failure cases to improve the next iteration.</p></div></div></div></div>
+      <div class="shell approach-more">
+        <div id="principles" class="principles">
+          <p class="eyebrow">FIVE THINGS I TELL EVERY PLANT MANAGER BEFORE WE TALK MODELS</p>
+          <div class="accordion">
+            <details><summary>I know what ML can do, and what it cannot. That decides where it goes. <span aria-hidden="true">＋</span></summary><p><strong>Example.</strong> A classifier will tell you a board is skewed with 0.94 confidence; it will not tell you why, and it will be wrong on a frame it has never seen. So on the infeed the model raises the flag, the PLC interlocks still own the stop, and every mismatch is logged for retraining. Confidence is a signal to act on, not a guarantee, and the system is designed around that.</p></details>
+            <details><summary>Machine vision: we set the rules. Machine learning: the model finds patterns humans cannot even notice. <span aria-hidden="true">＋</span></summary><p><strong>Example.</strong> With machine vision we tell the system an orange is orange in colour and round in shape, and it checks those two rules. With machine learning we only annotate: this is an orange, this is not. The model works out for itself which combinations of texture, shading, edge and colour separate them, including patterns we never wrote down.</p></details>
+            <details><summary>Dataset quality matters more than algorithm selection. <span aria-hidden="true">＋</span></summary><p><strong>Example.</strong> The residual counting misses on the pack line were not fixed by a bigger model. They were traced to edge conditions missing from the training data, then closed by collecting exactly those frames. Same YOLO, better data, 99% tally.</p></details>
+            <details><summary>A stable environment gives consistency. <span aria-hidden="true">＋</span></summary><p><strong>Example.</strong> Fixed camera position, fixed working distance, controlled lighting and a PLC trigger that fires at the same point every pack. Once the frame is the same every time, the model only has to learn the product, not the plant.</p></details>
+            <details><summary>The model is only deployed when the PLC acts on it. I do that side too. <span aria-hidden="true">＋</span></summary><p><strong>Example.</strong> Most manufacturing runs on PLCs. I write the Rockwell Studio 5000 logic that turns an inference result into a stop, alarm or setpoint, and I fit out the hardware around it: the electrical cabinet, 24 V power supply, MCBs, network switch and PoE for the cameras. For a customer that means one person commissions the camera, the model and the control loop, with no hand-off between vendors.</p></details>
+          </div>
+          <p class="eyebrow habits-title">TWO HABITS</p>
+          <div class="accordion">
+            <details><summary>Imperfect data is my normal data. <em>Grain, knots, wet vs dry, pale to black</em> <span aria-hidden="true">＋</span></summary><p><strong>Mismatch records.</strong> Every output that disagrees with the expected value is kept for review and retraining. Residual counting misses were traced this way to edge conditions absent from training data, then closed with targeted collection.</p><p><strong>Material decides the sensor.</strong> Laser misread dark and wet timber, so a feedback sensor became ultrasonic, with its slower response handled in the PLC logic.</p><p><strong>Optics from first principles.</strong> FOV from working distance and target size, checked against manufacturer specs, checkerboard calibration, lighting and position tuned per install.</p><p><strong>Signal from the sensor stream.</strong> A proximity sensor or a drive signal triggers inference, so the model only sees the frames that matter. Augmentation is set per task (flip, HSV, scale, mosaic), with synthetic OCR-A fill for rare characters.</p></details>
+            <details><summary>Models earn the right to run. <em>Acceptance criteria → test set → live trial</em> <span aria-hidden="true">＋</span></summary><p>Acceptance criteria are set by the goal before work starts. Pilots run on small datasets; a test set is kept aside with mAP, precision and recall targets; then a live trial on the line before sign-off and an operator feedback loop into retraining. Monitoring stays on after go-live: the data-monitoring dashboard and the mismatch records are the continuous-iteration engine.</p></details>
+          </div>
+        </div>
+        <div class="lifecycle">
+          <p class="eyebrow">MACHINE LEARNING LIFECYCLE / THE LOOP NEVER CLOSES</p>
+          <ol>
+            <li><b>01</b><span>Identify the customer need<small>Acceptance criteria first</small></span></li>
+            <li><b>02</b><span>Data collection<small>From the real line</small></span></li>
+            <li><b>03</b><span>Annotation<small>NeuroCam Trainer</small></span></li>
+            <li><b>04</b><span>Algorithm<small>Detect · classify · OCR</small></span></li>
+            <li><b>05</b><span>Train<small>Kept-aside test set</small></span></li>
+            <li><b>06</b><span>Deploy<small>Edge · PLC tag</small></span></li>
+            <li><b>07</b><span>Monitor<small>Read rate · latency</small></span></li>
+            <li><b>08</b><span>Fine-tune<small>Mismatch records → back to 02</small></span></li>
+          </ol>
+          <p class="lifecycle-note">Data quality over algorithm.</p>
+        </div>
+      </div>
+    </section>
 
-    <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">04 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT, alongside hands-on engineering work.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="engineering.html">Full background ↗</a></div></div></div></section>
+    <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">05 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT (GPA 6.8/7), alongside hands-on engineering work.</p><p class="toolset"><strong>Toolset:</strong> Python, PyTorch, YOLO v8–v11, Detectron2, OpenCV, ONNX, TensorRT, MLflow, Databricks, Docker and docker-compose, Git with GitHub CI/CD, Linux and Windows, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#case-studies">Case studies ↑</a></div></div></div>
+      <div class="shell experience">
+        <p class="eyebrow">EXPERIENCE, LINE BY LINE / ELEVEN AREAS, ALL HANDS-ON</p>
+        <ul class="experience-list">
+          <li><b>Manufacturing / industrial automation</b>Three years inside a plant</li>
+          <li><b>Robotics</b>ABB RAPID fix, downtime down 90%</li>
+          <li><b>Edge AI</b>Industrial GPU PCs; Raspberry Pi + Coral TPU in C++; Jetson with CUDA at trial scale</li>
+          <li><b>Real-time CV</b>20–35 ms driving PLC control</li>
+          <li><b>Visual inspection</b>OCR + count, 350 packs a shift</li>
+          <li><b>Defect detection</b>Marking and count checks, a mismatch record on every miss</li>
+          <li><b>Anomaly detection</b>Skew and tangle on the infeed, stop signal to the PLC</li>
+          <li><b>Cameras and sensors</b>Axis, Cognex, ToF, USB3 Vision</li>
+          <li><b>MLOps and monitoring</b>MLflow, Databricks, GitHub CI/CD, benchmark and retrain loop</li>
+          <li><b>PLC and controls</b>Rockwell Studio 5000, EtherNet/IP, Ignition SCADA</li>
+          <li><b>Electrical fit-out</b>Cabinet, 24 V supply, MCBs, PoE switch, cable runs</li>
+        </ul>
+      </div>
+    </section>
 
-    <section id="contact" class="section shell contact" aria-labelledby="contact-heading"><p class="eyebrow">05 / LET’S BUILD SOMETHING USEFUL</p><div class="contact-main"><h2 id="contact-heading">Real problems.<br> <span>Practical intelligence.</span></h2><div><p>Working on vision, measurement<br> or automation? Let’s talk.</p><a class="button primary" href="mailto:homing.felix.ho@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></div></div><a class="email-link" href="mailto:homing.felix.ho@gmail.com">homing.felix.ho@gmail.com</a></section>
+    <section id="contact" class="section shell contact" aria-labelledby="contact-heading"><p class="eyebrow">06 / LET’S BUILD SOMETHING USEFUL</p><div class="contact-main"><h2 id="contact-heading">Real problems.<br> <span>Practical intelligence.</span></h2><div><p>Working on vision, measurement<br> or automation? Let’s talk.</p><a class="button primary" href="mailto:homing.felix.ho@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></div></div><a class="email-link" href="mailto:homing.felix.ho@gmail.com">homing.felix.ho@gmail.com</a></section>
   </main>
   <footer class="site-footer shell"><span>© <span id="year">2026</span> Felix Ho</span><span>Built from sensor to software.</span><a href="#top">Back to top ↑</a></footer>
   <dialog id="image-dialog" aria-labelledby="dialog-title" aria-describedby="viewer-help">

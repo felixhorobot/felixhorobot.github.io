@@ -1,13 +1,13 @@
 /* Add projects here. No build tool or framework required.
    category becomes a filter automatically. href is optional; never invent a URL.
-   Full pre-redesign case studies are preserved, byte for byte, at engineering.html.
+   The case studies now live on index.html; engineering.html redirects there.
    Reference readings below are transcribed from the supplied laser monitor image.
    X = invalid; null = no sample. These are NOT live telemetry or tolerance rules. */
 window.PORTFOLIO = {
   projects: [
-    { title: 'NeuroCam Trainer', category: 'Industrial AI', icon: '⌘', description: 'The model-building companion to VisionPLC: capture, annotate, train, benchmark and export in one desktop workflow.', tags: ['PyQt6', 'YOLO', 'ONNX / TensorRT'], href: 'engineering.html' },
-    { title: 'The GPU slowdown', category: 'Engineering', icon: '↯', description: 'A production regression traced through the logs to GPU power states. Measured keep-alive inference brought one camera from 131.6 ms to 22.1 ms.', tags: ['Profiling', 'Root-cause analysis'], href: 'engineering.html#gpu' },
-    { title: 'Robotic stacking recovery', category: 'Engineering', icon: '⌁', description: 'Reverse-engineering ABB RAPID logic and matching sensor feedback to the physical behaviour of a timber stacking line.', tags: ['ABB RAPID', 'Sensors', 'Commissioning'], href: 'engineering.html' },
+    { title: 'NeuroCam Trainer', category: 'Industrial AI', icon: '⌘', description: 'The model-building companion to VisionPLC: capture, annotate, train, benchmark and export in one desktop workflow.', tags: ['PyQt6', 'YOLO', 'ONNX / TensorRT'], href: '#neurocam' },
+    { title: 'The GPU slowdown', category: 'Engineering', icon: '↯', description: 'A production regression traced through the logs to GPU power states. Measured keep-alive inference brought one camera from 131.6 ms to 22.1 ms.', tags: ['Profiling', 'Root-cause analysis'], href: '#gpu' },
+    { title: 'Robotic stacking recovery', category: 'Engineering', icon: '⌁', description: 'Reverse-engineering ABB RAPID logic and matching sensor feedback to the physical behaviour of a timber stacking line.', tags: ['ABB RAPID', 'Sensors', 'Commissioning'] },
     { title: 'LoreForge', category: 'Products & tools', icon: '◇', description: 'An AI game-asset tool with model APIs, agent tool calling and 3D generation. Built with an indie game production team using the beta.', tags: ['MCP', 'Generative AI', '3D assets'] },
     { title: 'Slim', category: 'Products & tools', icon: '↙', description: 'A native iOS app for on-device photo and video compression. No uploads, no account; original files stay under the user’s control.', tags: ['Swift', 'AVFoundation', 'iOS'], href: 'https://apps.apple.com/au/app/slim-photo-video-compress/id6778816811' },
     { title: 'Documentation assistant', category: 'Products & tools', icon: '{ }', description: 'A retrieval-augmented assistant that turns internal technical documentation into a searchable, plain-language resource for staff.', tags: ['RAG', 'SQL Server', 'LLM APIs'] },

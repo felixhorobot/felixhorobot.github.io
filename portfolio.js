@@ -35,10 +35,6 @@
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') { setOpen(false); button.focus(); }
     });
-    // The old /#gpu URL remains useful after moving the long-form portfolio.
-    function legacyAnchor() { if (window.location.hash === '#gpu') window.location.replace('engineering.html#gpu'); }
-    window.addEventListener('hashchange', legacyAnchor);
-    legacyAnchor();
   }
   function initProjects() {
     const grid = $('#project-grid');
