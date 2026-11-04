@@ -189,7 +189,7 @@
     </section>
 
     <section id="case-studies" class="section shell case-section" aria-labelledby="case-heading">
-      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt, a research build and mechanical design in CAD.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt, a research build, CAD and turning optimisation.</p></div>
 
       <article id="neurocam" class="case" aria-labelledby="neurocam-heading">
         <div class="case-head">
@@ -281,21 +281,34 @@
 
       <article id="cad" class="case" aria-labelledby="cad-heading">
         <div class="case-head">
-          <div><p class="project-kicker"><span>08</span> MECHANICAL DESIGN / 3D CAD &amp; MOTION</p><h3 id="cad-heading">A scissor-lift trolley,<br> <span>designed and animated in CAD.</span></h3><div class="tags"><span>SolidWorks</span><span>Autodesk Inventor</span><span>Assembly design</span><span>Motion study</span></div></div>
-          <p>A full 3D assembly of a mobile bin trolley: a scissor lift raises the hopper to working height, stabiliser legs slide out and a front leg extends with feet down to the floor, then the tray lock retracts and the side tray slides out. The animation runs the whole sequence and reverses it back to home, so the order of operations and the clearances are checked before anything is built.</p>
+          <div><p class="project-kicker"><span>08</span> CAD PORTFOLIO / SOLIDWORKS &amp; INVENTOR</p><h3 id="cad-heading">Scissor-lift<br> <span>bin trolley.</span></h3><div class="tags"><span>SolidWorks</span><span>Autodesk Inventor</span><span>Assembly design</span></div></div>
+          <p>A mobile bin trolley with a scissor lift, stabiliser legs and a side-sliding tray. Full 3D assembly.</p>
         </div>
         <div class="cad-grid">
-          <figure class="cad-view"><video src="assets/cad/trolley-view1.mp4" poster="assets/cad/trolley-view1.jpg" width="640" height="956" autoplay muted loop playsinline preload="metadata" aria-label="Animated CAD sequence of the trolley, front view: lift, legs out, feet down, side tray out, then reverse to home"></video><figcaption><b>VIEW 1</b>Lift to top, support legs out, front leg forward, feet down, side tray out, then the reverse sequence.</figcaption></figure>
-          <figure class="cad-view"><video src="assets/cad/trolley-view2.mp4" poster="assets/cad/trolley-view2.jpg" width="640" height="944" autoplay muted loop playsinline preload="metadata" aria-label="Animated CAD sequence of the trolley from the opposite angle"></video><figcaption><b>VIEW 2 · OPPOSITE ANGLE</b>The same sequence from the other side: the scissor linkage, outrigger legs and sliding tray.</figcaption></figure>
-          <ol class="cad-steps" aria-label="Operating sequence">
-            <li><b>01</b>Lift to top</li>
-            <li><b>02</b>Support legs slide out</li>
-            <li><b>03</b>Front leg extends forward</li>
-            <li><b>04</b>Feet down to floor</li>
-            <li><b>05</b>Tray lock retracts</li>
-            <li><b>06</b>Side tray slides out</li>
-            <li class="is-result"><b>↺</b>Reverse to home</li>
-          </ol>
+          <figure class="cad-view"><video src="assets/cad/trolley-view1.mp4" poster="assets/cad/trolley-view1.jpg" width="640" height="956" autoplay muted loop playsinline preload="metadata" aria-label="Scissor-lift bin trolley, view 1"></video><figcaption><b>VIEW 1</b></figcaption></figure>
+          <figure class="cad-view"><video src="assets/cad/trolley-view2.mp4" poster="assets/cad/trolley-view2.jpg" width="640" height="944" autoplay muted loop playsinline preload="metadata" aria-label="Scissor-lift bin trolley, view 2, opposite angle"></video><figcaption><b>VIEW 2 · OPPOSITE ANGLE</b></figcaption></figure>
+        </div>
+      </article>
+
+      <article id="turning" class="case" aria-labelledby="turning-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>09</span> MOTION PLANNING / TURNING OPTIMISATION</p><h3 id="turning-heading">A tighter 180° U-turn.<br> <span>Entry-to-exit gap down 25%.</span></h3><div class="tags"><span>Motion planning</span><span>Path planning</span><span>Navigation</span><span>Terrain planning</span><span>Vehicle simulation</span></div></div>
+          <p>A direct 180° U-turn, tracked at the rear-axle centre. Steering only is the baseline. Two strategies are tested against it: a 2 m swing left before the right turn, and braking the right-side wheels up to 8% at full lock. Then both together. Each run logs speed, steer angle, curvature radius and swept width.</p>
+        </div>
+        <div class="metric-row" role="list">
+          <div role="listitem"><strong>16.8 → 12.6 m</strong><span>Entry-to-exit track gap, baseline → combined</span></div>
+          <div role="listitem"><strong>8.4 → 6.3 m</strong><span>Effective turning radius</span></div>
+          <div role="listitem"><strong>25.3 → 23.5 m</strong><span>Total swept width</span></div>
+        </div>
+        <div class="turn-grid">
+          <figure class="turn-view turn-view--baseline"><video src="assets/turn/turn180-baseline.mp4" poster="assets/turn/turn180-baseline.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline, steering only"></video><figcaption><b>BASELINE · STEERING ONLY</b>Gap 16.8 m · swept width 25.3 m</figcaption></figure>
+          <figure class="turn-view turn-view--swing"><video src="assets/turn/turn180-left-swing.mp4" poster="assets/turn/turn180-left-swing.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 1, left swing first"></video><figcaption><b>1 · LEFT SWING (2 M)</b>Gap 14.7 m · swept width 25.4 m</figcaption></figure>
+          <figure class="turn-view turn-view--brake"><video src="assets/turn/turn180-right-brake.mp4" poster="assets/turn/turn180-right-brake.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solution 2, right-side brake"></video><figcaption><b>2 · RIGHT-SIDE BRAKE (8%)</b>Gap 14.7 m · swept width 23.3 m</figcaption></figure>
+          <figure class="turn-view turn-view--combined"><video src="assets/turn/turn180-combined.mp4" poster="assets/turn/turn180-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: solutions 1 and 2 combined"></video><figcaption><b>1 + 2 COMBINED</b>Gap 12.6 m · swept width 23.5 m</figcaption></figure>
+        </div>
+        <div class="turn-final">
+          <figure class="turn-view"><a href="assets/turn/turn180-both.png" data-lightbox data-title="180° turn / all four tracks" data-caption="Rear-axle-centre tracks after the 180° turn, all four strategies overlaid, with curvature radius, gap, effective radius and swept width."><img src="assets/turn/turn180-both.png" width="1280" height="760" loading="lazy" decoding="async" alt="Overlay of four rear-axle tracks after a 180-degree turn with a results table: baseline gap 16.8 m, left swing 14.7 m, right brake 14.7 m, combined 12.6 m"></a><figcaption><b>ALL FOUR TRACKS, OVERLAID</b>Gap = distance between entry and exit tracks. Effective radius = gap / 2.</figcaption></figure>
+          <figure class="turn-view"><video src="assets/turn/turn180-baseline-then-combined.mp4" poster="assets/turn/turn180-baseline-then-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline run, then the combined strategy on the same ground"></video><figcaption><b>BASELINE, THEN 1 + 2 COMBINED</b>Same ground, one after the other: the combined turn finishes 4.3 m tighter.</figcaption></figure>
         </div>
       </article>
 
@@ -355,7 +368,7 @@
 
     <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">05 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT (GPA 6.8/7), alongside hands-on engineering work.</p><p class="toolset"><strong>Toolset:</strong> Python, PyTorch, YOLO v8–v11, Detectron2, OpenCV, ONNX, TensorRT, MLflow, Databricks, Docker and docker-compose, Git with GitHub CI/CD, Linux and Windows, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID, SolidWorks, Autodesk Inventor.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#case-studies">Case studies ↑</a></div></div></div>
       <div class="shell experience">
-        <p class="eyebrow">EXPERIENCE, LINE BY LINE / TWELVE AREAS, ALL HANDS-ON</p>
+        <p class="eyebrow">EXPERIENCE, LINE BY LINE / THIRTEEN AREAS, ALL HANDS-ON</p>
         <ul class="experience-list">
           <li><b>Manufacturing / industrial automation</b>Three years inside a plant</li>
           <li><b>Robotics</b>ABB RAPID fix, downtime down 90%</li>
@@ -368,7 +381,8 @@
           <li><b>MLOps and monitoring</b>MLflow, Databricks, GitHub CI/CD, benchmark and retrain loop</li>
           <li><b>PLC and controls</b>Rockwell Studio 5000, EtherNet/IP, Ignition SCADA</li>
           <li><b>Electrical fit-out</b>Cabinet, 24 V supply, MCBs, PoE switch, cable runs</li>
-          <li><b>Mechanical design / CAD</b>SolidWorks and Inventor assemblies, motion studies</li>
+          <li><b>Mechanical design / CAD</b>SolidWorks and Inventor assemblies</li>
+          <li><b>Motion and path planning</b>Navigation, terrain and turning optimisation</li>
         </ul>
       </div>
     </section>
