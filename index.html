@@ -72,7 +72,7 @@
         <a href="#vision"><span class="system-number">03</span><span><strong>Timber counting &amp; OCR</strong><small>End-face codes &amp; production data</small></span><span aria-hidden="true">↗</span></a>
       </div>
     </section>
-    <div class="discipline-strip"><div class="shell"><span>COMPUTER VISION</span><i aria-hidden="true">＋</i><span>LASER MEASUREMENT</span><i aria-hidden="true">＋</i><span>EDGE AI</span><i aria-hidden="true">＋</i><span>PLC & SCADA</span><i aria-hidden="true">＋</i><span>PRODUCTION SOFTWARE</span></div></div>
+    <div class="discipline-strip"><div class="shell"><span>COMPUTER VISION</span><i aria-hidden="true">＋</i><span>LASER MEASUREMENT</span><i aria-hidden="true">＋</i><span>EDGE AI</span><i aria-hidden="true">＋</i><span>PLC & SCADA</span><i aria-hidden="true">＋</i><span>MECHANICAL CAD</span><i aria-hidden="true">＋</i><span>PRODUCTION SOFTWARE</span></div></div>
     <div class="proof-strip shell" role="list" aria-label="Production results">
       <div role="listitem"><strong>100%</strong><span>K-code OCR pack read, in production</span></div>
       <div role="listitem"><strong>99%</strong><span>tally accuracy, 350 packs a shift</span></div>
@@ -189,7 +189,7 @@
     </section>
 
     <section id="case-studies" class="section shell case-section" aria-labelledby="case-heading">
-      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt and a research build.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / CASE STUDIES</p><h2 id="case-heading">Deeper in the stack.</h2></div><p>The tooling behind the models, anomaly detection on the infeed, a root-cause hunt, a research build and mechanical design in CAD.</p></div>
 
       <article id="neurocam" class="case" aria-labelledby="neurocam-heading">
         <div class="case-head">
@@ -279,6 +279,26 @@
         </details>
       </article>
 
+      <article id="cad" class="case" aria-labelledby="cad-heading">
+        <div class="case-head">
+          <div><p class="project-kicker"><span>08</span> MECHANICAL DESIGN / 3D CAD &amp; MOTION</p><h3 id="cad-heading">A scissor-lift trolley,<br> <span>designed and animated in CAD.</span></h3><div class="tags"><span>SolidWorks</span><span>Autodesk Inventor</span><span>Assembly design</span><span>Motion study</span></div></div>
+          <p>A full 3D assembly of a mobile bin trolley: a scissor lift raises the hopper to working height, stabiliser legs slide out and a front leg extends with feet down to the floor, then the tray lock retracts and the side tray slides out. The animation runs the whole sequence and reverses it back to home, so the order of operations and the clearances are checked before anything is built.</p>
+        </div>
+        <div class="cad-grid">
+          <figure class="cad-view"><video src="assets/cad/trolley-view1.mp4" poster="assets/cad/trolley-view1.jpg" width="640" height="956" autoplay muted loop playsinline preload="metadata" aria-label="Animated CAD sequence of the trolley, front view: lift, legs out, feet down, side tray out, then reverse to home"></video><figcaption><b>VIEW 1</b>Lift to top, support legs out, front leg forward, feet down, side tray out, then the reverse sequence.</figcaption></figure>
+          <figure class="cad-view"><video src="assets/cad/trolley-view2.mp4" poster="assets/cad/trolley-view2.jpg" width="640" height="944" autoplay muted loop playsinline preload="metadata" aria-label="Animated CAD sequence of the trolley from the opposite angle"></video><figcaption><b>VIEW 2 · OPPOSITE ANGLE</b>The same sequence from the other side: the scissor linkage, outrigger legs and sliding tray.</figcaption></figure>
+          <ol class="cad-steps" aria-label="Operating sequence">
+            <li><b>01</b>Lift to top</li>
+            <li><b>02</b>Support legs slide out</li>
+            <li><b>03</b>Front leg extends forward</li>
+            <li><b>04</b>Feet down to floor</li>
+            <li><b>05</b>Tray lock retracts</li>
+            <li><b>06</b>Side tray slides out</li>
+            <li class="is-result"><b>↺</b>Reverse to home</li>
+          </ol>
+        </div>
+      </article>
+
       <div id="architecture" class="architecture" aria-labelledby="architecture-heading">
         <div class="arch-copy"><p class="eyebrow">SYSTEM ARCHITECTURE / ONE PLATFORM</p><h4 id="architecture-heading">From camera to PLC to database, owned end to end.</h4><p>Cameras feed edge PCs running the models in Docker on GPU. Results go three ways at once: the Flask app for people, the Rockwell PLC for the machine, and Ignition SCADA into SQL and Power BI for the business. Every box is specified, built and maintained by me.</p></div>
         <div class="arch-flow" role="list">
@@ -333,9 +353,9 @@
       </div>
     </section>
 
-    <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">05 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT (GPA 6.8/7), alongside hands-on engineering work.</p><p class="toolset"><strong>Toolset:</strong> Python, PyTorch, YOLO v8–v11, Detectron2, OpenCV, ONNX, TensorRT, MLflow, Databricks, Docker and docker-compose, Git with GitHub CI/CD, Linux and Windows, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#case-studies">Case studies ↑</a></div></div></div>
+    <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">05 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT (GPA 6.8/7), alongside hands-on engineering work.</p><p class="toolset"><strong>Toolset:</strong> Python, PyTorch, YOLO v8–v11, Detectron2, OpenCV, ONNX, TensorRT, MLflow, Databricks, Docker and docker-compose, Git with GitHub CI/CD, Linux and Windows, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID, SolidWorks, Autodesk Inventor.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#case-studies">Case studies ↑</a></div></div></div>
       <div class="shell experience">
-        <p class="eyebrow">EXPERIENCE, LINE BY LINE / ELEVEN AREAS, ALL HANDS-ON</p>
+        <p class="eyebrow">EXPERIENCE, LINE BY LINE / TWELVE AREAS, ALL HANDS-ON</p>
         <ul class="experience-list">
           <li><b>Manufacturing / industrial automation</b>Three years inside a plant</li>
           <li><b>Robotics</b>ABB RAPID fix, downtime down 90%</li>
@@ -348,6 +368,7 @@
           <li><b>MLOps and monitoring</b>MLflow, Databricks, GitHub CI/CD, benchmark and retrain loop</li>
           <li><b>PLC and controls</b>Rockwell Studio 5000, EtherNet/IP, Ignition SCADA</li>
           <li><b>Electrical fit-out</b>Cabinet, 24 V supply, MCBs, PoE switch, cable runs</li>
+          <li><b>Mechanical design / CAD</b>SolidWorks and Inventor assemblies, motion studies</li>
         </ul>
       </div>
     </section>
