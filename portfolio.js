@@ -205,6 +205,38 @@
       if (image.complete && !image.naturalWidth) message.hidden = false;
     });
   }
-  initNavigation(); initProjects(); initMeasurement(); initLightbox(); initOriginalImages();
+  // Videos in a [data-sync-videos] group start together and restart together,
+  // so side-by-side comparisons stay in step even when clip lengths differ slightly.
+  function initSyncedVideos() {
+    document.querySelectorAll('[data-sync-videos]').forEach(function (group) {
+      var videos = Array.prototype.slice.call(group.querySelectorAll('video'));
+      if (videos.length < 2) return;
+      var ended = 0, visible = true, running = false;
+      function ready(v) { return v.readyState >= 3; }
+      function startAll() {
+        if (running || !visible || !videos.every(ready)) return;
+        running = true; ended = 0;
+        videos.forEach(function (v) { v.pause(); v.currentTime = 0; });
+        videos.forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
+      }
+      function stopAll() { running = false; videos.forEach(function (v) { v.pause(); }); }
+      videos.forEach(function (v) {
+        v.loop = false; v.muted = true; v.autoplay = false; v.pause();
+        v.addEventListener('canplaythrough', startAll);
+        v.addEventListener('ended', function () {
+          ended += 1;
+          if (ended >= videos.length) { running = false; startAll(); }
+        });
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          visible = entries[0].isIntersecting;
+          if (visible) startAll(); else stopAll();
+        }, { threshold: 0.15 }).observe(group);
+      }
+      startAll();
+    });
+  }
+  initNavigation(); initProjects(); initMeasurement(); initLightbox(); initOriginalImages(); initSyncedVideos();
   if ($('#year')) $('#year').textContent = new Date().getFullYear();
 })();
