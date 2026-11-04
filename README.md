@@ -53,3 +53,10 @@ and follow the browser prompt. After that, publish.cmd works forever.
   (100% OCR, 99% tally, exact latencies). Felix chose to publish them.
 - One site, one design: everything lives at https://felixhorobot.github.io.
   Do not add a second page with a different design; add a section to index.html.
+
+## Cache busting
+
+`index.html` loads `portfolio.css`, `portfolio.js` and `portfolio-data.js`
+with a `?v=` date tag. When you change any of those three files, change the
+tag too, or browsers that cached the old file will show the new page with
+old styles (for example, a grid collapsing to one item per row).
