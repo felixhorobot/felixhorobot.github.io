@@ -14,9 +14,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://felixhorobot.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="portfolio.css?v=2026-11-05c">
-  <script src="portfolio-data.js?v=2026-11-05c" defer></script>
-  <script src="portfolio.js?v=2026-11-05c" defer></script>
+  <link rel="stylesheet" href="portfolio.css?v=2026-11-05d">
+  <script src="portfolio-data.js?v=2026-11-05d" defer></script>
+  <script src="portfolio.js?v=2026-11-05d" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#turning">Motion planning</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -134,6 +134,61 @@
             </dl>
           </div>
           <figure class="shot shot--wide opt-dashboard"><a href="assets/turn-opt/opt-dashboard.png" data-lightbox data-title="Optimal control dashboard, all strategies" data-caption="Tracks, gap against time budget, steer angle, right-side brake and speed profiles, and the full results table."><img src="assets/turn-opt/opt-dashboard.png" width="1440" height="990" loading="lazy" decoding="async" alt="Dashboard: optimised tracks, gap against time budget curve, steer angle, brake and speed profiles, results table"></a><figcaption>Gap against time budget: give the optimiser more time and the gap keeps falling, to about 10.8 m at 30 s. Steer, brake and speed profiles for hand 1 + 2, optimised 1 + 2 and min-time.</figcaption></figure>
+        </div>
+      </details>
+    </section>
+
+    <section id="terrain" class="section shell case terrain-top" aria-labelledby="terrain-heading">
+      <div class="case-head">
+        <div><p class="project-kicker"><span>NEW</span> TERRAIN PLANNING / HYBRID A* ON REAL LIDAR</p><h3 id="terrain-heading">Haul-truck routes on real mine terrain,<br> <span>planned to a grade limit.</span></h3><div class="tags"><span>Terrain planning</span><span>Path planning</span><span>Hybrid A*</span><span>Navigation</span><span>LiDAR DEM</span><span>numba</span></div></div>
+        <div class="case-copy">
+          <p>Terrain-aware Hybrid A* on a QldDem LiDAR surface of a Mt Isa mine site. Same start (pit-side pad, 377 m) and same goal (upper pad, 409 m), three trucks: <strong>empty 165 t at ≤ 15% grade, loaded 390 t at ≤ 10% and loaded at ≤ 8%</strong>. The tighter the grade limit, the longer the route the planner has to find.</p>
+          <p>The truck is Cat 793-class: 1,450 kW at the wheels, 2,000 kW retarder, 2.5% rolling resistance, 40 km/h cap, 8.3 m minimum turning radius, lateral acceleration ≤ 1.0 m/s². Grade and cross slope come from the chassis plane through the four tyre contacts, with an 8% cross-slope limit.</p>
+        </div>
+      </div>
+      <div class="metric-row metric-row--4" role="list">
+        <div role="listitem"><strong>0</strong><span>No-go terrain hits, all three routes</span></div>
+        <div role="listitem"><strong>278 → 239 s</strong><span>Loaded route after exact A* (−14%)</span></div>
+        <div role="listitem"><strong>~10 min → 16 s</strong><span>Planning, 3 scenarios in parallel (~35× per scenario)</span></div>
+        <div role="listitem"><strong>3.7% → 0.5%</strong><span>Worst gap to the best route found, after a 162-run sweep</span></div>
+      </div>
+
+      <div class="terrain-main">
+        <figure class="terrain-view"><video src="assets/terrain/terrain-same-start-goal.mp4" poster="assets/terrain/terrain-same-start-goal.jpg" width="920" height="640" autoplay muted loop playsinline preload="metadata" aria-label="Three trucks drive from the same start to the same goal on LiDAR terrain, each under a different grade limit"></video><figcaption><b>SAME START, SAME GOAL · CLOCK ×30</b>Empty ≤ 15%: 1.45 km, 2.7 min. Loaded ≤ 10%: 1.50 km, 4.0 min. Loaded ≤ 8%: 1.76 km, 4.5 min. Red tint = no-go terrain.</figcaption></figure>
+        <figure class="terrain-view"><a href="assets/terrain/terrain-overview.jpg" data-lightbox data-title="Terrain-aware Hybrid A*: grade limit 15 / 10 / 8%" data-caption="Routes, elevation and grade profiles for the three scenarios, with the results table. DEM: Queensland Government QldDem LiDAR (© State of Queensland)."><img src="assets/terrain/terrain-overview.jpg" width="1530" height="1020" loading="lazy" decoding="async" alt="Three routes on the terrain map with elevation and grade profiles; each route stays under its grade limit"></a><figcaption><b>ROUTES, ELEVATION AND GRADE</b>Each grade trace stays under its own limit line. The ≤ 8% truck takes the long way round to spread the 32 m climb.</figcaption></figure>
+      </div>
+
+      <div class="table-wrap terrain-table" tabindex="0" role="region" aria-label="Terrain planning results per scenario">
+        <table class="data-table">
+          <thead><tr><th scope="col">Scenario</th><th scope="col">Distance</th><th scope="col">Time</th><th scope="col">Mean speed</th><th scope="col">Max grade up</th><th scope="col">Max grade down</th><th scope="col">Max cross</th><th scope="col">Climb</th><th scope="col">No-go hits</th><th scope="col">Plan time</th></tr></thead>
+          <tbody>
+            <tr><td>Empty 165 t, ≤ 15%</td><td>1.45 km</td><td>2.7 min</td><td>32.5 km/h</td><td>14.7%</td><td>14.2%</td><td>7.7%</td><td>43 m</td><td>0</td><td>16 s</td></tr>
+            <tr><td>Loaded 390 t, ≤ 10%</td><td>1.50 km</td><td>4.0 min</td><td>22.7 km/h</td><td>10.0%</td><td>7.7%</td><td>6.8%</td><td>41 m</td><td>0</td><td>12 s</td></tr>
+            <tr><td>Loaded 390 t, ≤ 8%</td><td>1.76 km</td><td>4.5 min</td><td>23.6 km/h</td><td>7.9%</td><td>7.7%</td><td>5.5%</td><td>44 m</td><td>0</td><td>9 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="turn-row-label">WHAT I CHANGED, AND WHAT IT BOUGHT</p>
+      <ol class="step-cards step-cards--6">
+        <li><b>01 / Data source</b><p>GA ELVIS has no coverage of the mine site, so the surface comes from QldDem LiDAR instead.</p></li>
+        <li><b>02 / Goal and heuristic</b><p>The original goal could not be reached at all under a strict 10% limit. The heuristic now respects the grade limit, so an unreachable goal is known at the start, not after a 20-minute search.</p></li>
+        <li><b>03 / Weighted → exact A*</b><p>eps 2 → eps 1. The loaded route went from <strong>278 s to 239 s (14% faster)</strong>, and the weighted search’s “big detour” turned out to be an artefact.</p></li>
+        <li><b>04 / Compiled expand</b><p>The node expansion compiled with numba: <strong>215 µs → 33 µs</strong> per expand, with identical results.</p></li>
+        <li><b>05 / Compiled search loop</b><p>The whole search loop in numba: about <strong>35× faster</strong> per scenario. Three scenarios in parallel: about 10 minutes → about 16 seconds.</p></li>
+        <li><b>06 / Parameter sweep</b><p>162 runs on 6 cores picked an 8 m motion primitive over 6 m. Worst gap to the best route found: <strong>3.7% → 0.5%</strong>; the empty route is 6 s faster.</p></li>
+      </ol>
+
+      <div class="terrain-pair">
+        <figure class="terrain-view"><video src="assets/terrain/terrain-eps2-vs-eps1.mp4" poster="assets/terrain/terrain-eps2-vs-eps1.jpg" width="902" height="640" autoplay muted loop playsinline preload="metadata" aria-label="Loaded truck, weighted A star eps 2 against exact A star eps 1"></video><figcaption><b>LOADED ≤ 10% · WEIGHTED eps 2 vs EXACT eps 1</b>1.76 km, 4.6 min → 1.51 km, 4.0 min.</figcaption></figure>
+        <figure class="terrain-view"><video src="assets/terrain/terrain-6m-vs-8m.mp4" poster="assets/terrain/terrain-6m-vs-8m.jpg" width="978" height="640" autoplay muted loop playsinline preload="metadata" aria-label="Empty truck, 6 metre step against 8 metre step"></video><figcaption><b>EMPTY ≤ 15% · 6 m STEP vs 8 m STEP</b>1.48 km, 2.8 min → 1.45 km, 2.7 min.</figcaption></figure>
+      </div>
+
+      <details class="case-more">
+        <summary>Before / after optimisation, in one chart <span aria-hidden="true">＋</span></summary>
+        <div class="case-more-body">
+          <figure class="shot shot--wide opt-dashboard"><a href="assets/terrain/terrain-before-after.jpg" data-lightbox data-title="Terrain-aware Hybrid A*: before / after optimisation" data-caption="(a) weighted vs exact A*, (b) 6 m vs 8 m primitive, (c) planning time per scenario, (d) quality from the parameter sweep."><img src="assets/terrain/terrain-before-after.jpg" width="1620" height="1170" loading="lazy" decoding="async" alt="Four panels: weighted versus exact search routes, 6 m versus 8 m step routes, planning time bars from 579 s down to 16 s, and route quality from 3.7% down to 0.5%"></a><figcaption>(a) Weighted vs exact search. (b) 6 m vs 8 m primitive. (c) Planning time per scenario on one core: Python + numpy 579 s → numba search with 8 m step 16 s (empty). (d) Travel time above the best route in the sweep.</figcaption></figure>
+          <p class="media-note">DEM: Queensland Government QldDem LiDAR (© State of Queensland), Mt Isa, GDA94 / MGA zone 54. Truck icon drawn 4× actual size. Personal project in simulation.</p>
         </div>
       </details>
     </section>
@@ -404,7 +459,7 @@
 
     <section id="about" class="about-section"><div class="shell about-inner"><div><p class="eyebrow">05 / THE ENGINEER</p><h2>Mechanical roots.<br> <span>Machine intelligence.</span></h2></div><div class="about-copy"><p>I’m Felix Ho, a mechanical engineer who moved into AI by building systems a production line actually needed. My work spans computer vision, edge deployment, sensor integration and the PLC logic that connects software to physical equipment.</p><p>I also build software products and LLM tools. I’m completing a Master of IT in Artificial Intelligence at QUT (GPA 6.8/7), alongside hands-on engineering work.</p><p class="toolset"><strong>Toolset:</strong> Python, PyTorch, YOLO v8–v11, Detectron2, OpenCV, ONNX, TensorRT, MLflow, Databricks, Docker and docker-compose, Git with GitHub CI/CD, Linux and Windows, Flask, SQL, Rockwell Studio 5000, Ignition SCADA, ABB RAPID, SolidWorks, Autodesk Inventor.</p><div class="about-links"><a href="https://linkedin.com/in/homingho" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/felixhorobot" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#case-studies">Case studies ↑</a></div></div></div>
       <div class="shell experience">
-        <p class="eyebrow">EXPERIENCE, LINE BY LINE / THIRTEEN AREAS, ALL HANDS-ON</p>
+        <p class="eyebrow">EXPERIENCE, LINE BY LINE / FOURTEEN AREAS, ALL HANDS-ON</p>
         <ul class="experience-list">
           <li><b>Manufacturing / industrial automation</b>Three years inside a plant</li>
           <li><b>Robotics</b>ABB RAPID fix, downtime down 90%</li>
@@ -419,6 +474,7 @@
           <li><b>Electrical fit-out</b>Cabinet, 24 V supply, MCBs, PoE switch, cable runs</li>
           <li><b>Mechanical design / CAD</b>SolidWorks and Inventor assemblies</li>
           <li><b>Motion planning and optimal control</b>CasADi + IPOPT trajectory optimisation, vehicle kinematics</li>
+          <li><b>Terrain and path planning</b>Hybrid A* on LiDAR DEM, grade and cross-slope limits</li>
         </ul>
       </div>
     </section>

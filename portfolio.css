@@ -589,3 +589,17 @@
 .opt-dashboard img{background:#fff}
 @media (max-width:1100px){.metric-row--4{grid-template-columns:1fr 1fr}.opt-results{grid-template-columns:1fr}}
 @media (max-width:600px){.metric-row--4{grid-template-columns:1fr}}
+
+/* Terrain planning section */
+.terrain-top{padding-top:24px;border-top:1px solid var(--line)}
+.terrain-view{margin:0;min-width:0}
+.terrain-view video,.terrain-view img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#1b1d22}
+.terrain-view img{background:#fff}
+.terrain-view figcaption{font-size:11px;line-height:1.6;color:var(--muted);margin-top:9px}
+.terrain-view figcaption b{display:block;font:600 9px/1.6 var(--mono);letter-spacing:.6px;color:var(--ink)}
+.terrain-main{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}
+.terrain-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.terrain-table{margin:24px 0 36px}
+.step-cards--6{grid-template-columns:repeat(3,1fr)}
+@media (max-width:850px){.terrain-main{grid-template-columns:1fr}.step-cards--6{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.terrain-pair,.step-cards--6{grid-template-columns:1fr}}
