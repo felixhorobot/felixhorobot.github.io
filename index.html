@@ -14,9 +14,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://felixhorobot.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="portfolio.css?v=2026-11-05e">
-  <script src="portfolio-data.js?v=2026-11-05e" defer></script>
-  <script src="portfolio.js?v=2026-11-05e" defer></script>
+  <link rel="stylesheet" href="portfolio.css?v=2026-11-05f">
+  <script src="portfolio-data.js?v=2026-11-05f" defer></script>
+  <script src="portfolio.js?v=2026-11-05f" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -208,17 +208,18 @@
         <div role="listitem"><strong>0.14 ms</strong><span>p99 policy inference in C++ (budget 5 ms at 50 Hz)</span></div>
       </div>
 
+      <div class="ahs-view" role="group" aria-label="Clip view"><button type="button" aria-pressed="true" data-view="3d">3D · Gazebo + RViz</button><button type="button" aria-pressed="false" data-view="2d">2D · top-down replay</button></div>
       <p class="turn-row-label">BEFORE · FOUR FAILURES, EACH REPLAYED WITH THE OLD SETTING</p>
       <div class="turn-grid ahs-fails">
-        <figure class="turn-view"><video src="assets/ahs/fail-1-boulder.mp4" poster="assets/ahs/fail-1-boulder.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 1: the truck drives into a boulder on the ramp that never entered the costmap"></video><figcaption><b>1 · HITS A BOULDER</b>The costmap’s 2 m height limit (world frame) drops every point on the ramp. The lidar sees the boulder at 30 m, but it never reaches the costmap.</figcaption></figure>
-        <figure class="turn-view"><video src="assets/ahs/fail-2-safety.mp4" poster="assets/ahs/fail-2-safety.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 2: same bug with the safety layer on, the truck still touches the boulder"></video><figcaption><b>2 · SAFETY LAYER ON, STILL TOUCHES</b>Same bug with the collision monitor on. The plan still drives through the boulder, and the truck touches it at 0.5 m/s.</figcaption></figure>
-        <figure class="turn-view"><video src="assets/ahs/fail-3-berm.mp4" poster="assets/ahs/fail-3-berm.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 3: the swerve around a boulder grazes the road berm"></video><figcaption><b>3 · GRAZES THE BERM</b>The planner kept a 1.5 m buffer around boulders but only 0.3 m from the berm, so the swerve squeezed the truck into the berm.</figcaption></figure>
-        <figure class="turn-view"><video src="assets/ahs/fail-4-parking.mp4" poster="assets/ahs/fail-4-parking.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 4: the truck cannot satisfy the yaw tolerance and recovery pushes it into the bay wall"></video><figcaption><b>4 · PARKING FAILS</b>Nav2’s 0.04 rad yaw tolerance is tighter than an Ackermann reverse can finish, so the recovery manoeuvre pushes the truck into the bay wall (3.2 m, 42° off).</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-1-boulder-3d.mp4" poster="assets/ahs/fail-1-boulder-3d.jpg" data-src3d="assets/ahs/fail-1-boulder-3d.mp4" data-src2d="assets/ahs/fail-1-boulder.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Failure 1: the truck drives into a boulder on the ramp that never entered the costmap"></video><figcaption><b>1 · HITS A BOULDER</b>The costmap’s 2 m height limit (world frame) drops every point on the ramp. The lidar sees the boulder at 30 m, but it never reaches the costmap.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-2-safety-3d.mp4" poster="assets/ahs/fail-2-safety-3d.jpg" data-src3d="assets/ahs/fail-2-safety-3d.mp4" data-src2d="assets/ahs/fail-2-safety.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Failure 2: same bug with the safety layer on, the truck still touches the boulder"></video><figcaption><b>2 · SAFETY LAYER ON, STILL TOUCHES</b>Same bug with the collision monitor on. The plan still drives through the boulder, and the truck touches it at 0.5 m/s.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-3-berm-3d.mp4" poster="assets/ahs/fail-3-berm-3d.jpg" data-src3d="assets/ahs/fail-3-berm-3d.mp4" data-src2d="assets/ahs/fail-3-berm.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Failure 3: the swerve around a boulder grazes the road berm"></video><figcaption><b>3 · GRAZES THE BERM</b>The planner kept a 1.5 m buffer around boulders but only 0.3 m from the berm, so the swerve squeezed the truck into the berm. In the 3D run it then gets stuck there.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-4-parking-3d.mp4" poster="assets/ahs/fail-4-parking-3d.jpg" data-src3d="assets/ahs/fail-4-parking-3d.mp4" data-src2d="assets/ahs/fail-4-parking.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Failure 4: the truck cannot satisfy the yaw tolerance and recovery pushes it into the bay wall"></video><figcaption><b>4 · PARKING FAILS</b>Nav2’s 0.04 rad yaw tolerance is tighter than an Ackermann reverse can finish, so the recovery manoeuvre pushes the truck into the bay wall (3.2 m, 42° off).</figcaption></figure>
       </div>
 
-      <p class="turn-row-label ahs-after-label">AFTER · ALL FIXES, SAME SEED AS CLIP 3</p>
+      <p class="turn-row-label ahs-after-label">AFTER · ALL FIXES</p>
       <div class="ahs-after">
-        <figure class="turn-view"><div class="ahs-tick-wrap"><video src="assets/ahs/after-all-fixes.mp4" poster="assets/ahs/after-all-fixes.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="After all fixes: the truck avoids both boulders and the light vehicle, then parks in the bay with no contact"></video><span class="ahs-tick" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 25l8 8 16-17"/></svg></span></div><figcaption><b>RL RESIDUAL + SAFETY LAYER · 0 CONTACTS</b>Avoids both boulders and the light vehicle, then reverses into the bay: 0.09 m / 2.8° from the goal.</figcaption></figure>
+        <figure class="turn-view"><div class="ahs-tick-wrap"><video src="assets/ahs/after-all-fixes-3d.mp4" poster="assets/ahs/after-all-fixes-3d.jpg" data-src3d="assets/ahs/after-all-fixes-3d.mp4" data-src2d="assets/ahs/after-all-fixes.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="After all fixes: the truck avoids both boulders and the light vehicle, then parks in the bay with no contact"></video><span class="ahs-tick" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 25l8 8 16-17"/></svg></span></div><figcaption><b>RL RESIDUAL + SAFETY LAYER · 0 CONTACTS</b>Avoids both boulders and the light vehicle, then reverses into the bay, 0.09 m from the goal.</figcaption></figure>
       </div>
 
       <p class="turn-row-label">WHAT I CHANGED, AND WHAT IT BOUGHT</p>
@@ -230,8 +231,25 @@
         <li><b>05 / Residual RL</b><p>PPO learns a bounded correction on top of Pure Pursuit. It runs as ONNX in a C++ Nav2 plugin, at <strong>0.06 ms p50 and 0.14 ms p99</strong>. Missions are <strong>14% faster</strong> (155 s vs 181 s), still with 0 collisions.</p></li>
         <li><b>06 / Hybrid A* plugin</b><p>The planner is curvature-limited to the Ackermann turn. Planning takes <strong>11 ms median and 20 ms p95</strong> on the mine map, and every smoothed segment stays within the steering limit.</p></li>
       </ol>
-      <p class="media-note">Personal project in simulation: ROS 2 Jazzy and Gazebo Harmonic in WSL2, run headless at twice real time for evaluation. The clips are replayed from rosbags at ×10, and ×80 while the truck stands still. Same seeds for every configuration.</p>
+      <p class="media-note">Personal project in simulation: ROS 2 Jazzy and Gazebo Harmonic in WSL2, run headless at twice real time for evaluation. 3D clips are window captures of Gazebo and RViz during the run (×4–11). 2D clips are replayed from rosbags at ×10, and ×80 while the truck stands still. Runs are not deterministic, so the 3D and 2D clips of a case can come from different seeds. Same seeds for every configuration.</p>
     </section>
+    <script>
+      (function () {   // 3D (default) / 2D clip switch for the autonomy section
+        var btns = document.querySelectorAll('#autonomy .ahs-view button');
+        btns.forEach(function (b) {
+          b.addEventListener('click', function () {
+            var v = b.getAttribute('data-view');
+            btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+            document.querySelectorAll('#autonomy video[data-src2d]').forEach(function (el) {
+              var src = el.getAttribute(v === '2d' ? 'data-src2d' : 'data-src3d');
+              if (el.getAttribute('src') === src) return;
+              el.poster = src.replace('.mp4', '.jpg'); el.src = src;
+              var r = el.play(); if (r && r.catch) r.catch(function () {});
+            });
+          });
+        });
+      })();
+    </script>
 
     <section id="work" class="section shell" aria-labelledby="work-heading">
       <div class="section-heading"><div><p class="eyebrow">01 / SELECTED SYSTEMS</p><h2 id="work-heading">Built for the real world.</h2></div><p>Not just a model or a dashboard.<br> The complete path from measurement to operator insight.</p></div>

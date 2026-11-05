@@ -614,3 +614,7 @@
 .ahs-tick svg{width:58px;height:58px;fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
 .ahs-after figcaption{font-size:12px}
 @media (max-width:600px){.ahs-tick{width:60px;height:60px;top:-12px;right:-8px;border-width:3px}.ahs-tick svg{width:36px;height:36px}}
+.ahs-view{display:inline-flex;gap:0;margin:0 0 14px;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--white,#fff)}
+.ahs-view button{font:600 10px/1 var(--mono);letter-spacing:.6px;text-transform:uppercase;border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:999px;cursor:pointer}
+.ahs-view button[aria-pressed="true"]{background:var(--ink,#111);color:#fff}
+.ahs-view button:focus-visible{outline:2px solid #22c55e;outline-offset:2px}
