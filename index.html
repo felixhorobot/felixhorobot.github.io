@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#autonomy">Autonomy</a><a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#autonomy">Autonomy</a><a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#terrain-fleet">Haul fleet</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -247,6 +247,74 @@
         <div class="case-more-body">
           <figure class="shot shot--wide opt-dashboard"><a href="assets/terrain/terrain-before-after.jpg" data-lightbox data-title="Terrain-aware Hybrid A*: before / after optimisation" data-caption="(a) weighted vs exact A*, (b) 6 m vs 8 m primitive, (c) planning time per scenario, (d) quality from the parameter sweep."><img src="assets/terrain/terrain-before-after.jpg" width="1620" height="1170" loading="lazy" decoding="async" alt="Four panels: weighted versus exact search routes, 6 m versus 8 m step routes, planning time bars from 579 s down to 16 s, and route quality from 3.7% down to 0.5%"></a><figcaption>(a) Weighted vs exact search. (b) 6 m vs 8 m primitive. (c) Planning time per scenario on one core: Python + numpy 579 s → numba search with 8 m step 16 s (empty). (d) Travel time above the best route in the sweep.</figcaption></figure>
           <p class="media-note">DEM: Queensland Government QldDem LiDAR (© State of Queensland), Mt Isa, GDA94 / MGA zone 54. Truck icon drawn 4× actual size. Personal project in simulation.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="terrain-fleet" class="section shell case terrain-top" aria-labelledby="terrain-fleet-heading">
+      <div class="case-head">
+        <div><p class="project-kicker"><span>NEW</span> TERRAIN PLANNING / FROM ONE ROUTE TO A HAUL FLEET</p><h3 id="terrain-fleet-heading">From a planned route to a road a fleet can share,<br> <span>on the same LiDAR terrain.</span></h3><div class="tags"><span>Trajectory optimisation</span><span>CasADi + IPOPT</span><span>Reeds-Shepp</span><span>D* Lite</span><span>GeoTIFF</span><span>Multi-agent simulation</span><span>pytest + CI</span></div></div>
+        <div class="case-copy">
+          <p>A Hybrid A* route is a planner's answer, not yet something a 390 t truck can drive. I made it drivable (continuous curvature, a speed profile from the rimpull curve) and added reversing for docking. A weekly drone re-survey now repairs the plan. Finally, the routes are joined into a road network shared by <strong>10 trucks, with passing bays, junction priority and one-way roads</strong>.</p>
+          <p>The same constraints hold at every step and are re-checked on every pose: footprint off no-go terrain, grade ≤ 10% loaded / 15% empty, cross slope ≤ 8% (from the four tyre contacts), 8.3 m turning radius, steering ≤ 15 °/s, 40 km/h cap.</p>
+        </div>
+      </div>
+      <div class="metric-row metric-row--4" role="list">
+        <div role="listitem"><strong>8.1 → 10.5 kt/h</strong><span>Same 9 trucks, single-lane road → bays + one-way pair (shovel limit 10.9)</span></div>
+        <div role="listitem"><strong>243 → 10.4 °/s</strong><span>Steering rate the loaded route needs, raw → optimised (limit 15 °/s)</span></div>
+        <div role="listitem"><strong>7.1 → 0.29 s</strong><span>Re-plan after a re-survey: Hybrid A* → D* Lite repair, identical cost</span></div>
+        <div role="listitem"><strong>380 / 0</strong><span>Simulated 4 h shifts / deadlocks or head-on meetings</span></div>
+      </div>
+
+      <figure class="terrain-view"><video src="assets/terrain/terrain-fleet-traffic.mp4" poster="assets/terrain/terrain-fleet-traffic.jpg" width="1552" height="576" autoplay="" muted="" loop="" playsinline="" preload="metadata" aria-label="Three road layouts side by side with the same ten trucks: single lane, single lane with passing bays, and a one-way pair"></video><figcaption><b>SAME 10 TRUCKS · SAME SEED · SAME 15 MINUTES · CLOCK ×45</b>Single lane: trucks queue at the ends of 500–700 m stretches (9 loads). Adding 5 passing bays: 10 loads. Adding a one-way road for the empties: 12 loads. Red = a single-lane stretch in use; hollow = waiting in a bay; orange = loaded, blue = empty.</figcaption></figure>
+
+      <p class="turn-row-label">WHAT I ADDED · BEFORE → AFTER · AND THE CONSTRAINT IT HAD TO KEEP</p>
+      <ol class="step-cards step-cards--6">
+        <li><b>01 / Drivable trajectory</b><p>Before: the route's curvature jumps at every 8 m primitive, so the truck would have to steer at up to <strong>243 °/s</strong>. After: CasADi smooths it inside a terrain-checked corridor, and a minimum-time speed profile runs on rimpull and retarder curves. Result: <strong>10.4 °/s</strong>, tightest turn 8.3 → 16 m. Constraint: |dκ/ds| ≤ 0.012, steering ≤ 15 °/s, the same grade and cross limits. Realistic time 252 s, 5% above the planner's estimate.</p></li>
+        <li><b>02 / Reverse to dock</b><p>Before: forward-only planning finds <strong>no path</strong> to the tip head or the loading bay, because the rear has to face the crest. After: forward and reverse Hybrid A* with exact Reeds-Shepp shots. It docks in <strong>39 s</strong> (5 m reverse) and turns round on a <strong>10 m pad instead of 26 m</strong>. Constraint: reverse ≤ 10 km/h, 3 s to shift gear, final pose within 15 cm / 1.5°.</p></li>
+        <li><b>03 / Calibrate to GNSS</b><p>Before: the nominal speed model is <strong>13.5%</strong> optimistic on cycle time. After: map-match the fixes, time each 50 m segment, fit 6 parameters on training cycles. Held-out error: <strong>1.5%</strong> (p50). Constraint: a parameter the data can't see (the retarder never limits on this site) is reported as not identifiable, not guessed.</p></li>
+        <li><b>04 / Re-survey + D* Lite</b><p>Before: a 0.25 m datum offset reads as change over <strong>728,148 m²</strong>. After: robust registration recovers it as 0.250 m, leaving <strong>2,836 m²</strong> of real change. The plan is repaired in <strong>0.29 s</strong>. Constraint: the repair must equal a fresh re-plan; it does, to 1e-6. When the road is closed, the lattice has no route and a Hybrid A* fallback finds the detour in 4 s.</p></li>
+        <li><b>05 / Bays, priority, one-way</b><p>Before: a single-lane road saturates at <strong>8.6 kt/h</strong>, and more trucks make it worse. After: 5 DP-placed bays give <strong>+17%</strong> for +6.5% earthworks. A one-way pair comes within 3% of two lanes for 17% less earthworks. Loaded-first priority <strong>halves the stops of loaded trucks</strong>. Constraint: deadlock-free. A truck enters a single-lane stretch only when it also holds a place to stop at the far end.</p></li>
+        <li><b>06 / A library, not scripts</b><p>Before: 30 scripts with hard-coded paths. After: <code>pip install terrainplan</code>, with every parameter in one TOML file, an API and a CLI. There are <strong>33 tests</strong>: synthetic terrain, plus regression on the real DEM. GitHub Actions runs on Ubuntu and Windows. Constraint: the refactor must not change a result. The route, the trajectory and the fleet loads are reproduced exactly.</p></li>
+      </ol>
+
+      <div class="terrain-pair">
+        <figure class="terrain-view"><video src="assets/terrain/terrain-trajectory.mp4" poster="assets/terrain/terrain-trajectory.jpg" width="1360" height="736" autoplay="" muted="" loop="" playsinline="" preload="metadata" aria-label="Raw Hybrid A star route against the optimised trajectory on the most curved stretch, with curvature and steering-rate plots"></video><figcaption><b>RAW ROUTE vs OPTIMISED TRAJECTORY</b>Same corridor, same truck checks. Curvature steps → smooth; steering demand spikes to 250 °/s on the raw route and stays under 4 °/s on the trajectory here (limit 15 °/s).</figcaption></figure>
+        <figure class="terrain-view"><video src="assets/terrain/terrain-reverse-docking.mp4" poster="assets/terrain/terrain-reverse-docking.jpg" width="1280" height="660" autoplay="" muted="" loop="" playsinline="" preload="metadata" aria-label="Loaded truck reverses to the tip-head crest; a three-point turn on a 16 metre pad"></video><figcaption><b>REVERSE TO DOCK · THREE-POINT TURN · ×4</b>Tip head: 103 m, 1 change of direction, 39 s; forward-only has no path. 16 m pad: turned round in 25–28 s, where forward-only needs 26 m.</figcaption></figure>
+      </div>
+
+      <div class="terrain-pair">
+        <figure class="terrain-view"><video src="assets/terrain/terrain-resurvey-dstar.mp4" poster="assets/terrain/terrain-resurvey-dstar.jpg" width="960" height="840" autoplay="" muted="" loop="" playsinline="" preload="metadata" aria-label="The truck drives while weekly surveys arrive; the plan is repaired, and on a road closure switches to a Hybrid A star detour"></video><figcaption><b>WEEKLY RE-SURVEY · D* LITE REPAIR · CLOSURE FALLBACK</b>Week 2: a stockpile on the road, repaired in 0.29 s. Week 3: reclaimed, back on the short line. Week 4: the road is closed, the lattice has no route, and Hybrid A* finds the detour.</figcaption></figure>
+        <figure class="terrain-view"><a href="assets/terrain/terrain-fleet-results.jpg" data-lightbox="" data-title="Multi-truck haul simulation: 380 shifts of 4 h" data-caption="(a) production vs fleet size, (b) waiting per load, (c) passing-bay spacing vs construction volume, (d) priority rule vs stops of loaded trucks."><img src="assets/terrain/terrain-fleet-results.jpg" width="1350" height="945" loading="lazy" decoding="async" alt="Four panels: production against fleet size for four road designs, waiting per load, bay spacing against construction volume, and stops of loaded trucks for three priority rules"></a><figcaption><b>380 SHIFTS · 4 DESIGNS · 3 PRIORITY RULES</b>The first bays pay most; 12 bays reach the shovel limit at two-thirds of the two-lane earthworks.</figcaption></figure>
+      </div>
+
+      <div class="table-wrap terrain-table" tabindex="0" role="region" aria-label="Road designs compared in the fleet simulation">
+        <table class="data-table">
+          <thead><tr><th scope="col">Road design</th><th scope="col">Earthworks (proxy)</th><th scope="col">6 trucks</th><th scope="col">9 trucks</th><th scope="col">12 trucks</th><th scope="col">Trucks for 90% of shovel limit</th><th scope="col">Waiting per load, 9 trucks</th></tr></thead>
+          <tbody>
+            <tr><td>Single lane</td><td>15.5 k m³</td><td>6.8 kt/h</td><td>8.1 kt/h</td><td>8.6 kt/h</td><td>never</td><td>310 s</td></tr>
+            <tr><td>Single lane + 5 bays</td><td>16.5 k m³</td><td>7.4 kt/h</td><td>9.5 kt/h</td><td>10.3 kt/h</td><td>11</td><td>183 s</td></tr>
+            <tr><td>One-way pair + 3 bays</td><td>22.3 k m³</td><td>7.8 kt/h</td><td>10.5 kt/h</td><td>10.9 kt/h</td><td>9</td><td>117 s</td></tr>
+            <tr><td>Two lanes</td><td>27.0 k m³</td><td>8.5 kt/h</td><td>10.8 kt/h</td><td>10.9 kt/h</td><td>8</td><td>108 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="case-more">
+        <summary>Planner benchmark, full cycle, calibration, re-survey and network in detail <span aria-hidden="true">＋</span></summary>
+        <div class="case-more-body">
+          <figure class="shot shot--wide"><a href="assets/terrain/terrain-benchmark.jpg" data-lightbox="" data-title="Planner benchmark: 100 random scenarios" data-caption="Success rate, compute time, curvature and route quality of A*, Hybrid A*, compiled Hybrid A*, State Lattice and RRT*."><img src="assets/terrain/terrain-benchmark.jpg" width="1710" height="990" loading="lazy" decoding="async" alt="Planner benchmark with four panels: success rate, compute time, maximum curvature and route quality"></a><figcaption>Why Hybrid A*: 100 random scenarios, one common truck check. Drivable paths: compiled Hybrid A* 97% (p50 3.4 s); State Lattice 98% but 9% slower routes; RRT* 64%; grid A* 0%, because it ignores the turning radius.</figcaption></figure>
+          <figure class="shot shot--wide"><a href="assets/terrain/terrain-full-cycle.jpg" data-lightbox="" data-title="Full cycle legs with smoothed docking manoeuvres" data-caption="Haul plus reverse to the tip head, empty return plus reverse into the loading bay."><img src="assets/terrain/terrain-full-cycle.jpg" width="1615" height="977" loading="lazy" decoding="async" alt="Two docking manoeuvres with speed and steering profiles"></a><figcaption>Full cycle: the loaded leg takes 271 s and the empty leg 183 s, both including the manoeuvre. Steering stays ≤ 15 °/s, with a standstill while the truck steers at a change of direction.</figcaption></figure>
+          <figure class="shot shot--wide"><a href="assets/terrain/terrain-validation.jpg" data-lightbox="" data-title="GNSS / FMS validation and calibration" data-caption="Map-matched fixes, segment times, calibrated parameters and held-out errors."><img src="assets/terrain/terrain-validation.jpg" width="1615" height="1020" loading="lazy" decoding="async" alt="Validation panels: map matching, segment times, parameter estimates and cycle-time errors"></a><figcaption>5 of 6 hidden parameters recovered to within 3%.</figcaption></figure>
+          <figure class="shot shot--wide"><a href="assets/terrain/terrain-resurvey.jpg" data-lightbox="" data-title="Weekly re-survey + D* Lite, with a road-closure fallback" data-caption="Three surveys, the repaired plans, re-planning times and the survey impact report."><img src="assets/terrain/terrain-resurvey.jpg" width="1680" height="1240" loading="lazy" decoding="async" alt="Three maps of repaired plans, a bar chart of re-planning times and a survey report table"></a><figcaption>While the road is open, the repair is about 25× faster than Hybrid A*. Each survey also re-checks the published routes: the 8% route is flagged for re-planning in weeks 2 and 4.</figcaption></figure>
+          <figure class="shot shot--wide"><a href="assets/terrain/terrain-fleet-network.jpg" data-lightbox="" data-title="Haul-road network from the planned routes" data-caption="Passing bays (left) and the one-way pair (right) on the terrain."><img src="assets/terrain/terrain-fleet-network.jpg" width="1350" height="846" loading="lazy" decoding="async" alt="Two maps of the haul-road network: single lane with passing bays, and with a one-way pair"></a><figcaption>The network was built from the planned routes: ore runs A → D1 and waste B → D2. The second carriageway came from re-planning with the trunk closed. Junction boxes keep crossing movements apart, and loaded trucks go first.</figcaption></figure>
+          <p class="media-note">DEM: Queensland Government QldDem LiDAR (© State of Queensland), Mt Isa, GDA94 / MGA zone 54. Personal project in simulation.
+            Honest limits:
+            <br>The rimpull and retarder curves are an illustrative 793-class shape, not OEM data.
+            <br>The GNSS cycles and drone surveys are synthetic, generated on the real terrain and routes.
+            <br>Earthworks are a proxy: sheeting plus cut and fill.
+            <br>Shovel B, the waste dump, and the load, dump and spot times are chosen from the terrain and typical values, not a mine plan.
+            <br>The clip shows one 15-minute window; the table averages 4 h × 4 seeds.</p>
         </div>
       </details>
     </section>
