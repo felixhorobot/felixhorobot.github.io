@@ -172,7 +172,7 @@
       <p class="turn-row-label">WHAT I CHANGED, AND WHAT IT BOUGHT</p>
       <ol class="step-cards step-cards--6">
         <li><b>01 / Data source</b><p>GA ELVIS has no coverage of the mine site, so the surface comes from QldDem LiDAR instead.</p></li>
-        <li><b>02 / Goal and heuristic</b><p>The original goal could not be reached at all under a strict 10% limit. The heuristic now respects the grade limit, so an unreachable goal is known at the start, not after a 20-minute search.</p></li>
+        <li><b>02 / Goal and heuristic</b><p>The original goal, the top of a waste dump at 470 m, cannot be reached under a strict 10% limit: its only ramp is 10–13%. So the goal moved to the 409 m pad, reachable under all three limits. The heuristic now uses the strict grade too, so an unreachable goal is known at the start, not after a 20-minute search.</p></li>
         <li><b>03 / Weighted → exact A*</b><p>eps 2 → eps 1. The loaded route went from <strong>278 s to 239 s (14% faster)</strong>, and the weighted search’s “big detour” turned out to be an artefact.</p></li>
         <li><b>04 / Compiled expand</b><p>The node expansion compiled with numba: <strong>215 µs → 33 µs</strong> per expand, with identical results.</p></li>
         <li><b>05 / Compiled search loop</b><p>The whole search loop in numba: about <strong>35× faster</strong> per scenario. Three scenarios in parallel: about 10 minutes → about 16 seconds.</p></li>
