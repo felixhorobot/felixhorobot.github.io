@@ -603,3 +603,14 @@
 .step-cards--6{grid-template-columns:repeat(3,1fr)}
 @media (max-width:850px){.terrain-main{grid-template-columns:1fr}.step-cards--6{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.terrain-pair,.step-cards--6{grid-template-columns:1fr}}
+
+/* Autonomous haulage: four failures in one row, the fixed run below with a tick */
+.ahs-fails .turn-view video{border-color:#ef4444}
+.ahs-after-label{margin-top:26px;color:#15803d}
+.ahs-after{display:grid;grid-template-columns:minmax(0,880px);justify-content:center;margin-bottom:30px}
+.ahs-after .turn-view video{border:3px solid #22c55e}
+.ahs-tick-wrap{position:relative}
+.ahs-tick{position:absolute;top:-34px;right:-70px;width:96px;height:96px;border-radius:50%;background:#22c55e;box-shadow:0 6px 18px rgba(21,128,61,.35);display:grid;place-items:center;border:4px solid var(--white,#fff)}
+.ahs-tick svg{width:58px;height:58px;fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.ahs-after figcaption{font-size:12px}
+@media (max-width:600px){.ahs-tick{width:60px;height:60px;top:-12px;right:-8px;border-width:3px}.ahs-tick svg{width:36px;height:36px}}

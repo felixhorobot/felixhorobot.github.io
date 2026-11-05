@@ -14,9 +14,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://felixhorobot.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="portfolio.css?v=2026-11-05d">
-  <script src="portfolio-data.js?v=2026-11-05d" defer></script>
-  <script src="portfolio.js?v=2026-11-05d" defer></script>
+  <link rel="stylesheet" href="portfolio.css?v=2026-11-05e">
+  <script src="portfolio-data.js?v=2026-11-05e" defer></script>
+  <script src="portfolio.js?v=2026-11-05e" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#autonomy">Autonomy</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -191,6 +191,46 @@
           <p class="media-note">DEM: Queensland Government QldDem LiDAR (© State of Queensland), Mt Isa, GDA94 / MGA zone 54. Truck icon drawn 4× actual size. Personal project in simulation.</p>
         </div>
       </details>
+    </section>
+
+    <section id="autonomy" class="section shell case terrain-top" aria-labelledby="autonomy-heading">
+      <div class="case-head">
+        <div><p class="project-kicker"><span>NEW</span> AUTONOMOUS HAULAGE / ROS 2 + NAV2 + GAZEBO</p><h3 id="autonomy-heading">Four ways to fail,<br> <span>then 50 runs without a contact.</span></h3><div class="tags"><span>ROS 2 Jazzy</span><span>Nav2</span><span>Gazebo Harmonic</span><span>Hybrid A*</span><span>Residual RL (PPO)</span><span>ONNX Runtime C++</span><span>3D lidar</span></div></div>
+        <div class="case-copy">
+          <p>An autonomous haul truck in simulation. It drives the haul road and the ramp, avoids fallen boulders and a patrolling light vehicle, then reverses into the dump bay. The global planner is my own <strong>Hybrid A* Nav2 plugin</strong>, which respects the Ackermann turning limit. The controller is <strong>Regulated Pure Pursuit plus a residual PPO policy</strong>: the policy learns a bounded speed and curvature correction, is exported to ONNX and runs inside a C++ Nav2 controller plugin. Nav2’s collision monitor is the independent safety layer on the 3D lidar.</p>
+          <p>Each clip replays a recorded run (rosbag). Red dots are lidar obstacle points, purple is the local costmap and green is the plan. Each boulder is tagged with the range at which the lidar first saw it, and whether it reached the costmap.</p>
+        </div>
+      </div>
+      <div class="metric-row metric-row--4" role="list">
+        <div role="listitem"><strong>50 / 50</strong><span>Missions completed, 0 collisions (RPP 20, RL + safety 20, RL only 10)</span></div>
+        <div role="listitem"><strong>4 / 20 → 0 / 20</strong><span>Runs with a berm graze, after the buffer fix (RPP)</span></div>
+        <div role="listitem"><strong>≤ 0.092 m / 2.85°</strong><span>Parking error in the bay (spec 0.15 m / 3°)</span></div>
+        <div role="listitem"><strong>0.14 ms</strong><span>p99 policy inference in C++ (budget 5 ms at 50 Hz)</span></div>
+      </div>
+
+      <p class="turn-row-label">BEFORE · FOUR FAILURES, EACH REPLAYED WITH THE OLD SETTING</p>
+      <div class="turn-grid ahs-fails">
+        <figure class="turn-view"><video src="assets/ahs/fail-1-boulder.mp4" poster="assets/ahs/fail-1-boulder.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 1: the truck drives into a boulder on the ramp that never entered the costmap"></video><figcaption><b>1 · HITS A BOULDER</b>The costmap’s 2 m height limit (world frame) drops every point on the ramp. The lidar sees the boulder at 30 m, but it never reaches the costmap.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-2-safety.mp4" poster="assets/ahs/fail-2-safety.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 2: same bug with the safety layer on, the truck still touches the boulder"></video><figcaption><b>2 · SAFETY LAYER ON, STILL TOUCHES</b>Same bug with the collision monitor on. The plan still drives through the boulder, and the truck touches it at 0.5 m/s.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-3-berm.mp4" poster="assets/ahs/fail-3-berm.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 3: the swerve around a boulder grazes the road berm"></video><figcaption><b>3 · GRAZES THE BERM</b>The planner kept a 1.5 m buffer around boulders but only 0.3 m from the berm, so the swerve squeezed the truck into the berm.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/ahs/fail-4-parking.mp4" poster="assets/ahs/fail-4-parking.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Failure 4: the truck cannot satisfy the yaw tolerance and recovery pushes it into the bay wall"></video><figcaption><b>4 · PARKING FAILS</b>Nav2’s 0.04 rad yaw tolerance is tighter than an Ackermann reverse can finish, so the recovery manoeuvre pushes the truck into the bay wall (3.2 m, 42° off).</figcaption></figure>
+      </div>
+
+      <p class="turn-row-label ahs-after-label">AFTER · ALL FIXES, SAME SEED AS CLIP 3</p>
+      <div class="ahs-after">
+        <figure class="turn-view"><div class="ahs-tick-wrap"><video src="assets/ahs/after-all-fixes.mp4" poster="assets/ahs/after-all-fixes.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="After all fixes: the truck avoids both boulders and the light vehicle, then parks in the bay with no contact"></video><span class="ahs-tick" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 25l8 8 16-17"/></svg></span></div><figcaption><b>RL RESIDUAL + SAFETY LAYER · 0 CONTACTS</b>Avoids both boulders and the light vehicle, then reverses into the bay: 0.09 m / 2.8° from the goal.</figcaption></figure>
+      </div>
+
+      <p class="turn-row-label">WHAT I CHANGED, AND WHAT IT BOUGHT</p>
+      <ol class="step-cards step-cards--6">
+        <li><b>01 / Costmap height</b><p>Nav2’s obstacle layer has its own <strong>2 m height limit in the world frame</strong>, and the ramp sits 4–9 m up. Height filtering now happens in the lidar filter, in the truck frame. This fixes clips 1 and 2.</p></li>
+        <li><b>02 / Lidar self-occlusion</b><p>The placeholder cab box hid the lidar’s low forward rings. With the detailed truck body, boulders are now seen at <strong>28–30 m</strong>.</p></li>
+        <li><b>03 / Balanced buffers</b><p>Obstacle inflation went from 1.5 m to 1.0 m, which leaves room on the berm side of a swerve. Berm grazes: <strong>4/20 → 0/20 (RPP), 1/20 → 0/20 (RL)</strong>. This fixes clip 3.</p></li>
+        <li><b>04 / Parking acceptance</b><p>The truck now parks to the spec (&lt; 0.15 m, &lt; 3°, stopped 3 s) instead of chasing Nav2’s tighter goal check. Every run finishes within <strong>0.092 m / 2.85°</strong>. This fixes clip 4.</p></li>
+        <li><b>05 / Residual RL</b><p>PPO learns a bounded correction on top of Pure Pursuit. It runs as ONNX in a C++ Nav2 plugin, at <strong>0.06 ms p50 and 0.14 ms p99</strong>. Missions are <strong>14% faster</strong> (155 s vs 181 s), still with 0 collisions.</p></li>
+        <li><b>06 / Hybrid A* plugin</b><p>The planner is curvature-limited to the Ackermann turn. Planning takes <strong>11 ms median and 20 ms p95</strong> on the mine map, and every smoothed segment stays within the steering limit.</p></li>
+      </ol>
+      <p class="media-note">Personal project in simulation: ROS 2 Jazzy and Gazebo Harmonic in WSL2, run headless at twice real time for evaluation. The clips are replayed from rosbags at ×10, and ×80 while the truck stands still. Same seeds for every configuration.</p>
     </section>
 
     <section id="work" class="section shell" aria-labelledby="work-heading">
