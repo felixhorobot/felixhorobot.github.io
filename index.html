@@ -14,9 +14,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://felixhorobot.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="portfolio.css?v=2026-11-05b">
-  <script src="portfolio-data.js?v=2026-11-05b" defer></script>
-  <script src="portfolio.js?v=2026-11-05b" defer></script>
+  <link rel="stylesheet" href="portfolio.css?v=2026-11-05c">
+  <script src="portfolio-data.js?v=2026-11-05c" defer></script>
+  <script src="portfolio.js?v=2026-11-05c" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -82,24 +82,60 @@
 
     <section id="turning" class="section shell case turning-top" aria-labelledby="turning-heading">
       <div class="case-head">
-        <div><p class="project-kicker"><span>NEW</span> MOTION PLANNING / TURNING OPTIMISATION</p><h3 id="turning-heading">A tighter 180° U-turn.<br> <span>Entry-to-exit gap down 25%.</span></h3><div class="tags"><span>Motion planning</span><span>Path planning</span><span>Navigation</span><span>Terrain planning</span><span>Vehicle simulation</span></div></div>
-        <p>A direct 180° U-turn, tracked at the rear-axle centre. Steering only is the baseline. Two strategies are tested against it: a 2 m swing left before the right turn, and braking the right-side wheels up to 8% at full lock. Then both together. Each run logs speed, steer angle, curvature radius and swept width.</p>
+        <div><p class="project-kicker"><span>NEW</span> MOTION PLANNING / TRAJECTORY OPTIMISATION</p><h3 id="turning-heading">A 180° U-turn around a wall,<br> <span>solved as optimal control.</span></h3><div class="tags"><span>Motion planning</span><span>Path planning</span><span>Optimal control</span><span>CasADi + IPOPT</span><span>Vehicle dynamics</span></div></div>
+        <div class="case-copy">
+          <p>A truck must make a direct 180° U-turn around a middle wall. I first hand-designed three strategies against steering only: a 2 m swing left before the turn, braking the right-side wheels up to 8% at full lock, and both together. Then I wrote the manoeuvre as an optimal control problem in CasADi and solved it with IPOPT, so the optimiser finds the steer, brake and speed profile itself.</p>
+          <p>Each optimised run gets the <strong>same actuators, the same ground space and the same time budget</strong> as its hand run, and the whole truck body must stay clear of the wall. Every answer is re-simulated with RK4 on a 20× finer grid; 10 constraints are checked and none is violated.</p>
+        </div>
       </div>
-      <div class="metric-row" role="list">
-        <div role="listitem"><strong>16.8 → 12.6 m</strong><span>Entry-to-exit track gap, baseline → combined</span></div>
-        <div role="listitem"><strong>8.4 → 6.3 m</strong><span>Effective turning radius</span></div>
-        <div role="listitem"><strong>25.3 → 23.5 m</strong><span>Total swept width</span></div>
+      <div class="metric-row metric-row--4" role="list">
+        <div role="listitem"><strong>12.56 → 11.36 m</strong><span>Entry-to-exit gap, 1 + 2 combined: hand → optimiser (−10%)</span></div>
+        <div role="listitem"><strong>23.3 → 19.0 s</strong><span>Turn time at the same gap, min-time objective</span></div>
+        <div role="listitem"><strong>0 / 10</strong><span>Constraints violated, wall clearance included</span></div>
+        <div role="listitem"><strong>2–7 s</strong><span>IPOPT solve per run, 4–7 seeds per strategy</span></div>
       </div>
+
+      <p class="turn-row-label">OPTIMISED, EACH STRATEGY · WHITE TRACK = HAND DESIGN</p>
       <div class="turn-grid" data-sync-videos>
-        <figure class="turn-view turn-view--baseline"><video src="assets/turn/turn180-baseline.mp4" poster="assets/turn/turn180-baseline.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Simulation: baseline, steering only"></video><figcaption><b>BASELINE · STEERING ONLY</b>Gap 16.8 m · swept width 25.3 m</figcaption></figure>
-        <figure class="turn-view turn-view--swing"><video src="assets/turn/turn180-left-swing.mp4" poster="assets/turn/turn180-left-swing.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Simulation: solution 1, left swing first"></video><figcaption><b>1 · LEFT SWING (2 M)</b>Gap 14.7 m · swept width 25.4 m</figcaption></figure>
-        <figure class="turn-view turn-view--brake"><video src="assets/turn/turn180-right-brake.mp4" poster="assets/turn/turn180-right-brake.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Simulation: solution 2, right-side brake"></video><figcaption><b>2 · RIGHT-SIDE BRAKE (8%)</b>Gap 14.7 m · swept width 23.3 m</figcaption></figure>
-        <figure class="turn-view turn-view--combined"><video src="assets/turn/turn180-combined.mp4" poster="assets/turn/turn180-combined.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Simulation: solutions 1 and 2 combined"></video><figcaption><b>1 + 2 COMBINED</b>Gap 12.6 m · swept width 23.5 m</figcaption></figure>
+        <figure class="turn-view turn-view--baseline"><video src="assets/turn-opt/opt-baseline.mp4" poster="assets/turn-opt/opt-baseline.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Optimised baseline, steering only"></video><figcaption><b>BASELINE · STEERING ONLY</b>16.84 → 16.16 m (−0.68 m)</figcaption></figure>
+        <figure class="turn-view turn-view--swing"><video src="assets/turn-opt/opt-solution1.mp4" poster="assets/turn-opt/opt-solution1.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Optimised solution 1, steering with left-swing space"></video><figcaption><b>1 · LEFT SWING</b>14.73 → 13.72 m (−1.01 m)</figcaption></figure>
+        <figure class="turn-view turn-view--brake"><video src="assets/turn-opt/opt-solution2.mp4" poster="assets/turn-opt/opt-solution2.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Optimised solution 2, steering and right-side brake"></video><figcaption><b>2 · RIGHT-SIDE BRAKE</b>14.66 → 13.79 m (−0.87 m)</figcaption></figure>
+        <figure class="turn-view turn-view--combined"><video src="assets/turn-opt/opt-combined.mp4" poster="assets/turn-opt/opt-combined.jpg" width="960" height="540" autoplay muted playsinline preload="auto" aria-label="Optimised solution 1 and 2 combined"></video><figcaption><b>1 + 2 COMBINED</b>12.56 → 11.36 m (−1.20 m)</figcaption></figure>
       </div>
+
       <div class="turn-final">
-        <figure class="turn-view"><a href="assets/turn/turn180-both.png" data-lightbox data-title="180° turn / all four tracks" data-caption="Rear-axle-centre tracks after the 180° turn, all four strategies overlaid, with curvature radius, gap, effective radius and swept width."><img src="assets/turn/turn180-both.png" width="1280" height="760" loading="lazy" decoding="async" alt="Overlay of four rear-axle tracks after a 180-degree turn with a results table: baseline gap 16.8 m, left swing 14.7 m, right brake 14.7 m, combined 12.6 m"></a><figcaption><b>ALL FOUR TRACKS, OVERLAID</b>Gap = distance between entry and exit tracks. Effective radius = gap / 2.</figcaption></figure>
-        <figure class="turn-view"><video src="assets/turn/turn180-baseline-then-combined.mp4" poster="assets/turn/turn180-baseline-then-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Simulation: baseline run, then the combined strategy on the same ground"></video><figcaption><b>BASELINE, THEN 1 + 2 COMBINED</b>Same ground, one after the other: the combined turn finishes 4.3 m tighter.</figcaption></figure>
+        <figure class="turn-view"><a href="assets/turn-opt/opt-tracks.png" data-lightbox data-title="Optimised rear-axle tracks around the middle wall" data-caption="Solid = optimiser, dashed = hand design. Dot = where the right turn starts."><img src="assets/turn-opt/opt-tracks.png" width="1170" height="720" loading="lazy" decoding="async" alt="Rear-axle tracks of four strategies around the middle wall; solid optimised tracks finish closer to the entry line than the dashed hand tracks"></a><figcaption><b>ALL TRACKS · SOLID = OPTIMISER, DASHED = HAND</b>The combined optimum does not turn earlier. It starts the turn further left (Z −2.5 vs −2.1 m), turns past 180° to 189°, then counter-steers onto the exit line: a keyhole exit.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/turn-opt/same-clock-3-trucks.mp4" poster="assets/turn-opt/same-clock-3-trucks.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Three trucks on the same clock: baseline, hand 1 plus 2, optimiser minimum time"></video><figcaption><b>SAME CLOCK · 3 TRUCKS</b>Baseline 24.1 s, hand 1 + 2 23.3 s, optimiser min-time 19.0 s at the same 12.56 m gap.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/turn-opt/hand-then-optimiser.mp4" poster="assets/turn-opt/hand-then-optimiser.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Hand design 1 plus 2, then the optimiser on the same ground"></video><figcaption><b>HAND 1 + 2, THEN OPTIMISER</b>Same time, same space, same wall. Gap 12.56 → 11.36 m.</figcaption></figure>
+        <figure class="turn-view"><video src="assets/turn-opt/opt-baseline-then-combined.mp4" poster="assets/turn-opt/opt-baseline-then-combined.jpg" width="960" height="540" autoplay muted loop playsinline preload="metadata" aria-label="Optimised baseline, then optimised 1 plus 2"></video><figcaption><b>OPTIMISED BASELINE, THEN OPTIMISED 1 + 2</b>The value of the two strategies once both are optimised: 16.16 → 11.36 m.</figcaption></figure>
       </div>
+
+      <details class="case-more">
+        <summary>Full results, control profiles and how the solve works <span aria-hidden="true">＋</span></summary>
+        <div class="case-more-body">
+          <div class="opt-results">
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Hand design against optimiser, per strategy">
+              <table class="data-table">
+                <thead><tr><th scope="col">Strategy</th><th scope="col">Hand gap</th><th scope="col">Optimised gap</th><th scope="col">Gain</th><th scope="col">Time</th><th scope="col">Solve</th><th scope="col">Violated</th></tr></thead>
+                <tbody>
+                  <tr><td>Baseline (steering only)</td><td>16.84 m</td><td>16.16 m</td><td>0.68 m</td><td>24.1 s</td><td>3.2 s</td><td>0 / 10</td></tr>
+                  <tr><td>1 · Left swing</td><td>14.73 m</td><td>13.72 m</td><td>1.01 m</td><td>24.0 s</td><td>6.5 s</td><td>0 / 10</td></tr>
+                  <tr><td>2 · Right-side brake</td><td>14.66 m</td><td>13.79 m</td><td>0.87 m</td><td>23.4 s</td><td>4.2 s</td><td>0 / 10</td></tr>
+                  <tr class="is-chosen"><td>1 + 2 combined</td><td>12.56 m</td><td>11.36 m</td><td>1.20 m (10%)</td><td>23.3 s</td><td>2.6 s</td><td>0 / 10</td></tr>
+                  <tr><td>Min time (gap ≤ hand 1 + 2)</td><td>12.56 m</td><td>12.56 m</td><td>4.3 s faster</td><td>23.3 → 19.0 s</td><td>2.3 s</td><td>0 / 10</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <dl class="spec-list spec-list--1">
+              <div><dt>Problem</dt><dd>Minimise the entry-to-exit gap (or the time) subject to vehicle kinematics, steer, brake and speed limits, the ground boundary and full-body clearance from the middle wall.</dd></div>
+              <div><dt>Fair comparison</dt><dd>Same actuators, same ground space and same time budget as the matching hand run. Hand runs checked against the wall too: 0.000 m penetration.</dd></div>
+              <div><dt>Verification</dt><dd>Optimal controls re-simulated with RK4 on a 20× finer grid; a constraint counts as violated if off by more than 1e-4.</dd></div>
+              <div><dt>Search</dt><dd>Cold start, forced turn-start seeds (X ≥ −3 / 0 / +3 m, then released) and warm starts from the other strategies. The best valid answer is kept.</dd></div>
+            </dl>
+          </div>
+          <figure class="shot shot--wide opt-dashboard"><a href="assets/turn-opt/opt-dashboard.png" data-lightbox data-title="Optimal control dashboard, all strategies" data-caption="Tracks, gap against time budget, steer angle, right-side brake and speed profiles, and the full results table."><img src="assets/turn-opt/opt-dashboard.png" width="1440" height="990" loading="lazy" decoding="async" alt="Dashboard: optimised tracks, gap against time budget curve, steer angle, brake and speed profiles, results table"></a><figcaption>Gap against time budget: give the optimiser more time and the gap keeps falling, to about 10.8 m at 30 s. Steer, brake and speed profiles for hand 1 + 2, optimised 1 + 2 and min-time.</figcaption></figure>
+        </div>
+      </details>
     </section>
 
     <section id="work" class="section shell" aria-labelledby="work-heading">
@@ -382,7 +418,7 @@
           <li><b>PLC and controls</b>Rockwell Studio 5000, EtherNet/IP, Ignition SCADA</li>
           <li><b>Electrical fit-out</b>Cabinet, 24 V supply, MCBs, PoE switch, cable runs</li>
           <li><b>Mechanical design / CAD</b>SolidWorks and Inventor assemblies</li>
-          <li><b>Motion and path planning</b>Navigation, terrain and turning optimisation</li>
+          <li><b>Motion planning and optimal control</b>CasADi + IPOPT trajectory optimisation, vehicle kinematics</li>
         </ul>
       </div>
     </section>

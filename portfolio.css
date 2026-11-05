@@ -574,3 +574,18 @@
 @media (max-width:600px){.experience-list li:last-child:nth-child(2n+1){grid-column:auto}}
 .turning-top{padding-top:56px;padding-bottom:24px;border-top:0}
 @media (max-width:600px){.turning-top{padding-top:40px}}
+
+/* Trajectory optimisation section */
+.case-copy p{font-size:13px;line-height:1.8;color:var(--muted)}
+.case-copy p+p{margin-top:10px}
+.case-copy strong{color:var(--ink);font-weight:600}
+.metric-row--4{grid-template-columns:repeat(4,1fr)}
+.metric-row--4 strong{font-size:24px}
+.turn-row-label{font:600 9px/1.6 var(--mono);letter-spacing:.8px;color:var(--muted);margin:0 0 10px}
+.turn-final .turn-view video{aspect-ratio:16/9;object-fit:cover}
+.turn-final .turn-view img{aspect-ratio:16/9;object-fit:contain;background:#fff}
+.opt-results{display:grid;grid-template-columns:1.3fr .7fr;gap:32px;align-items:start;margin-bottom:24px}
+.spec-list--1{grid-template-columns:1fr}
+.opt-dashboard img{background:#fff}
+@media (max-width:1100px){.metric-row--4{grid-template-columns:1fr 1fr}.opt-results{grid-template-columns:1fr}}
+@media (max-width:600px){.metric-row--4{grid-template-columns:1fr}}
