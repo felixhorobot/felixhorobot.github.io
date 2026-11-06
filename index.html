@@ -25,7 +25,7 @@
       <a class="brand" href="#top" aria-label="Felix Ho, home"><span class="brand-mark" aria-hidden="true">fh<span>.</span></span><span>Felix Ho<span class="brand-caption">ENGINEERING PORTFOLIO</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">＋</span></button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#autonomy">Autonomy</a><a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#terrain-fleet">Haul fleet</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#autonomy">Autonomy</a><a href="#autonomy-mtisa">Real terrain</a><a href="#turning">Motion planning</a><a href="#terrain">Terrain</a><a href="#terrain-fleet">Haul fleet</a><a href="#machine-vision">VisionPLC</a><a href="#work">Selected work</a><a href="#case-studies">Case studies</a><a href="#approach">Approach</a><a href="#about">About</a><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -137,6 +137,37 @@
         });
       })();
     </script>
+
+    <section id="autonomy-mtisa" class="section shell case terrain-top" aria-labelledby="mtisa-heading">
+      <div class="case-head">
+        <div><p class="project-kicker"><span>NEW</span> REAL TERRAIN / SAME STACK ON MT ISA LIDAR</p><h3 id="mtisa-heading">The same truck on real mine terrain,<br> <span>holding its lane.</span></h3><div class="tags"><span>C++ Hybrid A*</span><span>Nav2 plugin</span><span>Lane following</span><span>3D terrain (REP 105)</span><span>QldDem LiDAR</span><span>Gazebo heightmap</span></div></div>
+        <div class="case-copy">
+          <p>The 1.5 km loaded route from my terrain planner, now driven in Gazebo on the real 2 m LiDAR surface (317 m of relief). The truck keeps left in a surveyed lane, swerves around fallen boulders, and stays between 1 m safety windrows that the lidar can see.</p>
+        </div>
+      </div>
+      <div class="metric-row metric-row--4" role="list">
+        <div role="listitem"><strong>20 / 20</strong><span>Missions on real terrain, 0 contacts (RPP 10, RL 10)</span></div>
+        <div role="listitem"><strong>1.26 → 0.06 m</strong><span>Lateral wander on the straight, after the lane cost</span></div>
+        <div role="listitem"><strong>737 → 534 s</strong><span>Mission time, RPP (−28%). RL: 653 → 510 s</span></div>
+        <div role="listitem"><strong>≤ 0.083 m</strong><span>Dump-point error, all 20 runs</span></div>
+      </div>
+      <div class="ahs-after">
+        <figure class="turn-view"><video src="assets/ahs/mtisa-3d.mp4" poster="assets/ahs/mtisa-3d.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Mt Isa real terrain: Gazebo chase camera and RViz 3D lidar while the truck drives the 1.5 km haul road in its lane"></video><figcaption><b>MT ISA · GAZEBO + RVIZ · RL RESIDUAL + SAFETY LAYER</b>Road network from four planned routes, keep-left lane, 1 m windrows. Lidar on the right.</figcaption></figure>
+      </div>
+      <div class="terrain-pair">
+        <figure class="terrain-view"><video src="assets/ahs/mtisa-lane-before-after.mp4" poster="assets/ahs/mtisa-lane-before-after.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata" aria-label="Before and after: the driven track wanders inside the road before the lane cost, and holds the left lane after it"></video><figcaption><b>WHY IT WOVE · SAME SEED</b>The plan, not the controller, wandered ±1 m inside the 16 m road. A lane cost in the C++ Hybrid A* holds the left lane and still swerves for boulders.</figcaption></figure>
+        <figure class="terrain-view"><img src="assets/ahs/mtisa-windrows.jpg" width="1280" height="720" loading="lazy" alt="Gazebo view of the Mt Isa haul road: pale gravel road with wheel ruts, a loading pad and 1 m windrows on both edges"><figcaption><b>WINDROWS ARE REAL GEOMETRY</b>A collision mesh along the road edge. The lidar sees it, so the safety layer slows the truck near the edge.</figcaption></figure>
+      </div>
+      <ol class="step-cards step-cards--6">
+        <li><b>01 / 3D frames</b><p>Nav2 plans in 2D. A planar <strong>base_footprint</strong> (REP 105) stops a 2.7° roll on a 226 m-high truck from moving the plan 10 m sideways.</p></li>
+        <li><b>02 / Lane cost (C++)</b><p>The Hybrid A* adds <strong>w · min(|offset|, cap)</strong> per metre from the lane field. The plan's wander drops from 0.89 m to <strong>0.12 m</strong>. Planner tests: 12/12.</p></li>
+        <li><b>03 / Road network</b><p>Four grade-limited routes (8, 10, 15 % and the empty return) form one network, with branches and pads.</p></li>
+        <li><b>04 / Windrows</b><p>A <strong>1 m</strong> berm along the edge, generated from a distance field, so none of it falls inside the road.</p></li>
+        <li><b>05 / Forward dump</b><p>No reverse cusp at a forward dump, so the last 20 m is handed to Pure Pursuit. RL overshoots: <strong>4/10 → 0/10</strong>.</p></li>
+        <li><b>06 / Measure the loop</b><p>With 4 parallel sims the controller fell to 8 Hz and the trucks swung ±30°. Every run now logs its command rate: <strong>51–65 Hz</strong>.</p></li>
+      </ol>
+      <p class="media-note">Simulation. DEM: Queensland Government QldDem LiDAR, CC BY 4.0. 3D clip ×11, seed 0. Seeds 0–9 for each controller, headless at twice real time, with 2 workers.</p>
+    </section>
 
     <section id="turning" class="section shell case terrain-top" aria-labelledby="turning-heading">
       <div class="case-head">
